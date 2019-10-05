@@ -1,15 +1,24 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
     <!-- route outlet -->
     <!-- component matched by the route will render here -->
     <router-view />
-    <nav>
+    <nav class='ui  inverted bottom fixed labeled three item icon menu'>
       <!-- use router-link component for navigation. -->
       <!-- specify the link by passing the `to` prop. -->
       <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-      <router-link to="/">Home</router-link>
-      <router-link to="/login">Login</router-link>
+      <router-link class='item' to="/">
+        <i class="compass icon"></i>
+        Events
+      </router-link>
+      <router-link class='item' to="/">
+        <i class="home icon"></i>
+        Home
+      </router-link>
+      <router-link class='item' to="/">
+        <i class="users icon"></i>
+        Groups
+      </router-link>
     </nav>
   </div>
 </template>
@@ -34,6 +43,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
