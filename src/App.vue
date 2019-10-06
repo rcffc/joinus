@@ -1,8 +1,14 @@
 <template>
-  <div id="app">
-    
-    <Navbar />
-  </div>
+    <sui-grid id="app">
+
+    <sui-grid-row>
+      <ActionBar />
+    </sui-grid-row>
+
+    <sui-grid-row>
+      <Navbar />
+    </sui-grid-row>
+  </sui-grid>
 </template>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -10,11 +16,13 @@
 
 <script>
   import Navbar from "./components/Navbar.vue";
+  import ActionBar from "./components/ActionBar.vue";
 
   export default {
     name: "app",
     components: {
-      Navbar
+      Navbar,
+      ActionBar
     }
   };
 </script>
