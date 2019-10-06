@@ -3,7 +3,11 @@
   <sui-button
     v-if="!loggedIn"
     v-on:click="handleClick"
-    positive
+    id="log-in"
+    icon="sign in"
+    labelPosition="right"
+    basic
+    inverted
   >
     Log in
   </sui-button>
@@ -56,4 +60,7 @@
 </script>
 
 <style scoped>
+  #log-in {
+    margin-left: 1em;
+  }
 </style>
