@@ -16,7 +16,7 @@
 
 <script>
   import Navbar from "./components/Navbar.vue";
-  import ActionBar from "./components/ActionBar.vue";
+  import ActionBar from "./components/ActionBar/ActionBar.vue";
 
   export default {
     name: "app",
