@@ -1,17 +1,19 @@
 <template>
   <div class="wrapper">
-    <div class="ui left aligned container">
-      <div class="ui list" v-for="event in events" v-bind:key="event.id">
-        <div class="item">
+    <sui-container text-align="left">
+      <sui-list v-for="event in events" v-bind:key="event.id">
+
+        <sui-list-item class="item">
           <img class="ui tiny rounded right floated image" v-bind:src="event.image" />
-            <div class="ui header">{{ event.name }}</div>
+            <h3 is="sui-header">{{ event.name }}</h3>
             <div>{{ event.location }}</div>
             <div>{{ event.organizer }}</div>
             <div>{{ event.date }}</div>
-        </div>
-        <div class="ui divider"></div>
-      </div>
-    </div>
+        </sui-list-item>
+        <sui-divider />
+
+      </sui-list>
+    </sui-container>
   </div>
 </template>
 
