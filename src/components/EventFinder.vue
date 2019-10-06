@@ -16,13 +16,18 @@
 </template>
 
 <script>
-import { events } from "./dummyEvents.js";
+import fb from "../services/fb.js";
 
 export default {
   name: "EventFinder",
+  created: function() {
+    fb.events.get().then(({ docs }) => {
+      this.events = docs.map(doc => doc.data());
+    });
+  },
   data: function() {
     return {
-      events
+      events: []
     };
   }
 };

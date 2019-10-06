@@ -1,6 +1,6 @@
 export const events = [
     {
-        id: 1,
+        id: "EmT5qiwseIOdOBTFTmMo",
         name: 'Entropy x Merikerho vol.III',
         organizer: 'Entropy',
         description: 'For the third time this year the Entropy collective will be taking over Merikerho for one night.',
@@ -9,7 +9,7 @@ export const events = [
         date: '2019-10-4 20:00'
     },
     {
-        id: 2,
+        id: "JhFOgwVvTVtvncaJMll9",
         name: 'Fyysikkospeksi 2019',
         organizer: 'Fyysikkokilta',
         description: 'Vuoden 2019 Fyysikkospeksi vie katsojat lähihistoriaan, idylliseen suomalaiseen maalaiskylään, Takasäynävän tuolle puolen.',
@@ -18,7 +18,7 @@ export const events = [
         date: '2019-10-21 18:00'
     },
     {
-        id: 3,
+        id: "x5LIBMF2cvTKlwYx8IRR",
         name: 'Overall sewing night',
         organizer: 'Tietokilta',
         description: 'Come and prime you overalls before the Freshmen cruise! (or come to watch movies)',
