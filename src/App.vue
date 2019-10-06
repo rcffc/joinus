@@ -1,30 +1,22 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <!-- route outlet -->
-    <!-- component matched by the route will render here -->
-    <router-view />
-    <nav>
-      <!-- use router-link component for navigation. -->
-      <!-- specify the link by passing the `to` prop. -->
-      <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-      <router-link to="/">Home</router-link>
-      <router-link to="/login">Login</router-link>
-    </nav>
+    
+    <Navbar />
   </div>
 </template>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-<script>
-import HelloWorld from "./components/HelloWorld.vue";
 
-export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
-};
+<script>
+  import Navbar from "./components/Navbar.vue";
+
+  export default {
+    name: "app",
+    components: {
+      Navbar
+    }
+  };
 </script>
 
 <style>
@@ -34,6 +26,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
