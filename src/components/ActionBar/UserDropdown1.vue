@@ -3,7 +3,6 @@
   <sui-button
     v-if="!loggedIn"
     v-on:click="handleClick"
-    basic
     positive
   >
     Log in

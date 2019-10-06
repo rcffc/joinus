@@ -1,6 +1,8 @@
 <template>
-  <sui-segment id="action-bar">
+  <sui-segment id="action-bar" inverted>
     <user-dropdown/>
+
+    
   </sui-segment>
 </template>
 
