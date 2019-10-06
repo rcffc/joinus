@@ -6,7 +6,9 @@
     </sui-grid-row>
 
     <sui-grid-row>
-      <Navbar />
+      <sui-grid-column>
+        <Navbar />
+      </sui-grid-column>
     </sui-grid-row>
   </sui-grid>
 </template>
