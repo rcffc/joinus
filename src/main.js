@@ -4,8 +4,13 @@ import VueRouter from 'vue-router'
 import 'semantic-ui-css/semantic.min.css';
 
 import routes from './routes'
-
 Vue.use(VueRouter)
+
+import SuiVue from 'semantic-ui-vue';
+Vue.use(SuiVue);
+
+import 'semantic-ui-css/semantic.min.css';
+
 
 Vue.config.productionTip = false
 

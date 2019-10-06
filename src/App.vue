@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    
+
     <Navbar />
+
   </div>
 </template>
+
+
+
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -17,6 +21,7 @@
       Navbar
     }
   };
+
 </script>
 
 <style>
