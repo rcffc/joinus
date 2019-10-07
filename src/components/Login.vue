@@ -1,10 +1,9 @@
 <template>
-  <div class="body">
+  <div class="center">
     <sui-container text>
-      <h2 is="sui-header">Explore new activities</h2>
+      <h1 is="sui-header">Explore new activities</h1>
       <div class="login-background">
         <p class="login-text">Find a new community or start your own.</p>
-
         <sui-button class="login-button" icon="google" color="blue" content="Join Us!" bottom />
       </div>
     </sui-container>
@@ -17,15 +16,25 @@ export default {};
 
 <style scoped>
 .login-background {
-  background-image: url("../../assets/stockbrot.jpg");
   background-color: black;
+  background-image: url("../../assets/stockbrot.jpg");
   background-position: center;
+  background-origin: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+  background-attachment: scroll;
+  background-size: 100% 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  width: 100%;
   padding: 80px;
+  color: white;
   font-size: 1em;
   font-weight: bold;
+}
+
+.center {
+  width: 100%;
 }
 
 .login-text {
