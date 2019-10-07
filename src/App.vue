@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    
-    <Navbar />
+  <div class="ui container fluid" id="app">
+    <action-bar />
+    <navbar />
   </div>
 </template>
 
@@ -10,11 +10,13 @@
 
 <script>
   import Navbar from "./components/Navbar.vue";
+  import ActionBar from "./components/ActionBar/ActionBar.vue";
 
   export default {
     name: "app",
     components: {
-      Navbar
+      Navbar,
+      ActionBar
     }
   };
 </script>
@@ -26,5 +28,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin: auto 0 !important;
 }
 </style>
