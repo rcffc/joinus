@@ -2,13 +2,14 @@
   <div class="wrapper">
     <div class="ui left aligned container">
       <div class="ui list" v-for="event in events" v-bind:key="event.id">
-        <div class="item">
+        <router-link class='item' :to="`/events/${event.id}`">
           <img class="ui tiny rounded right floated image" v-bind:src="event.image" />
+            
             <div class="ui header">{{ event.name }}</div>
             <div>{{ event.location }}</div>
             <div>{{ event.organizer }}</div>
             <div>{{ event.date }}</div>
-        </div>
+        </router-link>
         <div class="ui divider"></div>
       </div>
     </div>
@@ -22,7 +23,9 @@ export default {
   name: "EventFinder",
   created: function() {
     fb.events.get().then(({ docs }) => {
-      this.events = docs.map(doc => doc.data());
+      this.events = docs.map(doc =>( 
+        { ...doc.data(), id: doc.id }
+        ));
     });
   },
   data: function() {
