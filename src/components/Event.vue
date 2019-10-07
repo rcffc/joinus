@@ -24,6 +24,12 @@
               <i class="icon calendar"></i>
               <span class="content">{{ this.date }}</span>
             </div>
+            <div class="ui item">
+              <button class="ui right labeled icon button basic blue">
+                <i class="share icon"></i>
+                Share
+              </button>
+            </div>
           </div>
           <div class="ui divider"></div>
           
