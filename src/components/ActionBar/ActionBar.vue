@@ -1,9 +1,7 @@
 <template>
-  <sui-segment id="action-bar" inverted>
+  <div class="ui segment inverted left aligned" id="action-bar">
     <user-dropdown/>
-
-    
-  </sui-segment>
+  </div>
 </template>
 
 <script>
@@ -19,12 +17,7 @@
 
 <style scoped>
   #action-bar {
-    width: 100%;
-  }
-
-  #user-dropdown {
-    display: block;
-    float: left;
+    border-radius: 0%;
   }
 
 </style>

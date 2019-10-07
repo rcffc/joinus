@@ -1,42 +1,41 @@
 <template>
   <div id="user-dropdown">
-  <sui-button
-    v-if="!loggedIn"
-    v-on:click="handleClick"
-    id="log-in"
-    icon="sign in"
-    labelPosition="right"
-    basic
-    inverted
-  >
-    Log in
-  </sui-button>
+    <button
+      class="ui button basic inverted"
+      v-if="!loggedIn"
+      v-on:click="handleClick"
+      id="log-in"
+    >
+      Log in
+    </button>
 
-    <sui-dropdown
+    <div
       v-if="loggedIn"
-      class="icon"
-      icon="empty"
+      class="ui icon dropdown simple"
       id="user-dropdown"
     >
-    <sui-icon name="ellipsis vertical" size="large" />
-      <sui-dropdown-menu>
-        <sui-dropdown-item>
-          <sui-icon name="settings" />
+    <i class="ellipsis vertical icon large"></i>
+
+      <div class="menu">
+        <div class="item">
+          <i class="settings icon"></i>
             Settings
-        </sui-dropdown-item>
+        </div>
 
-        <sui-divider horizontal />
+        <div class="ui divider">
+        </div>
 
-        <sui-button
-          icon="log out"
-          negative
+        <button
+          class="ui button icon fluid negative"
+          id="log-out"
           v-on:click="handleClick"
         >
+          <i class="log out icon"></i>
           Log out
-        </sui-button>
-      </sui-dropdown-menu>
+        </button>
+      </div>
 
-    </sui-dropdown>
+    </div>
   </div>
 </template>
 
@@ -60,7 +59,5 @@
 </script>
 
 <style scoped>
-  #log-in {
-    margin-left: 1em;
-  }
+  
 </style>
