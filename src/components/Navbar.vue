@@ -11,7 +11,7 @@
         <i class="compass icon"></i>
         Events
       </router-link>
-      <router-link class='item' to="/">
+      <router-link class='item' to="/home">
         <i class="home icon"></i>
         Home
       </router-link>

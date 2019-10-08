@@ -1,7 +1,55 @@
 <template>
-  <div>Login</div>
+  <div class="center">
+    <div>
+      <h1 class="ui header">Explore new activities</h1>
+      <div class="login-background">
+        <p class="login-text">Find a new community or start your own.</p>
+        <div class="login-button"/>
+        <button class="ui blue labeled icon button">
+          <i class="google icon"></i>
+          Join Us!
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {};
-</script>
+</script> 
+
+<style scoped>
+.login-background {
+  background-color: black;
+  background-image: url("../../assets/stockbrot.jpg");
+  background-position: center;
+  background-origin: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: 100% 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  width: 100%;
+  padding: 80px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.center {
+  width: 100%;
+}
+
+.login-text {
+  position: relative;
+  bottom: 60px;
+  left: 0psx;
+}
+
+.login-button {
+  position: relative;
+  top: 60px;
+  left: 0px;
+}
+</style>

@@ -9,16 +9,16 @@
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <script>
-  import Navbar from "./components/Navbar.vue";
-  import ActionBar from "./components/ActionBar/ActionBar.vue";
+import Navbar from "./components/Navbar.vue";
+import ActionBar from "./components/ActionBar/ActionBar.vue";
 
-  export default {
-    name: "app",
-    components: {
-      Navbar,
-      ActionBar
-    }
-  };
+export default {
+  name: "app",
+  components: {
+    ActionBar,
+    Navbar
+  }
+};
 </script>
 
 <style>
@@ -28,6 +28,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #dbd3d3;
+  height: 100%;
   margin: auto 0 !important;
 }
 </style>

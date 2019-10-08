@@ -11,6 +11,7 @@
     "core-js": "^2.6.5",
     "firebase": "^7.1.0",
     "semantic-ui-css": "^2.4.1",
+    "semantic-ui-vue": "^0.8.1",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3"
   },
