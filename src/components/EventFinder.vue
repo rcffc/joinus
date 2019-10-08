@@ -1,30 +1,36 @@
 <template>
   <div class="wrapper">
-    <sui-container text-align="left">
-      <sui-list v-for="event in events" v-bind:key="event.id">
-
-        <sui-list-item class="item">
+    <div class="ui left aligned container">
+      <div class="ui list" v-for="event in events" v-bind:key="event.id">
+        <router-link class='item' :to="`/events/${event.id}`">
           <img class="ui tiny rounded right floated image" v-bind:src="event.image" />
-            <h3 is="sui-header">{{ event.name }}</h3>
+            
+            <div class="ui header">{{ event.name }}</div>
             <div>{{ event.location }}</div>
             <div>{{ event.organizer }}</div>
             <div>{{ event.date }}</div>
-        </sui-list-item>
-        <sui-divider />
-
-      </sui-list>
-    </sui-container>
+        </router-link>
+        <div class="ui divider"></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { events } from "./dummyEvents.js";
+import fb from "../services/fb.js";
 
 export default {
   name: "EventFinder",
+  created: function() {
+    fb.events.get().then(({ docs }) => {
+      this.events = docs.map(doc =>( 
+        { ...doc.data(), id: doc.id }
+        ));
+    });
+  },
   data: function() {
     return {
-      events
+      events: []
     };
   }
 };

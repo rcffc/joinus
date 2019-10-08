@@ -1,12 +1,16 @@
 <template>
   <div class="center">
-    <sui-container text>
-      <h1 is="sui-header">Explore new activities</h1>
+    <div>
+      <h1 class="ui header">Explore new activities</h1>
       <div class="login-background">
         <p class="login-text">Find a new community or start your own.</p>
-        <sui-button class="login-button" icon="google" color="blue" content="Join Us!" bottom />
+        <div class="login-button"/>
+        <button class="ui blue labeled icon button">
+          <i class="google icon"></i>
+          Join Us!
+        </button>
       </div>
-    </sui-container>
+    </div>
   </div>
 </template>
 
