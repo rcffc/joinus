@@ -5,7 +5,8 @@ import EventFinder from './components/EventFinder.vue'
 const routes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
-    { path: '/events', component: EventFinder }
+    { path: '/events', component: EventFinder },
+    { path: '/home', redirect: '/login' }
 ]
 
 export default routes;

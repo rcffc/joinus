@@ -1,5 +1,5 @@
 <template>
-  <sui-segment id="action-bar" inverted v-if="true">
+  <sui-segment id="action-bar" inverted v-if="this.$route.path === '/login'">
     <img class="logo" src="../../../assets/join-us-white.png" />
   </sui-segment>
   <sui-segment id="action-bar" inverted v-else>
