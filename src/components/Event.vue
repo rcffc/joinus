@@ -52,6 +52,7 @@ export default {
     this.id = this.$route.params.id
     
     const data = this.$store
+      .state
       .events
       .all
       .find(e => e.id === this.id)
@@ -60,6 +61,8 @@ export default {
       for (let key in data) {
         this[key] = data[key]
       }
+
+    //TODO: Do something when data is undefined or null
 
   },
   data: function() {
