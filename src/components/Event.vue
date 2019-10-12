@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import fb from "../services/fb.js";
+  import fb from "../api/fb.js";
 
   export default {
     name: "Event",

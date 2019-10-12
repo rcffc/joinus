@@ -8,8 +8,8 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
+new Vue({ 
+  router, //Inject router to all child components.
+  store,  // Inject store to all child components.
   render: h => h(App),
 }).$mount('#app')
