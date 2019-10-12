@@ -17,17 +17,14 @@
 </template>
 
 <script>
-import fb from "../api/fb.js";
+//These allow us to easily map state fields to the component
+import { mapState } from 'vuex'
 
 export default {
   name: "EventFinder",
-  created: function() {
-    fb.events.get().then(({ docs }) => {
-      this.events = docs.map(doc =>( 
-        { ...doc.data(), id: doc.id }
-        ));
-    });
-  },
+  computed: mapState([
+  'events', //This maps store.state.events to this.events
+]),
   data: function() {
     return {
       events: []
