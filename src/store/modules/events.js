@@ -1,4 +1,4 @@
-import events from '../../api'
+import { events } from '../../api'
 
 const state = {
   all: []
@@ -15,6 +15,7 @@ const actions = {
       commit('setEvents', results)
     }
     catch (err) {
+      alert(err.message)
       //Do something here
     }
   }

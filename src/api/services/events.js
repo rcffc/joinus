@@ -1,4 +1,4 @@
-import events from '../fb.js'
+import { events } from '../fb.js'
 
 const getAll = async () => {
   try {
@@ -12,7 +12,6 @@ const getAll = async () => {
     return Promise.reject(err)
   }
 }
-
 
 export default {
   getAll

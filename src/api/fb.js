@@ -19,6 +19,4 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 
-export default {
-  events: db.collection("events")
-};
+export const events = db.collection("events")

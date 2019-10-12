@@ -22,13 +22,11 @@ import { mapState } from 'vuex'
 
 export default {
   name: "EventFinder",
-  computed: mapState([
-  'events', //This maps store.state.events to this.events
-]),
-  data: function() {
-    return {
-      events: []
-    };
+  computed: mapState({
+    events: state => state.events.all, //This maps store.state.events to this.events
+  }),
+  created () {
+    this.$store.dispatch('events/getAllEvents')
   }
 };
 </script>
