@@ -51,6 +51,6 @@ export default {
 
 <style scoped>
 .group {
-  padding-bottom: 5em;
+  padding-bottom: 10em;
 }
 </style>

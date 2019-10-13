@@ -18,30 +18,14 @@
     />
 
     <div 
-      class="ui three column doubling stackable grid container left aligned "
+      class="ui doubling stackable grid container left aligned "
     >
       <div
         class="column"
-      />
-      
-      <div
-        class="ui column"
       >
         <div
-          v-if="tags.length"
-        >
-          <div
-            v-for="(tag, index) in tags"
-            :key="index"
-          >
-            <span>
-              #{{ tag }}
-            </span>
-          </div>
-        </div>
-
-        <div
           v-if="optionalFields"
+          class="info-item"
         >
           <div
             v-for="(value, key) in optionalFields"
@@ -62,6 +46,18 @@
             </div>
           </div>
         </div>
+
+        <div
+          v-if="tags.length"
+          class="info-item"
+        >
+          <span
+            v-for="(tag, index) in tags"
+            :key="index"
+          >
+            #{{ tag }}
+          </span>
+        </div>
         <div
           class="ui divider"
         />
@@ -72,10 +68,6 @@
           {{ description }}
         </div>
       </div>
-
-      <div
-        class="column"
-      />
     </div>
   </div>
 </template>
@@ -110,4 +102,11 @@ export default {
 </script>
 
 <style scoped>
+  .info-item {
+    margin-top: 0.5em;
+  }
+
+  .description {
+    overflow: hidden !important;
+  }
 </style>
