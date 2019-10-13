@@ -1,4 +1,10 @@
+//NOTE: This module should only be accessed by files under the api/ directory.
+//This way, the rest of the application is independent of the backend solution.
+
 import * as firebase from 'firebase';
+
+//This is bad mmkay.
+//This object should be costructed from .env you're running a dev build.
 
 firebase.initializeApp({
   apiKey: "AIzaSyBBpYJPyjLLhz7HjaN1mVW_2P43t9C3j88",
@@ -13,6 +19,4 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 
-export default {
-  events: db.collection("events")
-};
+export const events = db.collection("events")
