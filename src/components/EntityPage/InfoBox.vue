@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui container"
+    class="ui container info-box"
   >
     <img
       class="ui large rounded centered image"
