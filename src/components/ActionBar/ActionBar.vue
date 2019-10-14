@@ -3,42 +3,59 @@
     id="action-bar"
     class="ui top attached menu inverted"
   >
-    
+    <!-- Log in bar -->  
     <div
       v-if="this.$route.path === '/login'"
-      class="ui segment inverted"
-    >
+      class="ui menu inverted fluid center aligned full-width"
+    > 
       <img
-        class="logo"
+        class="ui centered image logo"
         src="../../../assets/join-us-white.png"
-      />
+      >
     </div>
 
+    <!-- Event/Group page bar -->
     <div
-      class="left aligned"
+      v-else-if="name"
+      id="name-segment"
+      class="ui segment inverted big center aligned fluid full-width"
     >
-      <UserDropdown/>
+      Name
     </div>
-
+  
+    <!-- Finder bar -->
     <div
-      class="right menu"
+      v-else
+      class="ui grid inverted"
     >
-      <SearchBar/>
+      <div class="five wide column">
+        <UserDropdown />
+      </div>
+
+      <div class="two column" />
+
+      <div class="column">
+        <SearchBar />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import UserDropdown from "./UserDropdown.vue";
-import SearchBar from "./SearchBar.vue"
+import UserDropdown from './UserDropdown.vue'
+import SearchBar from './SearchBar.vue'
+import { mapState } from 'vuex'
 
 export default {
-  name: "ActionBar",
+  name: 'ActionBar',
   components: {
     UserDropdown,
     SearchBar
-  }
-};
+  },
+  computed: mapState({
+    name: state => state.actionBar.name,
+  }),
+}
 </script>
 
 <style scoped>
@@ -52,9 +69,13 @@ export default {
     padding: 1.2rem 0.5rem 1rem;
   }
 
+  #name-segment {
+    width: 100%;
+  }
+
 .logo {
   width: 68px;
   height: 34px;
-  padding: 0
+  padding: 0;
 }
 </style>
