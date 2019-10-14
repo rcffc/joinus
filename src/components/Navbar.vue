@@ -30,4 +30,7 @@
 </script>
 
 <style scoped>
+  #navbar {
+    padding-top: 5rem;
+  }
 </style>

@@ -1,18 +1,29 @@
 <template>
-  <div class="ui segment inverted" id="action-bar">
-    <div class="ui segment inverted" id="action-bar" v-if="this.$route.path === '/login'">
-      <img class="logo" src="../../../assets/join-us-white.png" />
+  <div
+    id="action-bar"
+    class="ui top attached menu inverted"
+  >
+    
+    <div
+      v-if="this.$route.path === '/login'"
+      class="ui segment inverted"
+    >
+      <img
+        class="logo"
+        src="../../../assets/join-us-white.png"
+      />
     </div>
 
-    <div class="ui segment inverted" id="action-bar" v-else>
-      <div class="ui top attached menu inverted">
-        <div class="left aligned">
-          <user-dropdown/>
-        </div>
-        <div class="right menu">
-          <search-bar/>
-        </div>
-      </div>
+    <div
+      class="left aligned"
+    >
+      <UserDropdown/>
+    </div>
+
+    <div
+      class="right menu"
+    >
+      <SearchBar/>
     </div>
   </div>
 </template>
@@ -33,6 +44,12 @@ export default {
 <style scoped>
   #action-bar {
     border-radius: 0%;
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    z-index: 200;
+    height: 5rem;
+    padding: 1.2rem 0.5rem 1rem;
   }
 
 .logo {

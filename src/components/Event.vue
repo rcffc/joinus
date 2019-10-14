@@ -80,7 +80,5 @@ export default {
 </script>
 
 <style scoped>
-  .event {
-    overflow: auto;
-  }
+  
 </style>
