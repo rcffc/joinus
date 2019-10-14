@@ -44,33 +44,39 @@
 </template>
 
 <script>
-  import fb from "../services/fb.js";
+//These allow us to easily map state fields to the component
 
-  export default {
-    name: "Event",
-    created: function() {
-      this.id = this.$route.params.id
-
-      fb.events.doc(this.id).get().then((doc) => {
-        const data = doc.data();
-
-        for (let key in data) {
-          this[key] = data[key]
-        }
-      })
-    },
-    data: function() {
-      return {
-        id: "",
-        name: "",
-        location: "",
-        image: "",
-        organizer: "",
-        date: "",
-        description: ""
+export default {
+  name: 'Event',
+  created: function() {
+    this.id = this.$route.params.id
+    
+    const data = this.$store
+      .state
+      .events
+      .all
+      .find(e => e.id === this.id)
+    
+    if (data)
+      for (let key in data) {
+        this[key] = data[key]
       }
+
+    //TODO: Do something when data is undefined or null
+
+  },
+  data: function() {
+    return {
+      id: '',
+      name: '',
+      location: '',
+      image: '',
+      organizer: '',
+      date: '',
+      description: ''
     }
-  };
+  }
+}
 </script>
 
 <style scoped>

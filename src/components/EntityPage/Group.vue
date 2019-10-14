@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import fb from '../../services/fb.js'
+import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
 
@@ -74,9 +74,7 @@ export default {
   created: function() {
     this.id = this.$route.params.id
 
-    fb.groups.doc(this.id).get().then((doc) => {
-      const data = doc.data()
-
+    groups.getGroup(this.id).then((data) => {
       for (let key in data) {
         this[key] = data[key]
       }
