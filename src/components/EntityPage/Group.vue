@@ -7,16 +7,17 @@
     <IconButton
       text="Visit"
       icon="home"
+      color="caution"
     />
     <IconButton
       text="Join"
       icon="user plus"
-      color="violet"
+      color="positive"
     />
     <IconButton
       text="Share"
       icon="share"
-      color="blue"
+      color="neutral"
     />
     
     <div class="ui divider" />
