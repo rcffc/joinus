@@ -1,13 +1,7 @@
 <template>
-  <div
-    class="ui container info-box"
-  >
-    <div 
-      class="ui doubling stackable grid container left aligned "
-    >
-      <div
-        class="column"
-      >
+  <div class="ui container info-box">
+    <div class="ui doubling stackable grid container left aligned ">
+      <div class="column">
         <div
           v-if="optionalFields"
           class="info-item"
@@ -17,30 +11,20 @@
             :key="key"
             class="ui list"
           >
-            <div
-              class="ui item"
-            >
-              <i
-                :class="`icon ${ value.icon }`"
-              />
-              <span
-                class="content"
-              >
+            <div class="ui item">
+              <i :class="`icon ${ value.icon }`" />
+              <span class="content">
                 {{ value.content }}
               </span>
             </div>
           </div>
         </div>
         
-        <div 
-          class="description"
-        >
+        <div class="description">
           {{ description }}
         </div>
 
-        <div
-          class="ui divider"
-        />
+        <div class="ui divider" />
 
         <div
           v-if="tags.length"
