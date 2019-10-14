@@ -12,7 +12,7 @@
       text="Join"
       icon="user plus"
       size="big"
-      color="green"
+      color="violet"
     />
     <IconButton
       text="Share"

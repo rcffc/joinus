@@ -1,5 +1,5 @@
 <template>
-  <button :class="`ui right labeled icon button basic ${ size } ${ color } icon-button`">
+  <button :class="`ui right labeled icon button ${ size } ${ color } icon-button`">
     <i :class="`${ icon } icon`" />
     {{ text }}
   </button>
