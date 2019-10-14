@@ -43,7 +43,7 @@
       </div>
     </div>
 
-     <div class="ui divider" />
+    <div class="ui divider" />
 
     <InfoBox
       :description="description"
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
@@ -79,6 +80,18 @@ export default {
       for (let key in data) {
         this[key] = data[key]
       }
+
+      this.setName(this.name)
+    })
+    
+    
+  },
+  beforeDestroy: function() {
+    this.setName()
+  },
+  methods: {
+    ...mapMutations({
+      setName: 'actionBar/setName'
     })
   }
 }

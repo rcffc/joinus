@@ -1,43 +1,48 @@
 <template>
   <div class="event">
     <div class="ui container">
-      <img class="ui large rounded centered image" v-bind:src="this.image" />  
+      <img
+        :src="image"
+        class="ui large rounded centered image"
+      >  
 
-      <h1 class="ui header huge">{{ this.name }}</h1>
+      <h1 class="ui header huge">
+        {{ name }}
+      </h1>
 
-      <div class="ui divider"></div>
+      <div class="ui divider" />
 
       <div class="ui three column doubling stackable grid container left aligned ">
-        <div class="column">
-        </div>
+        <div class="column" />
         <div class="ui column">
           <div class="ui list">
             <div class="ui item">
-              <i class="icon users"></i>
-              <span class="content">{{ this.organizer }}</span>
+              <i class="icon users" />
+              <span class="content">{{ organizer }}</span>
             </div>
             <div class="ui item">
-              <i class="icon compass"></i>
-              <span class="content">{{ this.location }}</span>
+              <i class="icon compass" />
+              <span class="content">{{ location }}</span>
             </div>
             <div class="ui item">
-              <i class="icon calendar"></i>
-              <span class="content">{{ this.date }}</span>
+              <i class="icon calendar" />
+              <span class="content">{{ date }}</span>
             </div>
             <div class="ui item">
               <button class="ui right labeled icon button basic blue">
-                <i class="share icon"></i>
+                <i class="share icon" />
                 Share
               </button>
             </div>
           </div>
-          <div class="ui divider"></div>
+          <div class="ui divider" />
           
-          <div class="description">{{ this.description }}</div>
+          <div class="description">
+            {{ description }}
+          </div>
         </div>
 
-        <div class="column">
-        </div>
+        <div class="column" />
       </div>
     </div>
   </div>
@@ -45,9 +50,21 @@
 
 <script>
 //These allow us to easily map state fields to the component
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Event',
+  data: function() {
+    return {
+      id: '',
+      name: '',
+      location: '',
+      image: '',
+      organizer: '',
+      date: '',
+      description: ''
+    }
+  },
   created: function() {
     this.id = this.$route.params.id
     
@@ -62,25 +79,25 @@ export default {
         this[key] = data[key]
       }
 
+    this.setName(this.name)
+
     //TODO: Do something when data is undefined or null
 
   },
-  data: function() {
-    return {
-      id: '',
-      name: '',
-      location: '',
-      image: '',
-      organizer: '',
-      date: '',
-      description: ''
-    }
+  beforeDestroy: function() {
+    this.setName()
+  },
+  methods: {
+    ...mapMutations({
+      setName: 'actionBar/setName'
+    })
   }
+
 }
 </script>
 
 <style scoped>
   .event {
-    overflow: auto;
+    padding-bottom: 10rem;
   }
 </style>
