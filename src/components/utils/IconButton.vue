@@ -13,7 +13,10 @@ export default {
       type: String,
       required: true
     },
-    icon: String,
+    icon: {
+      type: String,
+      default: ''
+    },
     color: {
       type: String,
       default: 'black'
@@ -22,7 +25,10 @@ export default {
       type: Function,
       default: () => null
     },
-    size: String
+    size: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>

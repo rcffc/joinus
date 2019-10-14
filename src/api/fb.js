@@ -1,7 +1,7 @@
 //NOTE: This module should only be accessed by files under the api/ directory.
 //This way, the rest of the application is independent of the backend solution.
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
 
 //This is bad mmkay.
 //This object should be costructed from .env you're running a dev build.
