@@ -11,7 +11,6 @@
     <IconButton
       text="Join"
       icon="user plus"
-      size="big"
       color="violet"
     />
     <IconButton
