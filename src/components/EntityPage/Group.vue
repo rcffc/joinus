@@ -4,21 +4,22 @@
       class="ui large rounded centered image"
       :src="image"
     >
-    <button class="ui right labeled icon button basic black">
-      <i class="home icon" />
-      Visit
-    </button>
-
-    <button class="ui right labeled icon button basic green big">
-      <i class="icon user plus" />
-      Join
-    </button>
-
-    <button class="ui right labeled icon button basic blue">
-      <i class="share icon" />
-      Share
-    </button>
-
+    <IconButton
+      text="Visit"
+      icon="home"
+    />
+    <IconButton
+      text="Join"
+      icon="user plus"
+      size="big"
+      color="green"
+    />
+    <IconButton
+      text="Share"
+      icon="share"
+      color="blue"
+    />
+    
     <div class="ui divider" />
 
     <div class="ui container left aligned">
@@ -54,11 +55,13 @@
 <script>
 import fb from '../../services/fb.js'
 import InfoBox from './InfoBox.vue'
+import IconButton from '../utils/IconButton.vue'
 
 export default {
   name: 'Group',
   components: {
-    InfoBox
+    InfoBox,
+    IconButton
   },
   data: function() {
     return {
