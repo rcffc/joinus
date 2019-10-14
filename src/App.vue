@@ -32,7 +32,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #dbd3d3;
-  height: 100%;
+  min-height: 100%;
   margin: 3rem 0 !important;
 }
 </style>

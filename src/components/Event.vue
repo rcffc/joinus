@@ -97,4 +97,7 @@ export default {
 </script>
 
 <style scoped>
+  .event {
+    padding-bottom: 10rem;
+  }
 </style>
