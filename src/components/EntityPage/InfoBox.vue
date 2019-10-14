@@ -2,21 +2,6 @@
   <div
     class="ui container info-box"
   >
-    <img
-      class="ui large rounded centered image"
-      :src="image"
-    >  
-
-    <h1 
-      class="ui header huge"
-    >
-      {{ name }}
-    </h1>
-
-    <div
-      class="ui divider"
-    />
-
     <div 
       class="ui doubling stackable grid container left aligned "
     >
@@ -46,6 +31,16 @@
             </div>
           </div>
         </div>
+        
+        <div 
+          class="description"
+        >
+          {{ description }}
+        </div>
+
+        <div
+          class="ui divider"
+        />
 
         <div
           v-if="tags.length"
@@ -58,15 +53,6 @@
             #{{ tag }}
           </span>
         </div>
-        <div
-          class="ui divider"
-        />
-        
-        <div 
-          class="description"
-        >
-          {{ description }}
-        </div>
       </div>
     </div>
   </div>
@@ -76,14 +62,6 @@
 export default {
   name: 'InfoBox',
   props: {
-    name: {
-      type: String,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
     description: {
       type: String,
       required: true
