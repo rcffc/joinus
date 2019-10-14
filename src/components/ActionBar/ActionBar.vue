@@ -6,7 +6,7 @@
     <!-- Log in bar -->  
     <div
       v-if="this.$route.path === '/login'"
-      class="ui menu inverted fluid center aligned full-width"
+      class="ui menu inverted fluid center aligned"
     > 
       <img
         class="ui centered image logo"
@@ -17,10 +17,14 @@
     <!-- Event/Group page bar -->
     <div
       v-else-if="name"
-      id="name-segment"
-      class="ui segment inverted big center aligned fluid full-width"
+      class="ui menu inverted fluid big center aligned"
     >
-      Name
+      <div
+        id="name-header" 
+        class="ui header inverted center aligned"
+      >
+      {{ name }}
+      </div>
     </div>
   
     <!-- Finder bar -->
@@ -59,19 +63,20 @@ export default {
 </script>
 
 <style scoped>
-  #action-bar {
-    border-radius: 0%;
-    position: fixed;
-    left: 0;
-    width: 100vw;
-    z-index: 200;
-    height: 5rem;
-    padding: 1.2rem 0.5rem 1rem;
-  }
+#action-bar {
+  border-radius: 0%;
+  position: fixed;
+  left: 0;
+  width: 100vw;
+  z-index: 200;
+  height: 5rem;
+  padding: 1.2rem 0.5rem 1rem;
+}
 
-  #name-segment {
-    width: 100%;
-  }
+#name-header {
+  padding-top: 0.5rem;
+  width: 100%;
+}
 
 .logo {
   width: 68px;
