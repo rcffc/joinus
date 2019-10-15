@@ -39,19 +39,4 @@ export default {
 .inverted {
   background-color: #2d2a32 !important;
 }
-
-.positive {
-  background-color: #617073 !important;
-}
-
-.caution {
-  background-color: #c4b7cb !important;
-  color: white !important;
-}
-
-.neutral {
-  background-color: #af9164 !important;
-  color: white !important;
-}
-
 </style>
