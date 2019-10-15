@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <portal to="actionBar">
-      <div class="ui menu transparent inverted fluid center aligned"> 
+      <div class="ui menu transparent fluid center aligned"> 
         <img 
           class="ui centered image fluid logo"
           src="../../assets/join-us-white.png">

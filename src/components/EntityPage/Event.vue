@@ -35,13 +35,16 @@
     >
 
     <div class="ui hidden divider" />
-
-    <IconButton
-      :text="organizer.name"
-      icon="users"
-      color="neutral link"
-      :click-handler="toGroupPage"
-    />
+    <router-link
+      class="item"
+      :to="`/groups/${ organizer.id }`"
+    >
+      <IconButton
+        :text="organizer.name"
+        icon="users"
+        color="neutral link"
+      />
+    </router-link>
 
     <IconButton
       v-if="!follow"
@@ -56,7 +59,7 @@
         :description="description"
         :optional-fields="{
           'location': { 'content': location, 'icon': 'compass' },
-          'date': { 'content': date, 'icon': 'calendar' },
+          'date': { 'content': date.toLocaleString(), 'icon': 'calendar' },
         }"
       />
     </div>
