@@ -1,10 +1,10 @@
 <template>
   <div class="event">
     <portal to="actionBar">
-      <div class="ui menu inverted fluid big center aligned">
+      <div class="ui menu fluid big center aligned">
         <div
           id="name-header" 
-          class="ui header inverted center aligned"
+          class="ui header center aligned"
         >
           {{ name }}
         </div>
@@ -97,5 +97,10 @@ export default {
 #name-header {
   padding-top: 0.5rem;
   width: 100%;
+    background-color: #374b39 !important;
+}
+
+.ui.header {
+  background-color: #374b39 !important;
 }
 </style>

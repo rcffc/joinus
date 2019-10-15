@@ -31,7 +31,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #dbd3d3;
+  background-color: #dfd5cb;
+  background-image: url('../assets/32612b83.png');
   min-height: 100%;
   margin: 3rem 0 !important;
 }

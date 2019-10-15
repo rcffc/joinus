@@ -33,4 +33,8 @@
   #navbar {
     padding-top: 5rem;
   }
+  
+  .ui.icon.menu {
+    background-color: #374b39 !important;
+  }
 </style>

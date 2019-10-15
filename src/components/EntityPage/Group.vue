@@ -4,7 +4,7 @@
       <div class="ui menu inverted fluid big center aligned">
         <div
           id="name-header" 
-          class="ui header inverted center aligned"
+          class="ui header center aligned"
         >
           {{ name }}
         </div>
