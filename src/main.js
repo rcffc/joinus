@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router'
+import PortalVue from 'portal-vue'
 
-import routes from './routes'
+import 'semantic-ui-css/semantic.min.css'
 
-Vue.use(VueRouter)
+import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 
-const router = new VueRouter({routes});
+Vue.use(PortalVue)
 
-new Vue({
-  router,
+new Vue({ 
+  router, //Inject router to all child components.
+  store,  // Inject store to all child components.
   render: h => h(App),
 }).$mount('#app')
