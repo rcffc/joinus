@@ -1,7 +1,7 @@
 <template>
   <div
     id="action-bar"
-    class="ui top attached menu inverted"
+    class="ui top attached menu"
   >
     <!-- Content determined by visible page -->
     <portal-target name="actionBar">
@@ -39,4 +39,9 @@ export default {
   display: block !important;
   width: 100% !important;
 }
+
+.ui.menu {
+  background-color: #374b39 !important;
+}
+
 </style>

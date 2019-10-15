@@ -6,7 +6,7 @@
         <div class="nine wide column aligned right">
           <div
             id="name-header" 
-            class="ui header inverted large center aligned"
+            class="ui header large center aligned"
           >
             {{ name }}
           </div>
@@ -124,5 +124,6 @@ export default {
 #name-header {
   padding-top: 0.5rem;
   width: 90%;
+  color: white;
 }
 </style>

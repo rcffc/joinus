@@ -100,5 +100,10 @@ export default {
 #name-header {
   padding-top: 0.5rem;
   width: 100%;
+    background-color: #374b39 !important;
+}
+
+.ui.header {
+  background-color: #374b39 !important;
 }
 </style>
