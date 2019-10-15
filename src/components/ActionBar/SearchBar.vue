@@ -2,13 +2,21 @@
   <div class="search-bar">
     <div class="ui search">
       <div class="ui icon input">
-        <button id="filter-button" class="ui button icon white">
-          <i class="filter icon"></i>
+        <button
+          id="filter-button"
+          class="ui button icon white"
+        >
+          <i class="filter icon" />
         </button>
-        <input id="search" class="prompt" type="text" placeholder="Look for events..." />
-        <i class="search icon"></i>
+        <input
+          id="search"
+          class="prompt"
+          type="text"
+          placeholder="Look for events..."
+        >
+        <i class="search icon" />
       </div>
-      <div class="results"></div>
+      <div class="results" />
     </div>
   </div>
 </template>

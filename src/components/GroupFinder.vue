@@ -1,18 +1,31 @@
 <template>
   <div class="wrapper">
     <div class="ui two cards">
-      <div class='card' v-for="group in groups" v-bind:key="group.id">
+      <div
+        v-for="group in groups"
+        :key="group.id"
+        class="card"
+      >
         <router-link :to="`/groups/${group.id}`">
-            <div class="ui image">
-              <img class="img" v-bind:src="group.image" />
+          <div class="ui image">
+            <img
+              class="img"
+              :src="group.image"
+            >
+          </div>
+          <div class="content">
+            <div class="header">
+              {{ group.name }}
             </div>
-            <div class="content">
-              <div class="header">{{ group.name }}</div>
-              <div class="ui divider"></div>
-              <span class='tag' v-for="tag in group.tags" v-bind:key="tag">
-                #{{ tag }}
-              </span>
-            </div>
+            <div class="ui divider" />
+            <span
+              v-for="tag in group.tags"
+              :key="tag"
+              class="tag"
+            >
+              #{{ tag }}
+            </span>
+          </div>
         </router-link>
       </div>
     </div>
@@ -23,7 +36,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: "EventFinder",
+  name: 'EventFinder',
   computed: mapState({
     groups: state => state.groups.all,
   }),

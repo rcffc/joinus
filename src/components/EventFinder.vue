@@ -1,25 +1,43 @@
 <template>
   <div class="wrapper">
     <div class="ui left aligned container">
-      <div v-for="(eventArray, key) in events" v-bind:key="eventArray.id">
-        <div class='month'> {{ months[key] }} 2019 </div>
-        <div class='item' v-for="event in eventArray" v-bind:key="event.id">
-          <div class='date'>
+      <div
+        v-for="(eventArray, key) in events"
+        :key="eventArray.id"
+      >
+        <div class="month">
+          {{ months[key] }} 2019
+        </div>
+        <div
+          v-for="event in eventArray"
+          :key="event.id"
+          class="item"
+        >
+          <div class="date">
             <span>{{ event.shortDate }}</span>
             <span>{{ event.time }}</span>
           </div>
           <div class="ui card">
             <router-link :to="`/events/${event.id}`">
-                <div class="ui header">{{ event.name }}</div>
-                <div>{{ event.location }}</div>
-                <router-link :to="`/groups/${event.organizer.id}`">
-                  <img class="ui avatar floated right image" v-bind:src="event.organizer.image" />
-                </router-link>
-                <div class='tag-row'>
-                  <span class='tag' v-for="tag in event.tags" v-bind:key="tag">
-                    #{{ tag }}
-                  </span>
-                </div>
+              <div class="ui header">
+                {{ event.name }}
+              </div>
+              <div>{{ event.location }}</div>
+              <router-link :to="`/groups/${event.organizer.id}`">
+                <img
+                  class="ui avatar floated right image"
+                  :src="event.organizer.image"
+                >
+              </router-link>
+              <div class="tag-row">
+                <span
+                  v-for="tag in event.tags"
+                  :key="tag"
+                  class="tag"
+                >
+                  #{{ tag }}
+                </span>
+              </div>
             </router-link>
           </div>
         </div>
@@ -35,11 +53,11 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
-  name: "EventFinder",
+  name: 'EventFinder',
   computed: {
-     ...mapGetters({
+    ...mapGetters({
       events: 'events/groupEvents'
-     })
+    })
   },
   data: function () {
     return {
