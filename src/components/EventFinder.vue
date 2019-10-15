@@ -1,16 +1,28 @@
 <template>
   <div class="wrapper">
     <div class="ui left aligned container">
-      <div class="ui list" v-for="event in events" v-bind:key="event.id">
-        <router-link class='item' :to="`/events/${event.id}`">
-          <img class="ui tiny rounded right floated image" v-bind:src="event.image" />
+      <div
+        v-for="event in events"
+        :key="event.id"
+        class="ui list"
+      >
+        <router-link
+          class="item"
+          :to="`/events/${event.id}`"
+        >
+          <img
+            class="ui tiny rounded right floated image"
+            :src="event.image"
+          >
             
-            <div class="ui header">{{ event.name }}</div>
-            <div>{{ event.location }}</div>
-            <div>{{ event.organizer }}</div>
-            <div>{{ event.date }}</div>
+          <div class="ui header">
+            {{ event.name }}
+          </div>
+          <div>{{ event.location }}</div>
+          <div>{{ event.organizer }}</div>
+          <div>{{ event.date }}</div>
         </router-link>
-        <div class="ui divider"></div>
+        <div class="ui divider" />
       </div>
     </div>
   </div>
@@ -21,14 +33,14 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: "EventFinder",
+  name: 'EventFinder',
   computed: mapState({
     events: state => state.events.all, //This maps store.state.events to this.events
   }),
   created () {
     this.$store.dispatch('events/getAllEvents')
   }
-};
+}
 </script>
 
 <style scoped>

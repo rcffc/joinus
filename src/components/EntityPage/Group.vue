@@ -1,5 +1,16 @@
 <template>
   <div class="group">
+    <portal to="actionBar">
+      <div class="ui menu inverted fluid big center aligned">
+        <div
+          id="name-header" 
+          class="ui header inverted center aligned"
+        >
+          {{ name }}
+        </div>
+      </div>
+    </portal>
+
     <img
       class="ui large rounded centered image"
       :src="image"
@@ -53,7 +64,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
@@ -80,19 +90,9 @@ export default {
       for (let key in data) {
         this[key] = data[key]
       }
-
-      this.setName(this.name)
     })
     
     
-  },
-  beforeDestroy: function() {
-    this.setName()
-  },
-  methods: {
-    ...mapMutations({
-      setName: 'actionBar/setName'
-    })
   }
 }
 </script>
@@ -100,5 +100,10 @@ export default {
 <style scoped>
 .group {
   padding-bottom: 10em;
+}
+
+#name-header {
+  padding-top: 0.5rem;
+  width: 100%;
 }
 </style>

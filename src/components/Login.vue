@@ -1,12 +1,25 @@
 <template>
   <div class="center">
+    <portal to="actionBar">
+      <div class="ui menu inverted fluid center aligned"> 
+        <img
+          class="ui centered image logo"
+          src="../../assets/join-us-white.png"
+        >
+      </div>
+    </portal>
+
     <div>
-      <h1 class="ui header">Explore new activities</h1>
+      <h1 class="ui header">
+        Explore new activities
+      </h1>
       <div class="login-background">
-        <p class="login-text">Find a new community or start your own.</p>
-        <div class="login-button"/>
+        <p class="login-text">
+          Find a new community or start your own.
+        </p>
+        <div class="login-button" />
         <button class="ui blue labeled icon button">
-          <i class="google icon"></i>
+          <i class="google icon" />
           Join Us!
         </button>
       </div>
@@ -15,7 +28,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script> 
 
 <style scoped>
@@ -51,5 +64,11 @@ export default {};
   position: relative;
   top: 60px;
   left: 0px;
+}
+
+.logo {
+  width: 68px;
+  height: 34px;
+  padding: 0;
 }
 </style>

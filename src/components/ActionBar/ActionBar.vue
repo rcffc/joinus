@@ -3,52 +3,27 @@
     id="action-bar"
     class="ui top attached menu inverted"
   >
-    <!-- Log in bar -->  
-    <div
-      v-if="this.$route.path === '/login'"
-      class="ui menu inverted fluid center aligned"
-    > 
-      <img
-        class="ui centered image logo"
-        src="../../../assets/join-us-white.png"
-      >
-    </div>
+    <!-- Content determined by visible page -->
+    <portal-target name="actionBar">
+      <!-- default content when the portal is not targeted -->
+      <div class="ui grid inverted">
+        <div class="five wide column">
+          <UserDropdown />
+        </div>
 
-    <!-- Event/Group page bar -->
-    <div
-      v-else-if="name"
-      class="ui menu inverted fluid big center aligned"
-    >
-      <div
-        id="name-header" 
-        class="ui header inverted center aligned"
-      >
-      {{ name }}
-      </div>
-    </div>
-  
-    <!-- Finder bar -->
-    <div
-      v-else
-      class="ui grid inverted"
-    >
-      <div class="five wide column">
-        <UserDropdown />
-      </div>
+        <div class="two column" />
 
-      <div class="two column" />
-
-      <div class="column">
-        <SearchBar />
+        <div class="column">
+          <SearchBar />
+        </div>
       </div>
-    </div>
+    </portal-target>
   </div>
 </template>
 
 <script>
 import UserDropdown from './UserDropdown.vue'
 import SearchBar from './SearchBar.vue'
-import { mapState } from 'vuex'
 
 export default {
   name: 'ActionBar',
@@ -56,9 +31,6 @@ export default {
     UserDropdown,
     SearchBar
   },
-  computed: mapState({
-    name: state => state.actionBar.name,
-  }),
 }
 </script>
 
@@ -73,14 +45,8 @@ export default {
   padding: 1.2rem 0.5rem 1rem;
 }
 
-#name-header {
-  padding-top: 0.5rem;
-  width: 100%;
-}
-
-.logo {
-  width: 68px;
-  height: 34px;
-  padding: 0;
+.vue-portal-target {
+  display: block !important;
+  width: 100% !important;
 }
 </style>

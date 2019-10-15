@@ -1,15 +1,21 @@
 <template>
   <div class="event">
+    <portal to="actionBar">
+      <div class="ui menu inverted fluid big center aligned">
+        <div
+          id="name-header" 
+          class="ui header inverted center aligned"
+        >
+          {{ name }}
+        </div>
+      </div>
+    </portal>
+
     <div class="ui container">
       <img
         :src="image"
         class="ui large rounded centered image"
-      >  
-
-      <h1 class="ui header huge">
-        {{ name }}
-      </h1>
-
+      > 
       <div class="ui divider" />
 
       <div class="ui three column doubling stackable grid container left aligned ">
@@ -49,8 +55,6 @@
 </template>
 
 <script>
-//These allow us to easily map state fields to the component
-import { mapMutations } from 'vuex'
 
 export default {
   name: 'Event',
@@ -79,25 +83,19 @@ export default {
         this[key] = data[key]
       }
 
-    this.setName(this.name)
-
     //TODO: Do something when data is undefined or null
 
   },
-  beforeDestroy: function() {
-    this.setName()
-  },
-  methods: {
-    ...mapMutations({
-      setName: 'actionBar/setName'
-    })
-  }
-
 }
 </script>
 
 <style scoped>
-  .event {
-    padding-bottom: 10rem;
-  }
+.event {
+  padding-bottom: 10rem;
+}
+
+#name-header {
+  padding-top: 0.5rem;
+  width: 100%;
+}
 </style>
