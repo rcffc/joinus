@@ -1,11 +1,19 @@
 import { events } from '../../api'
+import _ from 'underscore'
 
 const state = {
   all: []
 }
 
 // getters
-const getters = {}
+const getters = {
+  groupEvents: state => {
+    state.all.sort((a,b) => a.date-b.date)
+    const grouped = _.groupBy(state.all, 'month')
+    
+    return grouped
+  }
+}
 
 // actions
 const actions = {
