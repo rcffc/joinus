@@ -2,7 +2,7 @@
   <div class="group">
     <portal to="actionBar">
 
-      <div class="ui grid">
+      <div class="ui grid action-bar-content">
         <div class="ten wide column aligned right">
           <div
             id="name-header" 
@@ -37,6 +37,7 @@
     </portal>
 
     <img
+      id="group-image"
       class="ui large rounded centered image"
       :src="image"
     >
@@ -129,12 +130,21 @@ export default {
 <style scoped>
 .group {
   padding-bottom: 10em;
+  text-align: center;
+}
+
+.action-bar-content {
+  padding-top: 0.5rem;
 }
 
 #name-header {
   padding-top: 0.5rem;
   width: 90%;
   color: white;
+}
+
+#group-image {
+  box-shadow: 0px 2px 1rem #9a938c
 }
 
 #button-wrapper {

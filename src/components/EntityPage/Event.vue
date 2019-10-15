@@ -1,7 +1,7 @@
 <template>
   <div class="event">
     <portal to="actionBar">
-      <div class="ui grid">
+      <div class="ui grid action-bar-content">
         <div class="eleven wide column aligned right">
           <div
             id="name-header" 
@@ -123,6 +123,11 @@ methods: {
 <style scoped>
 .event {
   padding-bottom: 10rem;
+  text-align: center;
+}
+
+.action-bar-content {
+  padding-top: 0.5rem;
 }
 
 #event-image {
