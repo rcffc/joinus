@@ -29,24 +29,32 @@
     </portal>
     
     <img
+      id="event-image"
       class="ui large rounded centered image"
-      :src="image"
+      :src="`${ image || organizer.image}`"
     >
 
     <div class="ui hidden divider" />
 
     <IconButton
+      :text="organizer.name"
+      icon="users"
+      color="neutral link"
+      :click-handler="toGroupPage"
+    />
+
+    <IconButton
       v-if="!follow"
       text="Follow"
       icon="eye"
-      color="positive"
+      color="positive disabled"
       :click-handler="test"
     />
+  
     <div class="ui container">
       <InfoBox
         :description="description"
         :optional-fields="{
-          'organizer': { 'content': organizer, 'icon': 'users' },
           'location': { 'content': location, 'icon': 'compass' },
           'date': { 'content': date, 'icon': 'calendar' },
         }"
@@ -60,51 +68,61 @@ import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
 
 export default {
-  name: 'Event',
-  components: {
-    IconButton,
-    InfoBox
-  },
-  data: function() {
-    return {
-      id: '',
-      name: '',
-      location: '',
-      image: '',
-      organizer: '',
-      date: '',
-      description: '',
-      follow: false
-    }
-  },
-  created: function() {
-    this.id = this.$route.params.id
-    
-    const data = this.$store
-      .state
-      .events
-      .all
-      .find(e => e.id === this.id)
-    
-    if (data)
-      for (let key in data) {
-        this[key] = data[key]
-      }
-
-    //TODO: Do something when data is undefined or null
-
-  },
-  methods: {
-    test() {
-     this.follow = !this.follow 
-    }
+name: 'Event',
+components: {
+  IconButton,
+  InfoBox
+},
+data: function() {
+  return {
+    id: '',
+    name: '',
+    location: '',
+    image: '',
+    organizer: '',
+    date: '',
+    description: '',
+    follow: false
   }
+},
+created: function() {
+  this.id = this.$route.params.id
+  
+  const data = this.$store
+    .state
+    .events
+    .all
+    .find(e => e.id === this.id)
+  
+  if (data) {
+   for (let key in data) {
+      this[key] = data[key]
+    } 
+  }
+  else {
+
+  }
+  //TODO: Do something when data is undefined or null
+
+},
+methods: {
+  test() {
+    this.follow = !this.follow 
+  },
+  toGroupPage() {
+    window.location.href = `/groups/${ this.organizer.id }`
+  }
+}
 }
 </script>
 
 <style scoped>
 .event {
   padding-bottom: 10rem;
+}
+
+#event-image {
+  box-shadow: 0px 2px 1rem #9a938c
 }
 
 #name-header {
