@@ -11,8 +11,7 @@ const getAll = async () => {
 
     result = await Promise.all(result.map(async doc => {
       let organizer = await groups.doc(doc.organizer).get()
-      organizer = organizer.data()
-
+      organizer = { ...organizer.data(), id: organizer.id}
       return { ...doc, organizer }
 
     }))
