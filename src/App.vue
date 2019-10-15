@@ -29,12 +29,11 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   background-color: #dfd5cb;
   background-image: url('../assets/32612b83.png');
   min-height: 100%;
-  margin: 0 0 !important;
+  margin: 0 !important;
 }
 
 .inverted {

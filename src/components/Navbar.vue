@@ -15,7 +15,7 @@
         <i class="home icon"></i>
         Home
       </router-link>
-      <router-link class='item' to="/">
+      <router-link class='item' to="/groups">
         <i class="users icon"></i>
         Groups
       </router-link>
