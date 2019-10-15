@@ -1,4 +1,5 @@
 import { events, groups } from '../fb.js'
+import moment from 'moment'
 
 const getAll = async () => {
   try {
@@ -16,6 +17,16 @@ const getAll = async () => {
 
     }))
 
+    result = result.map(result => {
+      const date = result.date.toDate()
+      const month = date.getMonth()
+      const shortDate = moment(date).format('DD.MM')
+      const time = moment(date).format('H:mm')
+      return (
+        { ...result, date, month, time, shortDate}
+      )
+    })
+    
     return result
   }
   catch (err) {
