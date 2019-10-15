@@ -27,9 +27,8 @@
               :clickHandler="test"
               misc
             />
-            <IconButton
-              icon="share"
-              color="neutral"
+            <ShareButton
+              :shareMessage="name"
               misc
             />
           </div>
@@ -88,12 +87,14 @@
 import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
+import ShareButton from '../utils/ShareButton.vue'
 
 export default {
   name: 'Group',
   components: {
     InfoBox,
-    IconButton
+    IconButton,
+    ShareButton
   },
   data: function() {
     return {

@@ -19,9 +19,8 @@
             misc
             :click-handler="test"
           />
-          <IconButton
-            icon="share"
-            color="neutral"
+          <ShareButton
+            :shareMessage="name"
             misc
           />
         </div>
@@ -69,12 +68,14 @@
 <script>
 import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
+import ShareButton from '../utils/ShareButton.vue'
 
 export default {
 name: 'Event',
 components: {
   IconButton,
-  InfoBox
+  InfoBox,
+  ShareButton
 },
 data: function() {
   return {
