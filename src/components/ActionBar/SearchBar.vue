@@ -25,4 +25,8 @@
     border-top-right-radius: 0 !important;
     margin-right: 0%;
   }
+  
+  .ui.search {
+    padding: 5px 0% 0%;
+  }
 </style>
