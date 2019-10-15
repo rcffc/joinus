@@ -35,4 +35,8 @@ export default {
   min-height: 100%;
   margin: 3rem 0 !important;
 }
+
+.inverted {
+  background-color: #2d2a32 !important;
+}
 </style>
