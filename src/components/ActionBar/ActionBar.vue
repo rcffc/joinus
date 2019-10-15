@@ -6,17 +6,7 @@
     <!-- Content determined by visible page -->
     <portal-target name="actionBar">
       <!-- default content when the portal is not targeted -->
-      <div class="ui grid">
-        <div class="five wide column">
-          <UserDropdown />
-        </div>
-
-        <div class="two column" />
-
-        <div class="column">
-          <SearchBar />
-        </div>
-      </div>
+      <SearchBar id="search-bar" />
     </portal-target>
   </div>
 </template>

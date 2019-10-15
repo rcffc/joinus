@@ -1,16 +1,15 @@
 <template>
   <div class="event">
     <portal to="actionBar">
-      <div class="ui menu inverted fluid big center aligned">
-        <div
-          id="name-header" 
-          class="ui header fluid center aligned"
-        >
-          <div
-            class="ui header inverted">
-            {{ name }}
-          </div>
 
+      <div class="ui grid centered">
+        <div class="column">
+          <div
+          id="name-header" 
+          class="ui header inverted large center aligned"
+        >
+         {{ name }}
+        </div>
         </div>
       </div>
     </portal>

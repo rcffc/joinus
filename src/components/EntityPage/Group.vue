@@ -1,12 +1,35 @@
 <template>
   <div class="group">
     <portal to="actionBar">
-      <div class="ui menu inverted fluid big center aligned">
-        <div
-          id="name-header" 
-          class="ui header center aligned"
-        >
-          {{ name }}
+
+      <div class="ui grid">
+        <div class="nine wide column aligned right">
+          <div
+            id="name-header" 
+            class="ui header large center aligned"
+          >
+            {{ name }}
+          </div>
+      </div>
+
+        <div class="seven wide column">
+          <IconButton
+            icon="home"
+            color="caution"
+            misc
+          />
+          <IconButton
+            v-if="member"
+            icon="user times"
+            color="red"
+            :clickHandler="test"
+            misc
+          />
+          <IconButton
+            icon="share"
+            color="neutral"
+            misc
+          />
         </div>
       </div>
     </portal>
@@ -16,19 +39,11 @@
       :src="image"
     >
     <IconButton
-      text="Visit"
-      icon="home"
-      color="caution"
-    />
-    <IconButton
+      v-if="!member"
       text="Join"
       icon="user plus"
       color="positive"
-    />
-    <IconButton
-      text="Share"
-      icon="share"
-      color="neutral"
+      :clickHandler="test"
     />
     
     <div class="ui divider" />
@@ -80,7 +95,8 @@ export default {
       website: '',
       image: '',
       description: '',
-      tags: []
+      tags: [],
+      member: false
     }
   },
   created: function() {
@@ -91,8 +107,11 @@ export default {
         this[key] = data[key]
       }
     })
-    
-    
+  },
+  methods: {
+    test() {
+      this.member = !this.member
+    }
   }
 }
 </script>
@@ -104,6 +123,7 @@ export default {
 
 #name-header {
   padding-top: 0.5rem;
-  width: 100%;
+  width: 90%;
+  color: white;
 }
 </style>
