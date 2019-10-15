@@ -51,6 +51,7 @@ export default {}
 
 .center {
   width: 100%;
+  text-align: center;
 }
 
 .login-text {
@@ -74,5 +75,6 @@ export default {}
 .ui.menu {
   background-color: #374b39 !important;
   height: 100%;
+  border: 0!important;
 }
 </style>

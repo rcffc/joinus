@@ -42,6 +42,8 @@ export default {
 
 .ui.menu {
   background-color: #374b39 !important;
+  border: 0 !important;
+  margin: 0 !important;
 }
 
 </style>
