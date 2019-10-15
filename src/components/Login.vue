@@ -66,9 +66,9 @@ export default {}
   left: 0px;
 }
 
-.logo {
-  width: 68px;
-  height: 34px;
-  padding: 0;
+
+.ui.menu {
+  background-color: #374b39 !important;
+  height: 100%;
 }
 </style>
