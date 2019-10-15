@@ -42,7 +42,7 @@
       v-if="!member"
       text="Join"
       icon="user plus"
-      color="positive"
+      color="positive disabled"
       :clickHandler="test"
     />
     

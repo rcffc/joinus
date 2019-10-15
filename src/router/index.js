@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import EventFinder from '../components/EventFinder.vue'
-import Event from '../components/Event.vue'
+import Event from '../components/EntityPage/Event.vue'
 import Group from '../components/EntityPage/Group.vue'
 
 const routes = [

@@ -58,7 +58,7 @@ a {
 }
 
 .wrapper {
-  padding-bottom: 60px;
+  padding-bottom: 80px;
   color: black;
 }
 

@@ -32,7 +32,7 @@ export default {
   width: 100vw;
   z-index: 200;
   height: 5rem;
-  padding: 1.2rem 0.5rem 1rem;
+  padding: 0.7rem 0.5rem 0.7rem;
 }
 
 .vue-portal-target {
