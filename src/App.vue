@@ -34,7 +34,7 @@ export default {
   background-color: #dfd5cb;
   background-image: url('../assets/32612b83.png');
   min-height: 100%;
-  margin: 3rem 0 !important;
+  margin: 0 0 !important;
 }
 
 .inverted {

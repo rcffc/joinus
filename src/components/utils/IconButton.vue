@@ -43,11 +43,11 @@ export default {
 <style scoped>
 
 .positive {
-  background-color: #617073 !important;
+  background-color: #374b39 !important;
 }
 
 .caution {
-  background-color: #c4b7cb !important;
+  background-color: #a43a31 !important;
   color: white !important;
 }
 
@@ -57,12 +57,12 @@ export default {
 }
 
 .basic.positive {
-  color: #617073 !important;
+  color: #374b39 !important;
   box-shadow: 0 0 0 1px inset !important;
 }
 
 .basic.caution {
-  color: #c4b7cb !important;
+  color: #a43a31 !important;
   box-shadow: 0 0 0 1px inset !important;
 }
 
