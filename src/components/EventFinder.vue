@@ -12,7 +12,9 @@
             <router-link :to="`/events/${event.id}`">
                 <div class="ui header">{{ event.name }}</div>
                 <div>{{ event.location }}</div>
-                <img class="ui avatar floated right image" v-bind:src="event.organizer.image" />
+                <router-link :to="`/groups/${event.organizer.id}`">
+                  <img class="ui avatar floated right image" v-bind:src="event.organizer.image" />
+                </router-link>
                 <div class='tag-row'>
                   <span class='tag' v-for="tag in event.tags" v-bind:key="tag">
                     #{{ tag }}
@@ -79,7 +81,7 @@ a {
 
 .ui.card {
   flex: 1;
-  padding: 5px;
+  padding: 10px;
   background-color:rgba(255, 255, 255, 0.5);
 }
 
@@ -96,6 +98,7 @@ a {
 
 .ui.image {
   margin: 0!important;
+  box-shadow: 2px 2px #a79f98;
 }
 
 .ui.divider {
