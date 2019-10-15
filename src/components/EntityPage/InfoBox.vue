@@ -20,7 +20,7 @@
           </div>
         </div>
         
-        <div class="description">
+        <div class="description info-item">
           {{ description }}
         </div>
 
@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
   .info-item {
-    margin-top: 0.5em;
+    margin-top: 1.5em;
   }
 
   .description {
