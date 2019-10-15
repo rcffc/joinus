@@ -1,28 +1,26 @@
 <template>
   <div class="wrapper">
     <div class="ui left aligned container">
-      <div
-        v-for="event in events"
-        :key="event.id"
-        class="ui list"
-      >
-        <router-link
-          class="item"
-          :to="`/events/${event.id}`"
-        >
-          <img
-            class="ui tiny rounded right floated image"
-            :src="event.image"
-          >
-            
-          <div class="ui header">
-            {{ event.name }}
+      <div v-for="(eventArray, key) in events" v-bind:key="eventArray.id">
+        <div class='month'> {{ months[key] }} 2019 </div>
+        <div class='item' v-for="event in eventArray" v-bind:key="event.id">
+          <div class='date'>
+            <span>{{ event.shortDate }}</span>
+            <span>{{ event.time }}</span>
           </div>
-          <div>{{ event.location }}</div>
-          <div>{{ event.organizer }}</div>
-          <div>{{ event.date }}</div>
-        </router-link>
-        <div class="ui divider" />
+          <div class="ui card">
+            <router-link :to="`/events/${event.id}`">
+                <div class="ui header">{{ event.name }}</div>
+                <div>{{ event.location }}</div>
+                <img class="ui avatar floated right image" v-bind:src="event.organizer.image" />
+                <div class='tag-row'>
+                  <span class='tag' v-for="tag in event.tags" v-bind:key="tag">
+                    #{{ tag }}
+                  </span>
+                </div>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -31,12 +29,21 @@
 <script>
 //These allow us to easily map state fields to the component
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import moment from 'moment'
 
 export default {
-  name: 'EventFinder',
-  computed: mapState({
-    events: state => state.events.all, //This maps store.state.events to this.events
-  }),
+  name: "EventFinder",
+  computed: {
+     ...mapGetters({
+      events: 'events/groupEvents'
+     })
+  },
+  data: function () {
+    return {
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'] 
+    }
+  },
   created () {
     this.$store.dispatch('events/getAllEvents')
   }
@@ -44,16 +51,58 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: black
+}
+
 .wrapper {
-  padding: 20px 0 60px 0;
+  padding-bottom: 60px;
+  color: black;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+}
+
+.month {
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.date {
+  margin: 25px 10px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui.card {
+  flex: 1;
+  padding: 5px;
+  background-color:rgba(255, 255, 255, 0.5);
+}
+
+.tag-row {
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+}
+
+.tag {
+  padding-right: 3px;
+  color: #053569;
 }
 
 .ui.image {
-  height: 75px;
-  background-size: contain;
+  margin: 0!important;
 }
 
 .ui.divider {
   margin: 0.5em 0;
+}
+
+.ui.header {
+  margin: 5px 0;
 }
 </style>
