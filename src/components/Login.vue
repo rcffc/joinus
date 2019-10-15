@@ -1,11 +1,10 @@
 <template>
   <div class="center">
     <portal to="actionBar">
-      <div class="ui menu inverted fluid center aligned"> 
-        <img
-          class="ui centered image logo"
-          src="../../assets/join-us-white.png"
-        >
+      <div class="ui menu transparent inverted fluid center aligned"> 
+        <img 
+          class="ui centered image fluid logo"
+          src="../../assets/join-us-white.png">
       </div>
     </portal>
 
@@ -66,6 +65,11 @@ export default {}
   left: 0px;
 }
 
+.ui.image {
+  width: 120px;
+  height: 55px;
+  padding: 0% 1% 1%;
+}
 
 .ui.menu {
   background-color: #374b39 !important;
