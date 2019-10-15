@@ -3,7 +3,7 @@
     <portal to="actionBar">
 
       <div class="ui grid">
-        <div class="nine wide column aligned right">
+        <div class="ten wide column aligned right">
           <div
             id="name-header" 
             class="ui header large center aligned"
@@ -12,24 +12,27 @@
           </div>
       </div>
 
-        <div class="seven wide column">
-          <IconButton
-            icon="home"
-            color="caution"
-            misc
-          />
-          <IconButton
-            v-if="member"
-            icon="user times"
-            color="red"
-            :clickHandler="test"
-            misc
-          />
-          <IconButton
-            icon="share"
-            color="neutral"
-            misc
-          />
+        <div class="six wide column">
+          <div id="button-wrapper">
+            <IconButton
+              icon="home"
+              color="caution"
+              :click-handler="handleHomeClick"
+              misc
+            />
+            <IconButton
+              v-if="member"
+              icon="user times"
+              color="red"
+              :clickHandler="test"
+              misc
+            />
+            <IconButton
+              icon="share"
+              color="neutral"
+              misc
+            />
+          </div>
         </div>
       </div>
     </portal>
@@ -38,11 +41,14 @@
       class="ui large rounded centered image"
       :src="image"
     >
+    
+    <div class="ui divider hidden" />
+
     <IconButton
       v-if="!member"
       text="Join"
       icon="user plus"
-      color="positive"
+      color="positive disabled"
       :clickHandler="test"
     />
     
@@ -111,6 +117,9 @@ export default {
   methods: {
     test() {
       this.member = !this.member
+    },
+    handleHomeClick() {
+      window.location.href = this.website
     }
   }
 }
@@ -125,5 +134,9 @@ export default {
   padding-top: 0.5rem;
   width: 90%;
   color: white;
+}
+
+#button-wrapper {
+  text-align: right
 }
 </style>
