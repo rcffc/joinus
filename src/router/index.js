@@ -5,6 +5,7 @@ import Login from '../components/Login.vue'
 import EventFinder from '../components/EventFinder.vue'
 import Event from '../components/EntityPage/Event.vue'
 import Group from '../components/EntityPage/Group.vue'
+import GroupFinder from '../components/GroupFinder.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -18,7 +19,8 @@ const routes = [
   { path: '/groups/:id',
     component: Group,
     props: { default: true }
-  }
+  },
+  { path: '/groups', component: GroupFinder },
 ]
 
 
