@@ -8,7 +8,6 @@ const state = {
 // getters
 const getters = {
   groupEvents: state => {
-    state.all.sort((a,b) => a.date-b.date)
     const grouped = _.groupBy(state.all, 'month')
     
     return grouped
@@ -32,6 +31,7 @@ const actions = {
 // mutations
 const mutations = {
   setEvents (state, events) {
+    events.sort((a,b) => a.date-b.date)
     state.all = events
   }
 }

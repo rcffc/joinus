@@ -2,7 +2,7 @@
   <div class="group">
     <portal to="actionBar">
 
-      <div class="ui grid">
+      <div class="ui grid action-bar-content">
         <div class="ten wide column aligned right">
           <div
             id="name-header" 
@@ -27,9 +27,8 @@
               :clickHandler="test"
               misc
             />
-            <IconButton
-              icon="share"
-              color="neutral"
+            <ShareButton
+              :shareMessage="name"
               misc
             />
           </div>
@@ -38,6 +37,7 @@
     </portal>
 
     <img
+      id="group-image"
       class="ui large rounded centered image"
       :src="image"
     >
@@ -88,12 +88,14 @@
 import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
+import ShareButton from '../utils/ShareButton.vue'
 
 export default {
   name: 'Group',
   components: {
     InfoBox,
-    IconButton
+    IconButton,
+    ShareButton
   },
   data: function() {
     return {
@@ -128,12 +130,21 @@ export default {
 <style scoped>
 .group {
   padding-bottom: 10em;
+  text-align: center;
+}
+
+.action-bar-content {
+  padding-top: 0.5rem;
 }
 
 #name-header {
   padding-top: 0.5rem;
   width: 90%;
   color: white;
+}
+
+#group-image {
+  box-shadow: 0px 2px 1rem #9a938c
 }
 
 #button-wrapper {

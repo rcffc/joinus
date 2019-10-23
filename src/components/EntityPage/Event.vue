@@ -1,7 +1,7 @@
 <template>
   <div class="event">
     <portal to="actionBar">
-      <div class="ui grid">
+      <div class="ui grid action-bar-content">
         <div class="eleven wide column aligned right">
           <div
             id="name-header" 
@@ -19,9 +19,8 @@
             misc
             :click-handler="test"
           />
-          <IconButton
-            icon="share"
-            color="neutral"
+          <ShareButton
+            :shareMessage="name"
             misc
           />
         </div>
@@ -69,12 +68,14 @@
 <script>
 import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
+import ShareButton from '../utils/ShareButton.vue'
 
 export default {
 name: 'Event',
 components: {
   IconButton,
-  InfoBox
+  InfoBox,
+  ShareButton
 },
 data: function() {
   return {
@@ -122,6 +123,11 @@ methods: {
 <style scoped>
 .event {
   padding-bottom: 10rem;
+  text-align: center;
+}
+
+.action-bar-content {
+  padding-top: 0.5rem;
 }
 
 #event-image {
