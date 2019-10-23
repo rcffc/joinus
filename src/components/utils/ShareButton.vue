@@ -27,17 +27,19 @@ export default {
     }
   },
   data: function() {
+  
     return {
       canShare: navigator.share
     }
   },
   methods: {
-    share() {
+    clickHandler() {
       navigator.share({
         title: 'JoinUs!',
         text: `Check out ${ this.shareMessage }`,
         url: window.location.href
       })
+      .catch(err => alert(err.message))
     }
   }
 }
