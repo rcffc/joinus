@@ -1,7 +1,7 @@
 <template>
   <div 
     id="app"
-    class="ui container fluid"
+    class="ui container"
   >
     <ActionBar />
     <Navbar />
@@ -29,14 +29,11 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
   background-color: #dfd5cb;
   background-image: url('../assets/32612b83.png');
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
   margin: 0 !important;
-}
-
-.inverted {
-  background-color: #2d2a32 !important;
 }
 </style>
