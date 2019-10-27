@@ -1,45 +1,43 @@
 <template>
   <div class="wrapper">
-    <div class="ui left aligned container">
+    <div
+      v-for="(eventArray, key) in events"
+      :key="eventArray.id"
+    >
+      <div class="month">
+        {{ months[key] }} 2019
+      </div>
       <div
-        v-for="(eventArray, key) in events"
-        :key="eventArray.id"
+        v-for="event in eventArray"
+        :key="event.id"
+        class="item"
       >
-        <div class="month">
-          {{ months[key] }} 2019
+        <div class="date">
+          <span>{{ event.shortDate }}</span>
+          <span>{{ event.time }}</span>
         </div>
-        <div
-          v-for="event in eventArray"
-          :key="event.id"
-          class="item"
-        >
-          <div class="date">
-            <span>{{ event.shortDate }}</span>
-            <span>{{ event.time }}</span>
-          </div>
-          <div class="ui card">
-            <router-link :to="`/events/${event.id}`">
-              <div class="ui header">
-                {{ event.name }}
-              </div>
-              <div>{{ event.location }}</div>
-              <router-link :to="`/groups/${event.organizer.id}`">
-                <img
-                  class="ui avatar floated right image"
-                  :src="event.organizer.image"
-                >
-              </router-link>
-              <div class="tag-row">
-                <span
-                  v-for="tag in event.tags"
-                  :key="tag"
-                  class="tag"
-                >
-                  #{{ tag }}
-                </span>
-              </div>
+        <div class="ui card">
+          <router-link :to="`/events/${event.id}`">
+            <div class="ui header">
+              {{ event.name }}
+            </div>
+            <div>{{ event.location }}</div>
+            <router-link :to="`/groups/${event.organizer.id}`">
+              <img
+                class="ui avatar floated right image"
+                :src="event.organizer.image"
+              >
             </router-link>
-          </div>
+            <div class="tag-row">
+              <span
+                v-for="tag in event.tags"
+                :key="tag"
+                class="tag"
+              >
+                #{{ tag }}
+              </span>
+            </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -47,22 +45,19 @@
 </template>
 
 <script>
-//These allow us to easily map state fields to the component
-import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 
 export default {
   name: 'EventFinder',
-  computed: {
-    ...mapGetters({
-      events: 'events/groupEvents'
-    })
-  },
   data: function () {
     return {
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'] 
     }
+  },
+  computed: {
+    ...mapGetters({
+      events: 'events/groupEvents'
+    })
   },
   created () {
     this.$store.dispatch('events/getAllEvents')
@@ -76,8 +71,8 @@ a {
 }
 
 .wrapper {
-  padding-bottom: 80px;
-  color: black;
+  padding: 0 14px 80px 14px;
+  width: 100%;
 }
 
 .item {

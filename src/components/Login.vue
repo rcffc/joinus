@@ -1,27 +1,24 @@
 <template>
-  <div class="center">
+  <div class="wrapper">
     <portal to="actionBar">
-      <div class="ui menu transparent fluid center aligned"> 
+      <div class="ui fluid center aligned"> 
         <img 
           class="ui centered image fluid logo"
-          src="../../assets/join-us-white.png">
+          src="../../assets/join-us-white.png"
+        >
       </div>
     </portal>
-
-    <div>
-      <h1 class="ui header">
-        Explore new activities
-      </h1>
-      <div class="login-background">
-        <p class="login-text">
-          Find a new community or start your own.
-        </p>
-        <div class="login-button" />
-        <button class="ui blue labeled icon button">
-          <i class="google icon" />
-          Join Us!
-        </button>
-      </div>
+    <h1 class="ui header">
+      Explore new activities
+    </h1>
+    <div class="login-block">
+      <p class="login-text">
+        Find a new community or start your own.
+      </p>
+      <button class="ui blue labeled icon button">
+        <i class="google icon" />
+        Join us!
+      </button>
     </div>
   </div>
 </template>
@@ -31,39 +28,33 @@ export default {}
 </script> 
 
 <style scoped>
-.login-background {
-  background-color: black;
-  background-image: url("../../assets/stockbrot.jpg");
-  background-position: center;
-  background-origin: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-size: 100% 100%;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+  background: url("../../assets/stockbrot.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  width: 100%;
-  padding: 80px;
-  color: white;
-  font-size: 1em;
-  font-weight: bold;
+  background-size: cover;
 }
 
-.center {
-  width: 100%;
-  text-align: center;
+.ui.header {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  flex: 1;
+  margin-top: 40px;
+}
+
+.login-block {
+  flex: 1;
 }
 
 .login-text {
-  position: relative;
-  bottom: 60px;
-  left: 0psx;
-}
-
-.login-button {
-  position: relative;
-  top: 60px;
-  left: 0px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 24px;
 }
 
 .ui.image {
@@ -75,6 +66,5 @@ export default {}
 .ui.menu {
   background-color: #374b39 !important;
   height: 100%;
-  border: 0!important;
 }
 </style>

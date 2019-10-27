@@ -41,6 +41,8 @@ export default {
 <style scoped>
   #navbar {
     padding-top: 5rem;
+    display: flex;
+    flex: 1;
   }
   
   .ui.icon.menu {
