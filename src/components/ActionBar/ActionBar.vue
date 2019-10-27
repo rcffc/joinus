@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import UserDropdown from './UserDropdown.vue'
+// import UserDropdown from './UserDropdown.vue'
 import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'ActionBar',
   components: {
-    UserDropdown,
+    // UserDropdown,
     SearchBar
   },
 }
@@ -29,7 +29,7 @@ export default {
   border-radius: 0%;
   position: fixed;
   left: 0;
-  width: 100vw;
+  width: 100%;
   z-index: 200;
   height: 5rem;
   padding: 0.7rem 0.5rem 0.7rem;
