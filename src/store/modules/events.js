@@ -3,7 +3,7 @@ import _ from 'underscore'
 
 const state = {
   allEvents: [],
-  searchWord: '',
+  searchString: '',
   filteredEvents: []
 }
 
@@ -40,10 +40,10 @@ const mutations = {
   },
   filterEvents (state, word) {
     if (!(word) || word === '') {
-      state.searchWord = ''
+      state.searchString = ''
       state.filteredEvents = state.allEvents
     } else {
-      state.searchWord = word.toLowerCase()
+      state.searchString = word.toLowerCase()
       state.filteredEvents = state.allEvents.filter((event) => {
         if (event.name.toLowerCase().includes(word)) {
         }
