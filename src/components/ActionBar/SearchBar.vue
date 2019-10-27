@@ -12,6 +12,7 @@
           id="search"
           class="prompt"
           type="text"
+          v-model="searchWord"
           placeholder="Look for events..."
         >
         <i class="search icon" />
@@ -20,6 +21,22 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'SearchBar',
+  computed: {
+    searchWord: {
+      get () {
+        return this.$store.state.searchWord
+      },
+      set (value) {
+        this.$store.dispatch('events/filterEvents', value)
+      }
+    }
+  }
+}
+</script>
 
 <style scoped>
   #search {

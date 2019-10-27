@@ -2,14 +2,15 @@ import { events } from '../../api'
 import _ from 'underscore'
 
 const state = {
-  all: []
+  allEvents: [],
+  searchWord: '',
+  filteredEvents: []
 }
 
 // getters
 const getters = {
-  groupEvents: state => {
-    const grouped = _.groupBy(state.all, 'month')
-    
+  getGroupedEvents: state => {
+    const grouped = _.groupBy(state.filteredEvents, 'month')
     return grouped
   }
 }
@@ -25,14 +26,30 @@ const actions = {
       alert(err.message)
       //Do something here
     }
+  },
+  filterEvents ({commit}, word) {
+    commit('filterEvents', word)
   }
 }
 
-// mutations
 const mutations = {
   setEvents (state, events) {
     events.sort((a,b) => a.date-b.date)
-    state.all = events
+    state.allEvents = events
+    state.filteredEvents = events
+  },
+  filterEvents (state, word) {
+    if (!(word) || word === '') {
+      state.searchWord = ''
+      state.filteredEvents = state.allEvents
+    } else {
+      state.searchWord = word.toLowerCase()
+      state.filteredEvents = state.allEvents.filter((event) => {
+        if (event.name.toLowerCase().includes(word)) {
+        }
+        return event.name.toLowerCase().includes(word)
+      })
+    }
   }
 }
 
