@@ -41,7 +41,7 @@ export default {
     groups: state => state.groups.all,
   }),
   created () {
-    this.$store.dispatch('groups/getAll')
+    this.$store.dispatch('groups/findAll')
   }
 }
 </script>

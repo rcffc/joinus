@@ -1,68 +1,76 @@
 <template>
   <div class="event">
-    <portal to="actionBar">
-      <div class="ui grid action-bar-content">
-        <div class="ten wide column aligned right">
-          <div
-            id="name-header" 
-            class="ui header center aligned"
-          >
-            {{ name }}
+    <div
+      v-if="loading"
+      class="ui loader active large"
+    >
+    </div>
+
+    <div v-else>
+      <portal to="actionBar">
+        <div class="ui grid action-bar-content">
+          <div class="ten wide column aligned right">
+            <div
+              id="name-header" 
+              class="ui header center aligned"
+            >
+              {{ name }}
+            </div>
+          </div>
+
+          <div class="six wide column">
+            <div id="button-wrapper">
+              <IconButton
+                v-if="follow"
+                icon="eye slash"
+                color="caution"
+                misc
+                :click-handler="test"
+              />
+              <ShareButton
+                :shareMessage="name"
+                misc
+              />
+            </div>
           </div>
         </div>
+      </portal>
+      
+      <img
+        id="event-image"
+        class="ui large rounded centered image"
+        :src="`${ image || organizer.image}`"
+      >
 
-        <div class="six wide column">
-          <div id="button-wrapper">
-            <IconButton
-              v-if="follow"
-              icon="eye slash"
-              color="caution"
-              misc
-              :click-handler="test"
-            />
-            <ShareButton
-              :shareMessage="name"
-              misc
-            />
-          </div>
-        </div>
-      </div>
-    </portal>
-    
-    <img
-      id="event-image"
-      class="ui large rounded centered image"
-      :src="`${ image || organizer.image}`"
-    >
+      <div class="ui hidden divider" />
+      <router-link
+        class="item"
+        :to="`/groups/${ organizer.id }`"
+      >
+        <IconButton
+          :text="organizer.name"
+          icon="users"
+          color="neutral link"
+        />
+      </router-link>
 
-    <div class="ui hidden divider" />
-    <router-link
-      class="item"
-      :to="`/groups/${ organizer.id }`"
-    >
       <IconButton
-        :text="organizer.name"
-        icon="users"
-        color="neutral link"
+        v-if="!follow"
+        text="Follow"
+        icon="eye"
+        color="positive disabled"
+        :click-handler="test"
       />
-    </router-link>
-
-    <IconButton
-      v-if="!follow"
-      text="Follow"
-      icon="eye"
-      color="positive disabled"
-      :click-handler="test"
-    />
-  
-    <div class="ui container">
-      <InfoBox
-        :description="description"
-        :optional-fields="{
-          'location': { 'content': location, 'icon': 'compass' },
-          'date': { 'content': date.toLocaleString(), 'icon': 'calendar' },
-        }"
-      />
+    
+      <div class="ui container">
+        <InfoBox
+          :description="description"
+          :optional-fields="{
+            'location': { 'content': location, 'icon': 'compass' },
+            'date': { 'content': date.toLocaleString(), 'icon': 'calendar' },
+          }"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +90,7 @@ components: {
 },
 data: function() {
   return {
+    loading: true,
     id: '',
     name: '',
     location: '',
@@ -106,6 +115,8 @@ created: async function() {
     for (let key in data) {
       this[key] = data[key]
     }
+
+    this.loading = false
   }
   catch (err) {
     console.log(err.message)
@@ -133,6 +144,7 @@ methods: {
 .action-bar-content {
   padding-top: 0.5rem;
 }
+
 
 #event-image {
   box-shadow: 0px 2px 1rem #9a938c
