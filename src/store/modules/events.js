@@ -19,14 +19,28 @@ const getters = {
 
 // actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
-  async getAllEvents ({ commit }) {
+  async findAll ({ commit }) {
     try {
       const results = await events.getAll()
       commit('setEvents', results)
     }
     catch (err) {
-      alert(err.message)
-      //Do something here
+      return Promise.reject(err)
+    }
+  },
+  async find ({ commit, getters }, id) { //If the event is not in the store, try fetching it from firebase and update the store.
+    try {
+      let event = getters.getById(id)
+
+      if (!event) {
+        event = await events.getEvent(id)
+        commit('addEvent', event)
+      }
+
+      return event
+    }
+    catch (err) {
+      return Promise.reject(err)
     }
   }
 }
@@ -36,6 +50,10 @@ const mutations = {
   setEvents (state, events) {
     events.sort((a,b) => a.date-b.date)
     state.all = events
+  },
+  addEvent (state, event) {
+    state.all = state.all.concat(event)
+    state.all.sort((a,b) => a.date-b.date)
   }
 }
 

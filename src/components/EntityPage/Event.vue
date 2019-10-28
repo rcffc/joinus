@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
 import ShareButton from '../utils/ShareButton.vue'
@@ -91,25 +92,26 @@ data: function() {
     follow: false
   }
 },
-created: function() {
+computed: {
+    ...mapGetters({
+      getById: 'events/getById'
+    })
+  },
+created: async function() {
   this.id = this.$route.params.id
   
-  const data = this.$store
-    .state
-    .events
-    .all
-    .find(e => e.id === this.id)
+  try {
+    const data = await this.$store.dispatch('events/find', this.id)
 
-  if (data) {
-   for (let key in data) {
+    for (let key in data) {
       this[key] = data[key]
-    } 
+    }
   }
-  else {
+  catch (err) {
+    console.log(err.message)
     window.location.href = "/#/events" //Why is /#/ needed?
+    //TODO: Add error handling.
   }
-  //TODO: Add error handling.
-
 },
 methods: {
   test() {
