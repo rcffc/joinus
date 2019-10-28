@@ -1,8 +1,8 @@
 <template>
   <button
     v-if="canShare"
-    @click="clickHandler" 
     :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } neutral icon-button`"
+    @click="clickHandler" 
   > 
     <i :class="`share icon`" />
     {{ (misc) ? '' : 'Share' }}
@@ -39,7 +39,7 @@ export default {
         text: `Check out ${ this.shareMessage }`,
         url: window.location.href
       })
-      .catch(err => alert(err.message))
+        .catch(err => alert(err.message))
     }
   }
 }
