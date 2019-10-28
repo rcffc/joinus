@@ -95,7 +95,7 @@ created: function() {
   const data = this.$store
     .state
     .events
-    .all
+    .allEvents
     .find(e => e.id === this.id)
   
   if (data) {

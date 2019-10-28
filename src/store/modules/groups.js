@@ -8,6 +8,9 @@ const state = {
 
 // getters
 const getters = {
+  groups: state => {
+    return state.filteredGroups
+  }
 }
 
 // actions
@@ -21,6 +24,9 @@ const actions = {
       alert(err.message)
       //Do something here
     }
+  },
+  filterGroups ({commit}, string) {
+    commit('filterGroups', string)
   }
 }
 
@@ -32,13 +38,14 @@ const mutations = {
   },
   filterGroups(state, searchString) {
     searchString = searchString.split(' ')
-
+    console.log(searchString)
+    console.log(state)
     // Filter by terms
     var searchTerms = searchString.filter(string => !string.includes('#'))
     searchTerms = searchTerms.join(' ')
     searchTerms = searchTerms.toLowerCase()
-    state.filteredGroups = state.allGroups.filter((event) => {
-      return event.name.toLowerCase().includes(searchTerms)
+    state.filteredGroups = state.allGroups.filter((group) => {
+      return group.name.toLowerCase().includes(searchTerms)
     })
 
     // Filter by tags
@@ -50,16 +57,16 @@ const mutations = {
         modifiedTags.push(modifiedTag)
       }
 
-      function includesModifiedTags(eventTag) {
+      function includesModifiedTags(groupTag) {
         for (let tag of modifiedTags) {
-          if (eventTag.startsWith(tag)) {
+          if (groupTag.startsWith(tag)) {
             return true
           }
         }
       }
 
-      state.filteredGroups = state.filteredGroups.filter((event) => {
-        return event.tags.some(includesModifiedTags)
+      state.filteredGroups = state.filteredGroups.filter((group) => {
+        return group.tags.some(includesModifiedTags)
       })
     }
   }

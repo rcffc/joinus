@@ -25,7 +25,12 @@ export default {
         return this.$store.state.searchString
       },
       set (value) {
-        this.$store.dispatch('events/filterEvents', value)
+        if (this.$route.path.endsWith('events')) {
+          this.$store.dispatch('events/filterEvents', value)
+        }
+        if (this.$route.path.endsWith('groups')) {
+          this.$store.dispatch('groups/filterGroups', value)
+        }
       }
     },
     placeholder() {
