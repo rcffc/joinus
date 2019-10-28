@@ -36,12 +36,12 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'EventFinder',
+  name: 'GroupFinder',
   computed: mapState({
     groups: state => state.groups.all,
   }),
   created () {
-    this.$store.dispatch('groups/getAllGroups')
+    this.$store.dispatch('groups/getAll')
   }
 }
 </script>

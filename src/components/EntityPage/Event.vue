@@ -109,7 +109,7 @@ created: async function() {
   }
   catch (err) {
     console.log(err.message)
-    window.location.href = "/#/events" //Why is /#/ needed?
+    window.location.href = '/#/events' //Why is /#/ needed?
     //TODO: Add error handling.
   }
 },

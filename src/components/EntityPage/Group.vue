@@ -106,26 +106,21 @@ export default {
       member: false
     }
   },
-  created: function() {
+  created: async function() {
     this.id = this.$route.params.id
 
-    this.id = this.$route.params.id
-    
-    const data = this.$store
-      .state
-      .groups
-      .all
-      .find(e => e.id === this.id)
+    try {
+      const data = await this.$store.dispatch('groups/find', this.id)
 
-    if (data) {
       for (let key in data) {
-          this[key] = data[key]
-        } 
+        this[key] = data[key]
+      }
     }
-    else {
-      window.href = "/#/groups" //Why is /#/ needed?
+    catch (err) {
+      console.log(err.message)
+      window.location.href = '/#/groups' //Why is /#/ needed?
+      //TODO: Add error handling.
     }
-    //TODO: Add error handling.
   },
   methods: {
     test() {

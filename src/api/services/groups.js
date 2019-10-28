@@ -1,12 +1,14 @@
 import { groups } from '../fb.js'
 
+const getData = doc => ( 
+  { ...doc.data(), id: doc.id }
+)
+
 const getAll = async () => {
   try {
     const { docs } = await groups.get()
 
-    return docs.map(doc => ( 
-      { ...doc.data(), id: doc.id }
-    ))
+    return docs.map(getData)
   }
   catch (err) {
     return Promise.reject(err)
@@ -15,9 +17,7 @@ const getAll = async () => {
 
 const getGroup = async (id) => {
   try {
-    const doc = await groups.doc(id).get()
-
-    return doc.data()
+    return getData(await groups.doc(id).get())
   }
   catch (err) {
     return Promise.reject(err)
