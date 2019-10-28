@@ -1,9 +1,14 @@
 import { events, groups } from '../fb.js'
 import moment from 'moment'
 
-const getData = doc => ( 
-  { ...doc.data(), id: doc.id }
-)
+const getData = doc => {
+  const data = doc.data()
+
+  if (!data)
+    throw Error('Event not found')
+
+  return { ...data, id: doc.id }
+}
 
 const getOrganizer = async doc => {
   let organizer = await groups.doc(doc.organizer).get()

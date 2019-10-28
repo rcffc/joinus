@@ -1,8 +1,14 @@
 import { groups } from '../fb.js'
 
-const getData = doc => ( 
-  { ...doc.data(), id: doc.id }
-)
+
+const getData = doc => {
+  const data = doc.data()
+
+  if (!data)
+    throw Error('Group not found')
+
+  return { ...data, id: doc.id }
+}
 
 const getAll = async () => {
   try {
