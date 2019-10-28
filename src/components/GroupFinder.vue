@@ -4,7 +4,7 @@
       <div
         v-for="group in groups"
         :key="group.id"
-        class="card"
+        class="ui fluid card"
       >
         <router-link :to="`/groups/${group.id}`">
           <div class="ui image">
@@ -49,13 +49,10 @@ export default {
 </script>
 
 <style scoped>
-a {
-  color: black
-}
-
 .wrapper {
   padding-bottom: 80px;
   color: black;
+  width: 100%
 }
 
 .ui.cards {
