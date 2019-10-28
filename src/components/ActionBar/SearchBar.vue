@@ -2,18 +2,12 @@
   <div class="search-bar">
     <div class="ui search">
       <div class="ui icon input">
-        <button
-          id="filter-button"
-          class="ui button icon white"
-        >
-          <i class="filter icon" />
-        </button>
         <input
           id="search"
           class="prompt"
           type="text"
           v-model="searchString"
-          placeholder="Look for events..."
+          v-bind:placeholder = "placeholder"
         >
         <i class="search icon" />
       </div>
@@ -33,24 +27,15 @@ export default {
       set (value) {
         this.$store.dispatch('events/filterEvents', value)
       }
-    }
+    },
+    placeholder() {
+      return this.$route.path.includes('events') ? 'Look for events...' : 'Look for groups...'
+   }
   }
 }
 </script>
 
 <style scoped>
-  #search {
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;  
-  }
-
-  #filter-button {
-    border-radius: 500rem;
-    border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-    margin-right: 0%;
-  }
-  
   .ui.search {
     padding: 5px 0% 0%;
     text-align: center;
