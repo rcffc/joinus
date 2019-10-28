@@ -3,8 +3,7 @@
     <div
       v-if="loading"
       class="ui loader active large"
-    >
-    </div>
+    />
 
     <div v-else>
       <portal to="actionBar">
@@ -28,7 +27,7 @@
                 :click-handler="test"
               />
               <ShareButton
-                :shareMessage="name"
+                :share-message="name"
                 misc
               />
             </div>
@@ -82,56 +81,56 @@ import InfoBox from './InfoBox.vue'
 import ShareButton from '../utils/ShareButton.vue'
 
 export default {
-name: 'Event',
-components: {
-  IconButton,
-  InfoBox,
-  ShareButton
-},
-data: function() {
-  return {
-    loading: true,
-    id: '',
-    name: '',
-    location: '',
-    image: '',
-    organizer: '',
-    date: '',
-    description: '',
-    follow: false
-  }
-},
-computed: {
+  name: 'Event',
+  components: {
+    IconButton,
+    InfoBox,
+    ShareButton
+  },
+  data: function() {
+    return {
+      loading: true,
+      id: '',
+      name: '',
+      location: '',
+      image: '',
+      organizer: '',
+      date: '',
+      description: '',
+      follow: false
+    }
+  },
+  computed: {
     ...mapGetters({
       getById: 'events/getById'
     })
   },
-created: async function() {
-  this.id = this.$route.params.id
+  created: async function() {
+    this.id = this.$route.params.id
   
-  try {
-    const data = await this.$store.dispatch('events/find', this.id)
+    try {
+      const data = await this.$store.dispatch('events/find', this.id)
 
-    for (let key in data) {
-      this[key] = data[key]
+      for (let key in data) {
+        this[key] = data[key]
+      }
+
+      this.loading = false
     }
-
-    this.loading = false
-  }
-  catch (err) {
-    console.log(err.message)
-    window.location.href = '/#/events' //Why is /#/ needed?
+    catch (err) {
+      console.log(err.message)
+      window.location.href = '/#/events' //Why is /#/ needed?
     //TODO: Add error handling.
-  }
-},
-methods: {
-  test() {
-    this.follow = !this.follow 
+    }
   },
-  toGroupPage() {
-    window.location.href = `/groups/${ this.organizer.id }`
+  methods: {
+    test() {
+      this.follow = !this.follow 
+    },
+    toGroupPage() {
+      window.location.href = `/groups/${ this.organizer.id }`
+    }
   }
-}
 }
 </script>
 

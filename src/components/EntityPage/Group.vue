@@ -3,12 +3,10 @@
     <div
       v-if="loading"
       class="ui loader active"
-    >
-    </div>
+    />
 
     <div v-else>
       <portal to="actionBar">
-
         <div class="ui grid action-bar-content">
           <div class="ten wide column aligned right">
             <div
@@ -17,7 +15,7 @@
             >
               {{ name }}
             </div>
-        </div>
+          </div>
 
           <div class="six wide column">
             <div id="button-wrapper">
@@ -31,11 +29,11 @@
                 v-if="member"
                 icon="user times"
                 color="caution"
-                :clickHandler="test"
+                :click-handler="test"
                 misc
               />
               <ShareButton
-                :shareMessage="name"
+                :share-message="name"
                 misc
               />
             </div>
@@ -56,7 +54,7 @@
         text="Join"
         icon="user plus"
         color="positive disabled"
-        :clickHandler="test"
+        :click-handler="test"
       />
       
       <div class="ui divider" />
