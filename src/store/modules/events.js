@@ -27,8 +27,8 @@ const actions = {
       //Do something here
     }
   },
-  filterEvents ({commit}, word) {
-    commit('filterEvents', word)
+  filterEvents ({commit}, string) {
+    commit('filterEvents', string)
   }
 }
 
@@ -38,16 +38,36 @@ const mutations = {
     state.allEvents = events
     state.filteredEvents = events
   },
-  filterEvents (state, word) {
-    if (!(word) || word === '') {
-      state.searchString = ''
-      state.filteredEvents = state.allEvents
-    } else {
-      state.searchString = word.toLowerCase()
-      state.filteredEvents = state.allEvents.filter((event) => {
-        if (event.name.toLowerCase().includes(word)) {
+  filterEvents(state, searchString) {
+    searchString = searchString.split(' ')
+
+    // Filter by terms
+    var searchTerms = searchString.filter(string => !string.includes('#'))
+    searchTerms = searchTerms.join(' ')
+    searchTerms = searchTerms.toLowerCase()
+    state.filteredEvents = state.allEvents.filter((event) => {
+      return event.name.toLowerCase().includes(searchTerms)
+    })
+
+    // Filter by tags
+    var searchTags = searchString.filter(string => string.includes('#'))
+    if (!(searchTags === undefined || searchTags.length == 0)) {
+      var modifiedTags = []
+      for (let tag of searchTags) {
+        var modifiedTag = tag.substr(1, tag.length).toLowerCase()
+        modifiedTags.push(modifiedTag)
+      }
+
+      function includesModifiedTags(eventTag) {
+        for (let tag of modifiedTags) {
+          if (eventTag.startsWith(tag)) {
+            return true
+          }
         }
-        return event.name.toLowerCase().includes(word)
+      }
+
+      state.filteredEvents = state.filteredEvents.filter((event) => {
+        return event.tags.some(includesModifiedTags)
       })
     }
   }
