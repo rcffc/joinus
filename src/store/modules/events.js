@@ -11,10 +11,13 @@ const getters = {
     const grouped = _.groupBy(state.all, 'month')
     
     return grouped
+  },
+  getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
+    return state.all.find(event => event.id === id)
   }
 }
 
-// actions
+// actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
   async getAllEvents ({ commit }) {
     try {
@@ -28,7 +31,7 @@ const actions = {
   }
 }
 
-// mutations
+// mutations : synchronous methods for changing the store's state.
 const mutations = {
   setEvents (state, events) {
     events.sort((a,b) => a.date-b.date)

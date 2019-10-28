@@ -99,16 +99,16 @@ created: function() {
     .events
     .all
     .find(e => e.id === this.id)
-  
+
   if (data) {
    for (let key in data) {
       this[key] = data[key]
     } 
   }
   else {
-
+    window.location.href = "/#/events" //Why is /#/ needed?
   }
-  //TODO: Do something when data is undefined or null
+  //TODO: Add error handling.
 
 },
 methods: {

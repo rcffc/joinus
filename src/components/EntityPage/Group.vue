@@ -48,7 +48,7 @@
       v-if="!member"
       text="Join"
       icon="user plus"
-      color="positive"
+      color="positive disabled"
       :clickHandler="test"
     />
     
@@ -85,7 +85,6 @@
 </template>
 
 <script>
-import { groups } from '../../api'
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
 import ShareButton from '../utils/ShareButton.vue'
@@ -110,11 +109,23 @@ export default {
   created: function() {
     this.id = this.$route.params.id
 
-    groups.getGroup(this.id).then((data) => {
+    this.id = this.$route.params.id
+    
+    const data = this.$store
+      .state
+      .groups
+      .all
+      .find(e => e.id === this.id)
+
+    if (data) {
       for (let key in data) {
-        this[key] = data[key]
-      }
-    })
+          this[key] = data[key]
+        } 
+    }
+    else {
+      window.href = "/#/groups" //Why is /#/ needed?
+    }
+    //TODO: Add error handling.
   },
   methods: {
     test() {
