@@ -2,7 +2,7 @@
   <div class="event">
     <portal to="actionBar">
       <div class="ui grid action-bar-content">
-        <div class="eleven wide column aligned right">
+        <div class="ten wide column aligned right">
           <div
             id="name-header" 
             class="ui header center aligned"
@@ -11,18 +11,20 @@
           </div>
         </div>
 
-        <div class="five wide column">
-          <IconButton
-            v-if="follow"
-            icon="eye slash"
-            color="caution"
-            misc
-            :click-handler="test"
-          />
-          <ShareButton
-            :shareMessage="name"
-            misc
-          />
+        <div class="six wide column">
+          <div id="button-wrapper">
+            <IconButton
+              v-if="follow"
+              icon="eye slash"
+              color="caution"
+              misc
+              :click-handler="test"
+            />
+            <ShareButton
+              :shareMessage="name"
+              misc
+            />
+          </div>
         </div>
       </div>
     </portal>
@@ -137,6 +139,10 @@ methods: {
 #name-header {
   padding-top: 0.5rem;
   color: white;
+}
+
+#button-wrapper {
+  text-align: right
 }
 
 </style>

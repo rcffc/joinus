@@ -23,7 +23,7 @@
             <IconButton
               v-if="member"
               icon="user times"
-              color="red"
+              color="caution"
               :clickHandler="test"
               misc
             />
@@ -48,7 +48,7 @@
       v-if="!member"
       text="Join"
       icon="user plus"
-      color="positive disabled"
+      color="positive"
       :clickHandler="test"
     />
     
