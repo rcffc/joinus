@@ -4,6 +4,11 @@ import PortalVue from 'portal-vue'
 
 import 'semantic-ui-css/semantic.min.css'
 
+
+import jQuery from 'jquery'
+
+window.$ = jQuery
+
 import router from './router'
 import store from './store'
 

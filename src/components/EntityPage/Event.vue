@@ -109,6 +109,9 @@ export default {
     this.id = this.$route.params.id
   
     try {
+
+      throw Error('Test')
+
       const data = await this.$store.dispatch('events/find', this.id)
 
       for (let key in data) {
@@ -118,8 +121,8 @@ export default {
       this.loading = false
     }
     catch (err) {
-      console.log(err.message)
       window.location.href = '/#/events' //Why is /#/ needed?
+      return Promise.reject(err)
     //TODO: Add error handling.
     }
   },

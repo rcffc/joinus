@@ -5,7 +5,10 @@
   > 
     <ActionBar />    
     <Navbar />
-    <Notification />
+    <Notification
+      :text="notificationText"
+      :error="notificationType"
+    />
   </div>
 </template>
 
@@ -24,7 +27,15 @@ export default {
     Navbar,
     Notification
   },
+  data: function() {
+    return {
+      notificationType: false,
+      notificationText: ''
+    }
+  },
   errorCaptured(err, vm, info) { //Global error handler
+    this.notificationType = true
+    this.notificationText = err.message
     return false
   }
 };

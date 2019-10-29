@@ -1,19 +1,43 @@
 <template>
   <div
-    id="notification" 
-    class="ui positive message"
+    v-if="visible"
+    id="notification"
+    :class="`ui ${ (error) ? 'error' : 'positive' } message`"
   >
-    <i class="close icon"></i>
+    <i  
+      class="close icon"
+      @click="closeHandler" 
+    />
     <div class="header">
-      You are eligible for a reward
+      {{ text }}
     </div>
-    <p>Go to your <b>special offers</b> page to see now.</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Notification'
+  name: 'Notification',
+  data: function () {
+    return {
+      visible: true
+    }
+  },
+  props: {
+    error: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
+    text: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    closeHandler: function () {
+      this.visible = false
+    }
+  }
 }
 </script>
 
