@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "join-us-fbc65"
+  },
+  "targets": {
+    "join-us-fbc65": {
+      "hosting": {
+        "joinus": [
+          "join-us-fbc65"
+        ]
+      }
+    }
+  }
+}
