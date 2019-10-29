@@ -2,9 +2,10 @@
   <div 
     id="app"
     class="ui container"
-  >
-    <ActionBar />
+  > 
+    <ActionBar />    
     <Navbar />
+    <Notification />
   </div>
 </template>
 
@@ -14,12 +15,17 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import ActionBar from './components/ActionBar/ActionBar.vue'
+import Notification from './components/Notification.vue'
 
 export default {
   name: 'app',
   components: {
     ActionBar,
-    Navbar
+    Navbar,
+    Notification
+  },
+  errorCaptured(err, vm, info) { //Global error handler
+    return false
   }
 };
 </script>
