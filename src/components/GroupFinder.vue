@@ -43,7 +43,7 @@ export default {
     })
   },
   created () {
-    this.$store.dispatch('groups/getAllGroups')
+    this.$store.dispatch('groups/findAll')
   }
 }
 </script>

@@ -12,19 +12,36 @@ const getters = {
   getGroupedEvents: state => {
     const grouped = _.groupBy(state.filteredEvents, 'month')
     return grouped
+  },
+  getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
+    return state.allEvents.find(event => event.id === id)
   }
 }
 
-// actions
+// actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
-  async getAllEvents ({ commit }) {
+  async findAll ({ commit }) {
     try {
       const results = await events.getAll()
       commit('setEvents', results)
     }
     catch (err) {
-      alert(err.message)
-      //Do something here
+      return Promise.reject(err)
+    }
+  },
+  async find ({ commit, getters }, id) { //If the event is not in the store, try fetching it from firebase and update the store.
+    try {
+      let event = getters.getById(id)
+
+      if (!event) {
+        event = await events.getEvent(id)
+        commit('addEvent', event)
+      }
+
+      return event
+    }
+    catch (err) {
+      return Promise.reject(err)
     }
   },
   filterEvents ({commit}, string) {
@@ -37,6 +54,10 @@ const mutations = {
     events.sort((a,b) => a.date-b.date)
     state.allEvents = events
     state.filteredEvents = events
+  },
+  addEvent (state, event) {
+    state.allEvents = state.allEvents.concat(event)
+    state.allEvents.sort((a,b) => a.date-b.date)
   },
   filterEvents(state, searchString) {
     searchString = searchString.split(' ')
@@ -51,19 +72,20 @@ const mutations = {
 
     // Filter by tags
     var searchTags = searchString.filter(string => string.includes('#'))
+
+    function includesModifiedTags(eventTag) {
+      for (let tag of modifiedTags) {
+        if (eventTag.startsWith(tag)) {
+          return true
+        }
+      }
+    }
+
     if (!(searchTags === undefined || searchTags.length == 0)) {
       var modifiedTags = []
       for (let tag of searchTags) {
         var modifiedTag = tag.substr(1, tag.length).toLowerCase()
         modifiedTags.push(modifiedTag)
-      }
-
-      function includesModifiedTags(eventTag) {
-        for (let tag of modifiedTags) {
-          if (eventTag.startsWith(tag)) {
-            return true
-          }
-        }
       }
 
       state.filteredEvents = state.filteredEvents.filter((event) => {

@@ -60,7 +60,7 @@ export default {
     })
   },
   created () {
-    this.$store.dispatch('events/getAllEvents')
+    this.$store.dispatch('events/findAll')
   }
 }
 </script>
