@@ -119,8 +119,6 @@ export default {
     try {
       const data = await this.$store.dispatch('groups/find', this.id)
 
-      console.log(data)
-
       for (let key in data) {
         this[key] = data[key]
       }
