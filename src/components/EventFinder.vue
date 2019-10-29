@@ -56,11 +56,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      events: 'events/groupEvents'
+      events: 'events/getGroupedEvents'
     })
   },
   created () {
-    this.$store.dispatch('events/getAllEvents')
+    this.$store.dispatch('events/findAll')
   }
 }
 </script>

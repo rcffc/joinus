@@ -4,7 +4,7 @@
       <div
         v-for="group in groups"
         :key="group.id"
-        class="card"
+        class="ui fluid card"
       >
         <router-link :to="`/groups/${group.id}`">
           <div class="ui image">
@@ -33,27 +33,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'EventFinder',
-  computed: mapState({
-    groups: state => state.groups.all,
-  }),
+  name: 'GroupFinder',
+  computed: {
+    ...mapGetters({
+      groups: 'groups/groups'
+    })
+  },
   created () {
-    this.$store.dispatch('groups/getAllGroups')
+    this.$store.dispatch('groups/findAll')
   }
 }
 </script>
 
 <style scoped>
-a {
-  color: black
-}
-
 .wrapper {
   padding-bottom: 80px;
   color: black;
+  width: 100%
 }
 
 .ui.cards {
