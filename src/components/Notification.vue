@@ -7,35 +7,78 @@
     <i  
       class="close icon"
       @click="closeHandler" 
-    />
+    >
+    <span
+      v-if="count"
+      id="amount"
+    >
+      <strong>
+        {{ count }}
+      </strong>
+    </span>
+    </i>
+    
+
     <div class="header">
-      {{ text }}
+      {{ header }}
     </div>
+
+    <p>
+      {{ message }}
+    </p>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+
 export default {
   name: 'Notification',
-  data: function () {
+  data: function() {
     return {
-      visible: true
+      error: false,
+      header: '',
+      message: '',
+      visible: false
     }
   },
-  props: {
-    error: {
-      type: Boolean,
-      default: false,
-      required: true
-    },
-    text: {
-      type: String,
-      default: ''
-    }
+  created: async function() {
+    this.visible = this.count > 0
+
+    if (this.visible)
+      this.showNotification()
+
+  },
+  computed: {
+    ...mapGetters({
+      count: 'notifications/count',
+    })
   },
   methods: {
-    closeHandler: function () {
-      this.visible = false
+    showNotification: async function() {
+      let data = {}
+
+      try {
+        data = await this.$store.dispatch('notifications/next')
+      }
+      catch (err) {
+        data = { error: true, header: 'Error',  message: 'Internal error' }
+      }
+      
+      if (data) {
+        this.error = data.error
+        this.header = data.header || 'Notification'
+        this.message = data.message
+
+        return true
+      }
+      else {
+        return false
+      }
+    },
+    closeHandler: async function () {
+      this.visible = await this.showNotification()
     }
   }
 }
@@ -43,7 +86,7 @@ export default {
 
 <style scoped>
 #notification {
-  position: fixed;
+  position: fixed; 
   width: 100%;
   bottom: 5rem;
 }
