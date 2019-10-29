@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      events: 'events/groupEvents'
+      events: 'events/getGroupedEvents'
     })
   },
   created () {
