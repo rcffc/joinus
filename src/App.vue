@@ -5,10 +5,7 @@
   > 
     <ActionBar />    
     <Navbar />
-    <Notification
-      :text="notificationText"
-      :error="notificationType"
-    />
+    <Notification />
   </div>
 </template>
 
@@ -16,6 +13,7 @@
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
 <script>
+import { mapMutations } from 'vuex'
 import Navbar from './components/Navbar.vue'
 import ActionBar from './components/ActionBar/ActionBar.vue'
 import Notification from './components/Notification.vue'
@@ -33,10 +31,15 @@ export default {
       notificationText: ''
     }
   },
+  methods: {
+    ...mapMutations({
+      addNotification: 'notifications/addNotification'
+    })
+  },
   errorCaptured(err, vm, info) { //Global error handler
-    this.notificationType = true
-    this.notificationText = err.message
-    return false
+    
+    this.addNotification({ error: true, header: 'Error', message: err.message })
+    return false //Should error propagation resume? => No stop here
   }
 };
 </script>

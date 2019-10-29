@@ -44,6 +44,13 @@ export default {
     }
   },
   created: async function() {
+    this.$store.subscribe((mutation) => {      
+      if (mutation.type === 'notifications/addNotification' && !this.visible) {
+        this.showNotification()
+        this.visible = true
+      }
+    })
+
     this.visible = this.count > 0
 
     if (this.visible)
@@ -52,7 +59,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      count: 'notifications/count',
+      count: 'notifications/count'
     })
   },
   methods: {
