@@ -1,11 +1,21 @@
 <template>
-  <button
-    :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } neutral icon-button`"
-    @click="clickHandler" 
+  <div
+    :class="`ui dropdown simple ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } positive icon-button`" 
   > 
     <i class="calendar icon" />
-    {{ (misc) ? '' : 'Add to calendar' }}
-  </button>
+    {{ (misc) ? '' : 'Remember' }}
+
+    <!-- calendar options -->
+    <div class="menu">
+      <a 
+        class="item button icon"
+        :href="googleLink"
+      >
+        <i class="google icon" />
+        Google
+      </a>
+    </div>
+  </div>
 
   <!--
     https://www.google.com/calendar/render?
@@ -29,6 +39,42 @@ export default {
     misc: {
       type: Boolean,
       default: false
+    },
+    name: {
+      type: String,
+      default: 'Event',
+      //required: true
+    },
+    date: {
+      type: Date,
+      default() {
+        return new Date()
+      },
+      //required: true
+    },
+    location: {
+      type: String,
+      default: 'Otakaari 1, 02150 Espoo, Suomi',
+      //required: true
+    }
+  },
+  data: function() {
+    //NOTE: All events last an hour because we don't have ending dates.
+    const endDate = new Date(this.date.getTime())
+    endDate.setHours(endDate.getHours() + 1)
+
+    const dateToString = (date) => date.toISOString().replace(/-|:|\.(.*)/gi, '') + 'Z'
+
+    console.log(this.date.toISOString())
+
+    return {
+      googleLink: [
+        'https://www.google.com/calendar/render?action=TEMPLATE',
+        `text=${ this.name }`,
+        `dates=${ dateToString(this.date) }/${ dateToString(endDate) }`, //Start/End
+        `location=${ this.location }`,
+        'sf=true&output=xml'
+      ].join('&')
     }
   },
   methods: {
