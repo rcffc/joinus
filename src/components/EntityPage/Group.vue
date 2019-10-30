@@ -126,8 +126,11 @@ export default {
       this.loading = false
     }
     catch (err) {
-      console.log(err.message)
       window.location.href = '/#/groups' //Why is /#/ needed?
+      
+      err.name = 'LoadingError'
+
+      return Promise.reject(err)
       //TODO: Add error handling.
     }
   },

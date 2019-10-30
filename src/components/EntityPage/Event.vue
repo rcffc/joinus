@@ -118,9 +118,11 @@ export default {
       this.loading = false
     }
     catch (err) {
-      console.log(err.message)
       window.location.href = '/#/events' //Why is /#/ needed?
-    //TODO: Add error handling.
+
+      err.name = 'LoadingError'
+      
+      return Promise.reject(err)
     }
   },
   methods: {
