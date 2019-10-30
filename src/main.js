@@ -11,6 +11,8 @@ Vue.config.productionTip = false
 
 Vue.use(PortalVue)
 
+import * as firebaseui from 'firebaseui'
+
 new Vue({ 
   router, //Inject router to all child components.
   store,  // Inject store to all child components.

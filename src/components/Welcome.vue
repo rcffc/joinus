@@ -11,14 +11,20 @@
     <h1 class="ui header">
       Explore new activities
     </h1>
-    <div class="login-block">
-      <p class="login-text">
+    <div class="welcome-block">
+      <p class="welcome-text">
         Find a new community or start your own.
       </p>
-      <button class="ui blue labeled icon button">
-        <i class="google icon" />
-        Join us!
+      <button class="ui blue button inverted">
+        Register
       </button>
+      &nbsp; 
+ <button class="ui blue button">
+          Log In
+        </button>
+      <router-link
+        tag='ui-button' 
+        :to="`/login/`" />
     </div>
   </div>
 </template>
@@ -47,11 +53,12 @@ export default {}
   margin-top: 40px;
 }
 
-.login-block {
+.welcome-block {
   flex: 1;
+  display:block
 }
 
-.login-text {
+.welcome-text {
   color: white;
   font-size: 16px;
   margin-bottom: 24px;
