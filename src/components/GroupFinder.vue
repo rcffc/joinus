@@ -76,6 +76,7 @@ export default {
 .header {
   font-size: 18px;
   font-weight: bold;
+  color: black;
 }
 
 .ui.divider {
