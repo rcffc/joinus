@@ -43,19 +43,19 @@ export default {
     name: {
       type: String,
       default: 'Event',
-      //required: true
+      required: true
     },
     date: {
       type: Date,
       default() {
         return new Date()
       },
-      //required: true
+      required: true
     },
     location: {
       type: String,
       default: 'Otakaari 1, 02150 Espoo, Suomi',
-      //required: true
+      required: true
     }
   },
   data: function() {

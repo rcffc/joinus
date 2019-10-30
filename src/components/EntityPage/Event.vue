@@ -60,8 +60,12 @@
         color="positive disabled"
         :click-handler="test"
       />
-      <CalendarButton />
-          
+      <CalendarButton
+        :name="name"
+        :date="date"
+        :location="location"
+      />
+
       <div class="ui container">
         <InfoBox
           :description="description"
