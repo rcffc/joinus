@@ -1,9 +1,9 @@
 <template>
   <div
-    :class="`ui dropdown simple ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } positive icon-button`" 
+    :class="`ui dropdown ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } positive icon-button`" 
   > 
     <i class="calendar icon" />
-    {{ (misc) ? '' : 'Remember' }}
+    {{ (misc) ? '' : 'Save the date' }}
 
     <!-- calendar options -->
     <div class="menu">
@@ -55,8 +55,6 @@ export default {
 
     const dateToString = (date) => date.toISOString().replace(/-|:|\.(.*)/gi, '') + 'Z'
 
-    console.log(this.date.toISOString())
-
     return {
       googleLink: [
         'https://www.google.com/calendar/render?action=TEMPLATE',
@@ -67,10 +65,8 @@ export default {
       ].join('&')
     }
   },
-  methods: {
-    clickHandler() {
-      
-    }
+  mounted: function() {
+    this.$jQuery('.ui.dropdown').dropdown()
   }
 }
 </script>
