@@ -15,7 +15,10 @@
       <p class="login-text">
         Find a new community or start your own.
       </p>
-      <router-link to="/home" class="ui blue labeled icon button">
+      <router-link 
+        to="/home" 
+        class="ui blue labeled icon button"
+      >
         <i class="google icon" />
         Join us!
       </router-link>
