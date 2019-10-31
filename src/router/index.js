@@ -11,7 +11,7 @@ const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
   { path: '/events', component: EventFinder },
-  { path: '/home', redirect: '/login' },
+  { path: '/home', component: Home },
   { path: '/events/:id',
     component: Event,
     props: { default: true }
