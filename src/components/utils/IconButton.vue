@@ -2,6 +2,7 @@
   <button
     @click="clickHandler" 
     :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } ${ color } icon-button`"
+    :type="type"
   >
     <i :class="`${ icon } icon`" />
     {{ text }}
@@ -35,6 +36,10 @@ export default {
     misc: {
       type: Boolean,
       default: false
+    },
+    type: {
+      type: String,
+      default: 'button'
     }
   }
 }
