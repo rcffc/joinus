@@ -60,7 +60,12 @@
         color="positive disabled"
         :click-handler="test"
       />
-    
+      <CalendarButton
+        :name="name"
+        :date="date"
+        :location="location"
+      />
+
       <div class="ui container">
         <InfoBox
           :description="description"
@@ -79,13 +84,15 @@ import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
 import ShareButton from '../utils/ShareButton.vue'
+import CalendarButton from '../utils/CalendarButton.vue'
 
 export default {
   name: 'Event',
   components: {
     IconButton,
     InfoBox,
-    ShareButton
+    ShareButton,
+    CalendarButton
   },
   data: function() {
     return {
