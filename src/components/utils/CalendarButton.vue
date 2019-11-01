@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      @click="clickHandler"
       :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } positive icon-button`"
+      @click="clickHandler"
     > 
       <i class="calendar icon" />
       {{ (misc) ? '' : 'Save the date' }}
