@@ -145,7 +145,7 @@ export default {
       this.follow = !this.follow 
     },
     editHandler() {
-      this.$router.push(`/events/${ this.id }`)
+      this.$router.push(`/events/edit/${ this.id }`)
     },
     toGroupPage() {
       this.$router.push(`/groups/${ this.organizer.id }`)

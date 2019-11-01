@@ -4,6 +4,7 @@ import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import EventFinder from '../components/EventFinder.vue'
 import Event from '../components/EntityPage/Event.vue'
+import EventForm from '../components/FormPages/EventForm.vue'
 import Group from '../components/EntityPage/Group.vue'
 import GroupFinder from '../components/GroupFinder.vue'
 
@@ -21,6 +22,7 @@ const routes = [
     props: { default: true }
   },
   { path: '/groups', component: GroupFinder },
+  { path: '/events/edit/:id', component: EventForm }
 ]
 
 
