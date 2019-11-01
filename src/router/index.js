@@ -22,7 +22,8 @@ const routes = [
     props: { default: true }
   },
   { path: '/groups', component: GroupFinder },
-  { path: '/events/edit/:id', component: EventForm }
+  { path: '/events/edit/:eventId', component: EventForm },
+  { path: '/groups/:groupId/events/new', component: EventForm }
 ]
 
 

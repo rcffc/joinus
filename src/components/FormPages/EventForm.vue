@@ -137,9 +137,9 @@ export default {
     })
   },
   created: async function() {
-    this.id = this.$route.params.id
+    this.id = this.$route.params.eventId || this.$route.params.groupId
 
-    if (this.id) {
+    if (this.$route.params.eventId) {
       try {
         const data = await this.$store.dispatch('events/find', this.id)
 
