@@ -20,6 +20,13 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                v-if="owner"
+                icon="edit"
+                color="neutral"
+                misc
+                :click-handler="test"
+              />
+              <IconButton
                 v-if="follow"
                 icon="eye slash"
                 color="caution"
@@ -104,7 +111,8 @@ export default {
       organizer: '',
       date: '',
       description: '',
-      follow: false
+      follow: false,
+      owner: true
     }
   },
   computed: {
@@ -125,7 +133,7 @@ export default {
       this.loading = false
     }
     catch (err) {
-      window.location.href = '/#/events' //Why is /#/ needed?
+      this.$router.push('/events')
 
       err.name = 'LoadingError'
       
