@@ -15,8 +15,9 @@ const errorHandler = (err) => {
   case 'CustomError':
     data.message = err.message
     break
-    
+
   default:
+    data.message = err.message
     break
   }
 

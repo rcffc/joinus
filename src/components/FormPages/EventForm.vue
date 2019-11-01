@@ -11,29 +11,64 @@
 
     <form class="ui form">
       <div class="field">
-        <span class="ui neutral pointing below label">Name</span>
-        <input type="text" name="name" placeholder="Happy fun times in Otaniemi">
+        <span class="ui neutral pointing below label">
+          Name
+        </span>
+        <input
+          v-model="name" 
+          type="text"
+          placeholder="Happy fun times in Otaniemi"
+        >
       </div>
 
       <div class="field">
-        <span class="ui neutral pointing below label">Location</span>
-        <input type="text" name="location" placeholder="Somewhere">
+        <span class="ui neutral pointing below label">
+          Location
+        </span>
+        <input
+          v-model="location"
+          type="text"
+          placeholder="Otakaari 1, Espoo, Finland"
+        >
       </div>
 
       <div class="inline field">
-        <span class="ui neutral right pointing label">Date and time</span>
-        <input type="date" name="date">
-        <input type="time" name="time">
+        <span class="ui neutral right pointing label">
+          Date and time
+        </span>
+        <input
+          v-model="date"
+          type="date"
+        >
+        <input
+          v-model="time"
+          type="time"
+        >
       </div>
 
       <div class="field">
-        <span class="ui neutral pointing below label">Image</span>
-        <input type="url" name="image" placeholder="https://example.com/static/test.png">
+        <span class="ui neutral pointing below label">
+          Image
+        </span>
+        <input
+          v-model="image"
+          type="url"
+          placeholder="https://example.com/static/test.png"
+        >
       </div>
 
       <div class="field">
-        <span class="ui neutral pointing below label">Description</span>
-        <textarea name="description" />
+        <span class="ui neutral pointing below label">
+          Description
+        </span>
+        <textarea v-model="description" />
+      </div>
+
+      <div class="field">
+        <span class="ui neutral pointing below label">
+          Tags
+        </span>
+        <textarea v-model="tags" />
       </div>
 
       <IconButton
@@ -62,7 +97,37 @@ export default {
       location: '',
       image: '',
       date: '',
+      time: '',
+      tags: [],
       description: '',
+    }
+  },
+  created: async function() {
+    this.id = this.$route.params.id
+
+    if (this.id) {
+      try {
+        const data = await this.$store.dispatch('events/find', this.id)
+
+        for (let key in data) {
+          this[key] = data[key]
+        }
+
+        this.date = data.date.toISOString().substring(0, 10)
+        
+        let [hours, mins] = data.date.toLocaleTimeString().split(':')
+
+        this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
+
+        console.log(this.time)
+      }
+      catch (err) {
+        this.$router.push('/events')
+
+        err.name = 'LoadingError'
+        
+        return Promise.reject(err)
+      }
     }
   },
   methods: {
@@ -80,8 +145,13 @@ export default {
 </script>
 
 <style scoped>
+#name-header {
+  padding-top: 0.5rem;
+  color: white;
+}
+
 .form-page {
-  padding: 0.5rem 1rem;
+  padding: 3rem 1rem;
   width: 100%;
 }
 
