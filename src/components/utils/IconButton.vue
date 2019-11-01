@@ -1,8 +1,8 @@
 <template>
   <button
-    @click="clickHandler" 
-    :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } ${ color } icon-button`"
+    :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } ${ color } icon-button`" 
     :type="type"
+    @click="clickHandler"
   >
     <i :class="`${ icon } icon`" />
     {{ text }}

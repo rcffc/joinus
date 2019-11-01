@@ -1,13 +1,13 @@
 <template>
   <div class="form-page">
     <portal to="actionBar">
-        <div
-          id="name-header" 
-          class="ui header center aligned large"
-        >
-          {{ name || "Create an Event" }}
-        </div>
-      </portal>
+      <div
+        id="name-header" 
+        class="ui header center aligned large"
+      >
+        {{ name || "Create an Event" }}
+      </div>
+    </portal>
 
     <form class="ui form">
       <div class="field">
@@ -79,14 +79,14 @@
           <option
             v-for="tag in tags"
             :key="tag"
-            v-bind:value="tag"
+            :value="tag"
           >
             {{ tag }}
           </option>
           <option
             v-for="tag in availableTags"
             :key="tag"
-            v-bind:value="tag"
+            :value="tag"
           >
             {{ tag }}
           </option>
