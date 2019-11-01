@@ -32,14 +32,20 @@
         >
       </div>
 
-      <div class="inline field">
-        <span class="ui neutral right pointing label">
-          Date and time
+      <div class="field">
+        <span class="ui neutral pointing below label">
+          Date
         </span>
         <input
           v-model="date"
           type="date"
         >
+      </div>
+
+      <div class="field">
+        <span class="ui neutral pointing below label">
+          Time
+        </span>
         <input
           v-model="time"
           type="time"
@@ -64,12 +70,19 @@
         <textarea v-model="description" />
       </div>
 
-      <div class="field">
-        <span class="ui neutral pointing below label">
-          Tags
-        </span>
-        <textarea v-model="tags" />
-      </div>
+      <select
+          v-model="tags"
+          class="ui fluid search dropdown"
+          multiple=""
+        >
+          <option
+            v-for="tag in tags"
+            :key="tag"
+            v-bind:value="tag"
+          >
+            {{ tag }}
+          </option>
+        </select>
 
       <IconButton
         text="Submit"
@@ -118,8 +131,6 @@ export default {
         let [hours, mins] = data.date.toLocaleTimeString().split(':')
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
-
-        console.log(this.time)
       }
       catch (err) {
         this.$router.push('/events')
@@ -129,6 +140,10 @@ export default {
         return Promise.reject(err)
       }
     }
+  },
+  mounted: function() {
+    $('.ui.dropdown')
+      .dropdown()
   },
   methods: {
     submitHandler(event) {
@@ -152,6 +167,7 @@ export default {
 
 .form-page {
   padding: 3rem 1rem;
+  margin-bottom: 5rem;
   width: 100%;
 }
 
