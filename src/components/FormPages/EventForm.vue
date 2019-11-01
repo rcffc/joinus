@@ -70,7 +70,8 @@
         <textarea v-model="description" />
       </div>
 
-      <select
+      <div class="field">
+        <select
           v-model="tags"
           class="ui fluid search dropdown"
           multiple=""
@@ -82,7 +83,21 @@
           >
             {{ tag }}
           </option>
+          <option
+            v-for="tag in availableTags"
+            :key="tag"
+            v-bind:value="tag"
+          >
+            {{ tag }}
+          </option>
         </select>
+
+        <IconButton
+          text="Add tag"
+          icon="plus"
+          color="neutral disabled"
+        />  
+      </div>
 
       <IconButton
         text="Submit"
@@ -96,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 
 export default {
@@ -115,6 +131,11 @@ export default {
       description: '',
     }
   },
+  computed: {
+    ...mapGetters({
+      availableTags: 'events/getTags'
+    })
+  },
   created: async function() {
     this.id = this.$route.params.id
 
@@ -131,6 +152,9 @@ export default {
         let [hours, mins] = data.date.toLocaleTimeString().split(':')
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
+
+        //For some reason, population with selected tags doesn't work without this.
+        this.availableTags = this.availableTags.filter(tag => !this.tags.includes(tag))
       }
       catch (err) {
         this.$router.push('/events')
