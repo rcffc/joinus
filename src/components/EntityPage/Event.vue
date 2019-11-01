@@ -24,14 +24,14 @@
                 icon="edit"
                 color="neutral"
                 misc
-                :click-handler="test"
+                :click-handler="editHandler"
               />
               <IconButton
                 v-if="follow"
                 icon="eye slash"
                 color="caution"
                 misc
-                :click-handler="test"
+                :click-handler="followHandler"
               />
               <ShareButton
                 :share-message="name"
@@ -65,7 +65,7 @@
         text="Follow"
         icon="eye"
         color="positive disabled"
-        :click-handler="test"
+        :click-handler="followHandler"
       />
       <CalendarButton
         :name="name"
@@ -141,11 +141,14 @@ export default {
     }
   },
   methods: {
-    test() {
+    followHandler() {
       this.follow = !this.follow 
     },
+    editHandler() {
+      this.$router.push(`/events/${ this.id }`)
+    },
     toGroupPage() {
-      window.location.href = `/groups/${ this.organizer.id }`
+      this.$router.push(`/groups/${ this.organizer.id }`)
     }
   }
 }
