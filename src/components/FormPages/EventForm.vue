@@ -71,6 +71,10 @@
       </div>
 
       <div class="field">
+        <span class="ui neutral pointing below label">
+          Tags
+        </span>
+
         <select
           v-model="tags"
           class="ui fluid search dropdown"
