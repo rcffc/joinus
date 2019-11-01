@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <div
       :class="`ui ${ (misc) ? 'basic' : 'right labeled' } icon button ${ size } positive icon-button`"
       @click="clickHandler"
@@ -29,7 +29,7 @@
         </a>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <script>
