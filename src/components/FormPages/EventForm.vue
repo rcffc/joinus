@@ -65,44 +65,71 @@
 
       <div class="field">
         <span class="ui neutral pointing below label">
-          Description
+          Tags
         </span>
-        <textarea v-model="description" />
+          
+        <div
+          class="ui multiple fluid dropdown"
+        >
+          <input
+            type="hidden"
+            name="tags"
+          >
+          <span class="text">
+            No tags selected
+          </span>
+          
+          <div class="menu fluid">
+            <div class="ui icon search input">
+              <i class="search icon" />
+              <input
+                type="text"
+                placeholder="Search tags..."
+              >
+            </div>
+
+            <div class="divider" />
+
+            <div class="ui action input">
+              <input
+                v-model="inputTag"
+                type="text"
+                placeholder="Add a tag"
+              >
+              <button
+                class="ui button neutral"
+                @click="addTag"
+              >
+                Add
+              </button>
+            </div>
+
+            <div class="divider" />
+
+            <div class="header">
+              <i class="tags icon" />
+              Available tags
+            </div>
+
+            <div class="scrolling menu">
+              <div
+                v-for="tag in availableTags"
+                :key="tag"
+                :value="tag"
+                class="item"
+              >
+                {{ tag }}
+              </div>>
+            </div>
+          </div>
+        </div>  
       </div>
 
       <div class="field">
         <span class="ui neutral pointing below label">
-          Tags
+          Description
         </span>
-
-        <select
-          v-model="tags"
-          class="ui fluid dropdown"
-          multiple=""
-        >
-
-          <option
-            v-for="tag in tags"
-            :key="tag"
-            :value="tag"
-          >
-            {{ tag }}
-          </option>
-
-          <option
-            v-for="tag in availableTags"
-            :key="tag"
-            :value="tag"
-          >
-            {{ tag }}
-          </option>
-        </select>
-
-        <IconButton
-          text="Add tag"
-          icon="plus"
-          color="neutral disabled"
-        />  
+        <textarea v-model="description" />
       </div>
 
       <IconButton
@@ -117,7 +144,6 @@
 </template>
 
 <script>
-//import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 
 export default {
@@ -135,12 +161,8 @@ export default {
       time: '',
       tags: [],
       description: '',
-    }
-  },
-  computed: {
-    availableTags() {
-      //For some reason, population with selected tags doesn't work without this filtering.
-      return this.$store.getters['events/getTags'].filter(tag => !this.tags.includes(tag))
+      inputTag: '',
+      availableTags: this.$store.getters['events/getTags']
     }
   },
   created: async function() {
@@ -159,6 +181,8 @@ export default {
         let [hours, mins] = data.date.toLocaleTimeString().split(':')
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
+
+        this.updateTagSelection(this.tags)
       }
       catch (err) {
         this.$router.push('/events')
@@ -171,19 +195,43 @@ export default {
   },
   mounted: function() {
     $('.ui.dropdown')
-      .dropdown()
+      .dropdown({
+        onChange: (value) => {
+          this.tags = value.split(',')
+        }
+      })
   },
   methods: {
     submitHandler(event) {
       event.preventDefault()
 
-      console.log($('.ui.dropdown').dropdown('get value'))
-      //this.$router.push('/events/')
+      this.$router.push('/events/')
       
-      //const err = Error('Not implemented yet')
-      //err.name = 'CustomError'
+      const err = Error('Not implemented yet')
+      err.name = 'CustomError'
 
-      //throw err
+      throw err
+    },
+    addTag(event) {
+      event.preventDefault()
+      
+      if (this.inputTag && !this.availableTags.includes(this.inputTag)) {
+        this.availableTags = this.availableTags.concat(this.inputTag)
+      
+        this.updateTagSelection(this.inputTag)
+
+        this.inputTag = ''
+      }
+
+      //TODO: show error
+    },
+    updateTagSelection(tags) {
+      //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
+      setTimeout(function () {  
+        $('.ui.dropdown')
+          .dropdown('set selected', tags)
+      }, 1)
+      
     }
   }
 }
@@ -209,5 +257,14 @@ export default {
 .basic.neutral {
   color: #af9164 !important;
   box-shadow: 0 0 0 1px inset !important;
+}
+
+.ui.multiple.fluid.dropdown {
+  background-color: white !important;
+  border-radius: 4px;
+}
+
+.empty {
+  display: none;
 }
 </style>
