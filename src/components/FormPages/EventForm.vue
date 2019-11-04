@@ -77,9 +77,10 @@
 
         <select
           v-model="tags"
-          class="ui fluid search dropdown"
+          class="ui fluid dropdown"
           multiple=""
         >
+
           <option
             v-for="tag in tags"
             :key="tag"
@@ -87,6 +88,7 @@
           >
             {{ tag }}
           </option>
+
           <option
             v-for="tag in availableTags"
             :key="tag"
@@ -115,7 +117,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+//import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 
 export default {
@@ -136,9 +138,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      availableTags: 'events/getTags'
-    })
+    availableTags() {
+      //For some reason, population with selected tags doesn't work without this filtering.
+      return this.$store.getters['events/getTags'].filter(tag => !this.tags.includes(tag))
+    }
   },
   created: async function() {
     this.id = this.$route.params.eventId || this.$route.params.groupId
@@ -156,9 +159,6 @@ export default {
         let [hours, mins] = data.date.toLocaleTimeString().split(':')
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
-
-        //For some reason, population with selected tags doesn't work without this.
-        this.availableTags = this.availableTags.filter(tag => !this.tags.includes(tag))
       }
       catch (err) {
         this.$router.push('/events')
@@ -176,12 +176,14 @@ export default {
   methods: {
     submitHandler(event) {
       event.preventDefault()
-      this.$router.push('/events/')
-      
-      const err = Error('Not implemented yet')
-      err.name = 'CustomError'
 
-      throw err
+      console.log($('.ui.dropdown').dropdown('get value'))
+      //this.$router.push('/events/')
+      
+      //const err = Error('Not implemented yet')
+      //err.name = 'CustomError'
+
+      //throw err
     }
   }
 }
