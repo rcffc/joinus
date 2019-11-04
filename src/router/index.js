@@ -6,6 +6,7 @@ import EventFinder from '../components/EventFinder.vue'
 import Event from '../components/EntityPage/Event.vue'
 import EventForm from '../components/FormPages/EventForm.vue'
 import Group from '../components/EntityPage/Group.vue'
+import GroupForm from '../components/FormPages/GroupForm.vue'
 import GroupFinder from '../components/GroupFinder.vue'
 
 const routes = [
@@ -17,13 +18,15 @@ const routes = [
     component: Event,
     props: { default: true }
   },
+  { path: '/groups/new', component: GroupForm },
   { path: '/groups/:id',
     component: Group,
     props: { default: true }
   },
   { path: '/groups', component: GroupFinder },
   { path: '/events/edit/:eventId', component: EventForm },
-  { path: '/groups/:groupId/events/new', component: EventForm }
+  { path: '/groups/:groupId/events/new', component: EventForm },
+  { path: '/groups/edit/:groupId', component: GroupForm },
 ]
 
 

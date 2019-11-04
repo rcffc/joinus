@@ -20,6 +20,12 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                icon="edit"
+                color="neutral"
+                misc
+                :click-handler="editHandler"
+              />
+              <IconButton
                 icon="home"
                 color="caution"
                 :click-handler="handleHomeClick"
@@ -147,6 +153,9 @@ export default {
     },
     eventCreationHandler() {
       this.$router.push(`/groups/${ this.id }/events/new`)
+    },
+    editHandler() {
+      this.$router.push(`/groups/edit/${ this.id }`)
     },
     handleHomeClick() {
       window.location.href = this.website
