@@ -10,18 +10,22 @@
     </portal>
 
     <form class="ui form">
-      <div class="field">
+      <div :class="`field ${ (nameError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Name
         </span>
         <input
           v-model="name" 
           type="text"
-          placeholder="My fun group"
+          placeholder="JoinUs!"
+          @keyup="checkName"
         >
+        <div :class="`ui ${ (nameError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ nameError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (imageError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Image
         </span>
@@ -29,17 +33,21 @@
           v-model="image"
           type="url"
           placeholder="https://example.com/static/test.png"
+          @keyup="checkImage"
         >
+        <div :class="`ui ${ (imageError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ imageError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (tagError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Tags
         </span>
           
         <div
           id="tags"
-          class="ui multiple selection search fluid dropdown"
+          class="ui multiple search selection fluid dropdown"
         >
           <input
             type="hidden"
@@ -59,14 +67,25 @@
               {{ tag }}
             </div>
           </div>
-        </div>  
+        </div>
+        
+        <div :class="`ui ${ (tagError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ tagError }}
+        </div>
+        
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (descriptionError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Description
         </span>
-        <textarea v-model="description" />
+        <textarea
+          v-model="description"
+          @keyup="checkDescription"
+        />
+        <div :class="`ui ${ (descriptionError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ descriptionError }}
+        </div>
       </div>
 
       <IconButton
@@ -83,6 +102,9 @@
 <script>
 import IconButton from '../utils/IconButton.vue'
 
+const MIN_NAME_LEN = 3
+const MAX_NAME_LEN = 15
+
 export default {
   name: 'GroupForm',
   components: {
@@ -92,11 +114,14 @@ export default {
     return {
       id: '',
       name: '',
+      nameError: '',
       image: '',
+      imageError: '',
       tags: [],
       description: '',
-      inputTag: '',
-      availableTags: this.$store.getters['groups/getTags']
+      descriptionError: '',
+      tagError: '',
+      availableTags: this.$store.getters['groups/getTags'],
     }
   },
   created: async function() {
@@ -126,13 +151,21 @@ export default {
       .dropdown({
         allowAdditions: true,
         onChange: (value) => {
+          this.tagError = ''
+          
           this.tags = value.split(',')
+
+          if (this.tags.reduce((acc, curr) => acc || this.checkTag(curr), false))
+            this.tagError = 'Please use only letters and digits'
         }
       })
   },
   methods: {
     submitHandler(event) {
       event.preventDefault()
+
+      if (this.nameError || this.tagError || this.descriptionError)
+        return;
 
       this.$router.push('/groups/')
       
@@ -141,18 +174,47 @@ export default {
 
       throw err
     },
-    addTag(event) {
-      event.preventDefault()
-      
-      if (this.inputTag && !this.availableTags.includes(this.inputTag)) {
-        this.availableTags = this.availableTags.concat(this.inputTag)
-      
-        this.updateTagSelection(this.inputTag)
+    checkString(str) {
+      if (!/^[a-z0-9-\.,:\? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:? and foreign characters')
+    },
+    checkTag(str) {
+      return !/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str)
+    },
+    checkUrl(url) {
+      //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
+      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(url) && url.length)
+       throw Error('Please give valid url.')
 
-        this.inputTag = ''
+    },
+    checkName({ target }) {
+      this.nameError = ''
+      const { value } = target
+
+      try {
+        this.checkString(value)
+      
+        if (value.length > MAX_NAME_LEN || value.length < MIN_NAME_LEN )
+          throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
       }
+      catch (err) {
+        this.nameError = err.message
+      }
+    },
+    checkImage({ target }) {
+      this.imageError = ''
+      const { value } = target
 
-      //TODO: show error
+      try {
+        this.checkUrl(value)
+      }
+      catch (err) {
+        this.imageError = err.message
+      }
+    },
+    checkDescription({ target }) {
+      this.descriptionError = ''
+      const { value } = target
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
@@ -169,7 +231,7 @@ export default {
 <style scoped>
 #name-header {
   padding-top: 0.5rem;
-  color: white;
+  color: white !important;
 }
 
 .form-page {

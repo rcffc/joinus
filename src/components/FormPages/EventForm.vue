@@ -169,7 +169,6 @@ export default {
       tags: [],
       description: '',
       descriptionError: '',
-      inputTag: '',
       tagError: '',
       availableTags: this.$store.getters['events/getTags'],
       create: true,
@@ -214,7 +213,7 @@ export default {
           this.tags = value.split(',')
 
           if (this.tags.reduce((acc, curr) => acc || this.checkTag(curr), false))
-            this.tagError = 'Please use only lower case characters and digits'
+            this.tagError = 'Please use only letters and digits'
         }
       })
   },
@@ -244,7 +243,7 @@ export default {
         throw Error('Please use only these characters: A-Za-z0-9-,.:? and foreign characters')
     },
     checkTag(str) {
-      return !/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str) || str.toLowerCase() !== str
+      return !/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str)
     },
     checkUrl(url) {
       //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
@@ -269,8 +268,6 @@ export default {
     checkTime({ target }) {
       this.timeError = ''
       const { value } = target
-
-      
     },
     checkImage({ target }) {
       this.imageError = ''
