@@ -69,7 +69,8 @@
         </span>
           
         <div
-          class="ui multiple fluid dropdown"
+          id="tags"
+          class="ui multiple search selection fluid dropdown"
         >
           <input
             type="hidden"
@@ -80,46 +81,13 @@
           </span>
           
           <div class="menu fluid">
-            <div class="ui icon search input">
-              <i class="search icon" />
-              <input
-                type="text"
-                placeholder="Search tags..."
-              >
-            </div>
-
-            <div class="divider" />
-
-            <div class="ui action input">
-              <input
-                v-model="inputTag"
-                type="text"
-                placeholder="Add a tag"
-              >
-              <button
-                class="ui button neutral"
-                @click="addTag"
-              >
-                Add
-              </button>
-            </div>
-
-            <div class="divider" />
-
-            <div class="header">
-              <i class="tags icon" />
-              Available tags
-            </div>
-
-            <div class="scrolling menu">
-              <div
-                v-for="tag in availableTags"
-                :key="tag"
-                :value="tag"
-                class="item"
-              >
-                {{ tag }}
-              </div>>
+            <div
+              v-for="tag in availableTags"
+              :key="tag"
+              :data-value="tag"
+              class="item"
+            >
+              {{ tag }}
             </div>
           </div>
         </div>  
@@ -194,8 +162,9 @@ export default {
     }
   },
   mounted: function() {
-    $('.ui.dropdown')
+    $('#tags')
       .dropdown({
+        allowAdditions: true,
         onChange: (value) => {
           this.tags = value.split(',')
         }
