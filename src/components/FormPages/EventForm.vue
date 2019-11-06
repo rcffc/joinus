@@ -5,7 +5,7 @@
         id="name-header" 
         class="ui header center aligned large"
       >
-        {{ name || "Create an Event" }}
+        {{ create ? "Create an Event" : name }}
       </div>
     </portal>
 
@@ -136,7 +136,6 @@
         icon="save outline"
         color="positive fluid"
         :click-handler="submitHandler"
-        type="submit"
       />
     </form>
   </div>
@@ -220,6 +219,13 @@ export default {
   methods: {
     submitHandler(event) {
       event.preventDefault()
+      
+      this.checkName()
+      this.checkImage()
+      this.checkLocation()
+      this.checkTime()
+      this.checkDescription()
+      
 
       if (this.nameError || this.locationError || this.timeError || this.tagError || this.descriptionError)
         return;
@@ -251,43 +257,48 @@ export default {
        throw Error('Please give valid url.')
 
     },
-    checkName({ target }) {
+    checkName() {
       this.nameError = ''
-      const { value } = target
-
+  
       try {
-        this.checkString(value)
+        this.checkString(this.name)
       
-        if (value.length > MAX_NAME_LEN || value.length < MIN_NAME_LEN )
+        if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
           throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
       }
       catch (err) {
         this.nameError = err.message
       }
     },
-    checkTime({ target }) {
+    checkTime() {
       this.timeError = ''
-      const { value } = target
-    },
-    checkImage({ target }) {
-      this.imageError = ''
-      const { value } = target
-
+      
       try {
-        this.checkUrl(value)
+        if (!(this.date && this.time))
+          throw Error('Please give a date and time')
+      }
+      catch (err) {
+        this.timeError = err.message
+      }
+
+    },
+    checkImage() {
+      this.imageError = ''
+    
+      try {
+        this.checkUrl(this.image)
       }
       catch (err) {
         this.imageError = err.message
       }
     },  
-    checkLocation({ target }) {
+    checkLocation() {
       this.locationError = ''
-      const { value } = target
-
+    
       try {
-        this.checkString(value)
+        this.checkString(this.location)
       
-        if (!value.length)
+        if (!this.location.length)
           throw Error(`Must be at least ${ MIN_LOCATION_LEN } characters long.`)
       }
       catch (err) {
@@ -295,9 +306,9 @@ export default {
       }
 
     },
-    checkDescription({ target }) {
+    checkDescription() {
       this.descriptionError = ''
-      const { value } = target
+
     }
   }
 }

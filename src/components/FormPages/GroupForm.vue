@@ -93,7 +93,6 @@
         icon="save outline"
         color="positive fluid"
         :click-handler="submitHandler"
-        type="submit"
       />
     </form>
   </div>
@@ -164,6 +163,10 @@ export default {
     submitHandler(event) {
       event.preventDefault()
 
+      this.checkName()
+      this.checkImage()
+      this.checkDescription()
+
       if (this.nameError || this.tagError || this.descriptionError)
         return;
 
@@ -187,34 +190,31 @@ export default {
        throw Error('Please give valid url.')
 
     },
-    checkName({ target }) {
+    checkName() {
       this.nameError = ''
-      const { value } = target
 
       try {
-        this.checkString(value)
+        this.checkString(this.name)
       
-        if (value.length > MAX_NAME_LEN || value.length < MIN_NAME_LEN )
+        if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
           throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
       }
       catch (err) {
         this.nameError = err.message
       }
     },
-    checkImage({ target }) {
+    checkImage() {
       this.imageError = ''
-      const { value } = target
 
       try {
-        this.checkUrl(value)
+        this.checkUrl(this.image)
       }
       catch (err) {
         this.imageError = err.message
       }
     },
-    checkDescription({ target }) {
+    checkDescription() {
       this.descriptionError = ''
-      const { value } = target
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
