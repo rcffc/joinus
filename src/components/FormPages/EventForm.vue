@@ -71,6 +71,7 @@
         <div
           id="tags"
           class="ui multiple search selection fluid dropdown"
+          @keyup="checkTag"
         >
           <input
             type="hidden"
@@ -105,7 +106,6 @@
         icon="save outline"
         color="positive fluid"
         :click-handler="submitHandler"
-        type="submit"
       />
     </form>
   </div>
@@ -181,18 +181,16 @@ export default {
 
       throw err
     },
-    addTag(event) {
-      event.preventDefault()
-      
-      if (this.inputTag && !this.availableTags.includes(this.inputTag)) {
-        this.availableTags = this.availableTags.concat(this.inputTag)
-      
-        this.updateTagSelection(this.inputTag)
+    checkTag({ target }) {
+      const { value } = target
 
-        this.inputTag = ''
+      if (/\s/g.test(value)) {
+        this.tags = this.tags.concat(value.trim())
+        this.availableTags = this.availableTags.concat(value.trim())
+        this.updateTagSelection(this.tags)
+
+        target.value = ''
       }
-
-      //TODO: show error
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
