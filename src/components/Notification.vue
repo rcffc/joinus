@@ -8,14 +8,14 @@
       class="close icon"
       @click="closeHandler" 
     >
-    <span
-      v-if="count"
-      id="amount"
-    >
-      <strong>
-        {{ count }}
-      </strong>
-    </span>
+      <span
+        v-if="count"
+        id="amount"
+      >
+        <strong>
+          {{ count }}
+        </strong>
+      </span>
     </i>
     
 
@@ -43,6 +43,11 @@ export default {
       visible: false
     }
   },
+  computed: {
+    ...mapGetters({
+      count: 'notifications/count'
+    })
+  },
   created: async function() {
     this.$store.subscribe((mutation) => {      
       if (mutation.type === 'notifications/addNotification' && !this.visible) {
@@ -56,11 +61,6 @@ export default {
     if (this.visible)
       this.showNotification()
 
-  },
-  computed: {
-    ...mapGetters({
-      count: 'notifications/count'
-    })
   },
   methods: {
     showNotification: async function() {

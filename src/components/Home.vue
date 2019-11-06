@@ -35,6 +35,14 @@
           </router-link>
         </div>
       </div>
+
+      <IconButton
+        text="Create a group"
+        icon="plus square"
+        color="neutral fluid"
+        :click-handler="groupCreationHandler"
+      />
+
       <h1>My Events</h1>
       <div
         v-for="(eventArray, key) in events"
@@ -74,9 +82,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import IconButton from './utils/IconButton.vue'
+
 // Fetching all events and groups until user authentication is implemented
 export default {
   name: 'Home',
+  components: {
+    IconButton
+  },
   data: function () {
     return {
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
@@ -100,6 +113,11 @@ export default {
       console.log(err.message)
       window.location.href = '/#/home'
     }
+  },
+  methods: {
+    groupCreationHandler() {
+      this.$router.push(`/groups/new`)
+    },
   }
 }
 </script>

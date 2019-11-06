@@ -20,11 +20,18 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                v-if="owner"
+                icon="edit"
+                color="neutral"
+                misc
+                :click-handler="editHandler"
+              />
+              <IconButton
                 v-if="follow"
                 icon="eye slash"
                 color="caution"
                 misc
-                :click-handler="test"
+                :click-handler="followHandler"
               />
               <ShareButton
                 :share-message="name"
@@ -58,7 +65,7 @@
         text="Follow"
         icon="eye"
         color="positive disabled"
-        :click-handler="test"
+        :click-handler="followHandler"
       />
       <CalendarButton
         :name="name"
@@ -104,7 +111,8 @@ export default {
       organizer: '',
       date: '',
       description: '',
-      follow: false
+      follow: false,
+      owner: true
     }
   },
   computed: {
@@ -125,7 +133,7 @@ export default {
       this.loading = false
     }
     catch (err) {
-      window.location.href = '/#/events' //Why is /#/ needed?
+      this.$router.push('/events')
 
       err.name = 'LoadingError'
       
@@ -133,11 +141,14 @@ export default {
     }
   },
   methods: {
-    test() {
+    followHandler() {
       this.follow = !this.follow 
     },
+    editHandler() {
+      this.$router.push(`/events/edit/${ this.id }`)
+    },
     toGroupPage() {
-      window.location.href = `/groups/${ this.organizer.id }`
+      this.$router.push(`/groups/${ this.organizer.id }`)
     }
   }
 }

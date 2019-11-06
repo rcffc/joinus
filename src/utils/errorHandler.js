@@ -12,7 +12,12 @@ const errorHandler = (err) => {
     data.message = 'Could not load page'
     break
   
+  case 'CustomError':
+    data.message = err.message
+    break
+
   default:
+    data.message = err.message
     break
   }
 
