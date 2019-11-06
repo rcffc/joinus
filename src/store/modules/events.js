@@ -15,6 +15,9 @@ const getters = {
   },
   getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
     return state.allEvents.find(event => event.id === id)
+  },
+  getTags: state => {
+    return Array.from(new Set(state.allEvents.map(event => event.tags).flat()))
   }
 }
 

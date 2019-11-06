@@ -15,16 +15,13 @@
       <p class="welcome-text">
         Find a new community or start your own.
       </p>
-      <button class="ui blue button inverted">
-        Register
-      </button>
-      &nbsp; 
- <button class="ui blue button">
-          Log In
-        </button>
-      <router-link
-        tag='ui-button' 
-        :to="`/login/`" />
+      <router-link 
+        to="/home" 
+        class="ui blue labeled icon button"
+      >
+        <i class="google icon" />
+        Join us!
+      </router-link>
     </div>
   </div>
 </template>

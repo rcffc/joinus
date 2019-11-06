@@ -20,11 +20,18 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                v-if="owner"
+                icon="edit"
+                color="neutral"
+                misc
+                :click-handler="editHandler"
+              />
+              <IconButton
                 v-if="follow"
                 icon="eye slash"
                 color="caution"
                 misc
-                :click-handler="test"
+                :click-handler="followHandler"
               />
               <ShareButton
                 :share-message="name"
@@ -58,9 +65,14 @@
         text="Follow"
         icon="eye"
         color="positive disabled"
-        :click-handler="test"
+        :click-handler="followHandler"
       />
-    
+      <CalendarButton
+        :name="name"
+        :date="date"
+        :location="location"
+      />
+
       <div class="ui container">
         <InfoBox
           :description="description"
@@ -79,13 +91,15 @@ import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 import InfoBox from './InfoBox.vue'
 import ShareButton from '../utils/ShareButton.vue'
+import CalendarButton from '../utils/CalendarButton.vue'
 
 export default {
   name: 'Event',
   components: {
     IconButton,
     InfoBox,
-    ShareButton
+    ShareButton,
+    CalendarButton
   },
   data: function() {
     return {
@@ -97,7 +111,8 @@ export default {
       organizer: '',
       date: '',
       description: '',
-      follow: false
+      follow: false,
+      owner: true
     }
   },
   computed: {
@@ -118,17 +133,22 @@ export default {
       this.loading = false
     }
     catch (err) {
-      console.log(err.message)
-      window.location.href = '/#/events' //Why is /#/ needed?
-    //TODO: Add error handling.
+      this.$router.push('/events')
+
+      err.name = 'LoadingError'
+      
+      return Promise.reject(err)
     }
   },
   methods: {
-    test() {
+    followHandler() {
       this.follow = !this.follow 
     },
+    editHandler() {
+      this.$router.push(`/events/edit/${ this.id }`)
+    },
     toGroupPage() {
-      window.location.href = `/groups/${ this.organizer.id }`
+      this.$router.push(`/groups/${ this.organizer.id }`)
     }
   }
 }

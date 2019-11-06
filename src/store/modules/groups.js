@@ -13,6 +13,9 @@ const getters = {
   },
   getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
     return state.allGroups.find(group => group.id === id)
+  },
+  getTags: state => {
+    return Array.from(new Set(state.allGroups.map(group => group.tags).flat()))
   }
 }
 

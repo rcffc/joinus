@@ -5,12 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
     "core-js": "^2.6.5",
     "firebase": "^7.2.2",
     "firebaseui": "^4.2.0",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "portal-vue": "^2.1.6",
     "semantic-ui-css": "^2.4.1",

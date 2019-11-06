@@ -20,6 +20,12 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                icon="edit"
+                color="neutral"
+                misc
+                :click-handler="editHandler"
+              />
+              <IconButton
                 icon="home"
                 color="caution"
                 :click-handler="handleHomeClick"
@@ -50,10 +56,18 @@
       <div class="ui divider hidden" />
 
       <IconButton
+        v-if="member"
+        text="Create an event"
+        icon="plus square"
+        color="neutral"
+        :click-handler="eventCreationHandler"
+      />
+
+      <IconButton
         v-if="!member"
         text="Join"
         icon="user plus"
-        color="positive disabled"
+        color="positive"
         :click-handler="test"
       />
       
@@ -119,8 +133,6 @@ export default {
     try {
       const data = await this.$store.dispatch('groups/find', this.id)
 
-      console.log(data)
-
       for (let key in data) {
         this[key] = data[key]
       }
@@ -128,14 +140,22 @@ export default {
       this.loading = false
     }
     catch (err) {
-      console.log(err.message)
-      window.location.href = '/#/groups' //Why is /#/ needed?
-      //TODO: Add error handling.
+      this.$router.push('/groups')
+      
+      err.name = 'LoadingError'
+
+      return Promise.reject(err)
     }
   },
   methods: {
     test() {
       this.member = !this.member
+    },
+    eventCreationHandler() {
+      this.$router.push(`/groups/${ this.id }/events/new`)
+    },
+    editHandler() {
+      this.$router.push(`/groups/edit/${ this.id }`)
     },
     handleHomeClick() {
       window.location.href = this.website
