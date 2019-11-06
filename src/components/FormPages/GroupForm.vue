@@ -171,7 +171,7 @@ export default {
       if (this.nameError || this.tagError || this.descriptionError)
         return;
 
-      this.$router.push('/groups/')
+      this.$router.replace('/groups/')
       
       const err = Error('Not implemented yet')
       err.name = 'CustomError'
@@ -195,10 +195,10 @@ export default {
       this.nameError = ''
 
       try {
-        this.checkString(this.name)
-      
         if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
           throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
+
+        this.checkString(this.name)
       }
       catch (err) {
         this.nameError = err.message
@@ -218,6 +218,9 @@ export default {
       this.descriptionError = ''
 
       try {
+        if (!this.description)
+          return;
+
         this.checkString(this.description)
 
         if (this.description.length > MAX_DESC_LEN)
