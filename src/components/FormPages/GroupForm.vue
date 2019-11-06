@@ -103,6 +103,7 @@ import IconButton from '../utils/IconButton.vue'
 
 const MIN_NAME_LEN = 3
 const MAX_NAME_LEN = 15
+const MAX_DESC_LEN = 800
 
 export default {
   name: 'GroupForm',
@@ -178,8 +179,8 @@ export default {
       throw err
     },
     checkString(str) {
-      if (!/^[a-z0-9-\.,:\? \xC0-\xFF]+$/i.test(str))
-        throw Error('Please use only these characters: A-Za-z0-9-,.:? and foreign characters')
+      if (!/^[a-z0-9-\./\\&’!”“\(\),:\? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:?\\/&’!”“ and foreign characters')
     },
     checkTag(str) {
       return !/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str)
@@ -215,6 +216,16 @@ export default {
     },
     checkDescription() {
       this.descriptionError = ''
+
+      try {
+        this.checkString(this.description)
+
+        if (this.description.length > MAX_DESC_LEN)
+          throw Error(`The description can't be longer than ${ MAX_DESC_LEN } characters.`)
+      }
+      catch (err) {
+        this.descriptionError = err.message
+      }
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
