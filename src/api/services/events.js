@@ -54,7 +54,25 @@ const getEvent = async (id) => {
   }
 }
 
+const createEvent = async (data) => {
+  try {
+    const ref = await events.add(data)
+    const doc = await ref.get()
+    
+    return getData(doc)
+  }
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+const editEvent = async (data) => {
+  return null
+}
+
 export default {
   getAll,
-  getEvent
+  getEvent,
+  createEvent,
+  editEvent
 }

@@ -100,6 +100,7 @@
 
 <script>
 import IconButton from '../utils/IconButton.vue'
+import _ from 'underscore'
 
 const MIN_NAME_LEN = 3
 const MAX_NAME_LEN = 15
@@ -127,9 +128,10 @@ export default {
   created: async function() {
     this.id = this.$route.params.groupId
 
-    if (this.id) {
+    if (true) {
       try {
-        const data = await this.$store.dispatch('groups/find', this.id)
+        //const data = await this.$store.dispatch('groups/find', this.id)
+        throw Error('test')
 
         for (let key in data) {
           this[key] = data[key]
@@ -171,12 +173,9 @@ export default {
       if (this.nameError || this.tagError || this.descriptionError)
         return;
 
-      this.$router.replace('/groups/')
-      
-      const err = Error('Not implemented yet')
-      err.name = 'CustomError'
+      const result = _.pick(this, ['name', 'tags', 'description', 'id'])
 
-      throw err
+      this.$router.replace('/groups/')
     },
     checkString(str) {
       if (!/^[a-z0-9-\./\\&’!”“\(\),:\? \xC0-\xFF]+$/i.test(str))

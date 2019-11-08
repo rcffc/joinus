@@ -143,6 +143,7 @@
 
 <script>
 import IconButton from '../utils/IconButton.vue'
+import _ from 'underscore'
 
 const MIN_NAME_LEN = 3
 const MAX_NAME_LEN = 30
@@ -195,7 +196,7 @@ export default {
         this.updateTagSelection(this.tags)
       }
       catch (err) {
-        this.$router.push('/events')
+        this.$router.replace('/events')
 
         err.name = 'LoadingError'
         
@@ -218,9 +219,9 @@ export default {
       })
   },
   methods: {
-    submitHandler(event) {
+    async submitHandler(event) {
       event.preventDefault()
-      
+
       this.checkName()
       this.checkImage()
       this.checkLocation()
@@ -230,13 +231,23 @@ export default {
 
       if (this.nameError || this.locationError || this.timeError || this.tagError || this.descriptionError)
         return;
+      
+      const result = _.pick(this, ['name', 'location', 'tags', 'description', 'image'])
+
+      result.date = new Date(`${ this.date } ${ this.time }`)
+
+      try {
+        (this.create) ?
+        this.$store.dispatch('events/create', { ...result, organizer: this.id })
+        :
+        this.$store.dispatch('events/edit', { ...result, id: this.id })
+      }
+      catch (err) {
+        err.name = 'CustomError'
+        throw err
+      }
 
       this.$router.replace('/events/')
-      
-      const err = Error('Not implemented yet')
-      err.name = 'CustomError'
-
-      throw err
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
@@ -264,7 +275,7 @@ export default {
       try {
         if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
           throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
-          
+
         this.checkString(this.name)
       }
       catch (err) {
