@@ -49,7 +49,29 @@ const actions = {
     catch (err) {
       return Promise.reject(err)
     }
-  }
+  },
+  async create ({ commit }, groupData) {
+    try {
+      const newGroup = await groups.createGroup(groupData)
+
+      commit('addGroup', newGroup)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async edit ({ commit }, groupData) {
+    try {      
+      const { id, ...data } = groupData
+      
+      const editedGroup = await groups.editGroup(id, data)
+
+      commit('replaceGroup', editedGroup)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
 }
 
 // mutations : synchronous methods for changing the store's state.
@@ -57,6 +79,14 @@ const mutations = {
   setGroups (state, groups) {
     state.allGroups = groups
     state.filteredGroups = groups
+  },
+  replaceGroup (state, group) {
+    const index = state.allGroups.findIndex((g) => g.id === group.id)
+
+    console.log(state.allGroups)
+    state.allGroups.splice(index, 0, group)
+
+    console.log(state.allGroups)
   },
   filterGroups(state, searchString) {
     searchString = searchString.split(' ')

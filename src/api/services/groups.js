@@ -30,7 +30,27 @@ const getGroup = async (id) => {
   }
 }
 
+const createGroup = async (data) => {
+  try {
+    const ref = await groups.add(data)
+    const doc = await ref.get()
+    
+    return getData(doc)
+  }
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+const editGroup = async (id, data) => {
+  await groups.doc(id).set(data)
+
+  return getGroup(id)
+}
+
 export default {
   getAll,
-  getGroup
+  getGroup,
+  createGroup,
+  editGroup
 }

@@ -129,11 +129,10 @@ export default {
   created: async function() {
     this.id = this.$route.params.groupId
 
-    if (true) {
+    if (this.id) {
       try {
-        //const data = await this.$store.dispatch('groups/find', this.id)
-        throw Error('test')
-
+        const data = await this.$store.dispatch('groups/find', this.id)
+        
         for (let key in data) {
           this[key] = data[key]
         }
@@ -178,7 +177,19 @@ export default {
       if (this.nameError || this.tagError || this.descriptionError)
         return;
 
-      const result = _.pick(this, ['name', 'tags', 'description', 'id'])
+      const result = _.pick(this, ['name', 'tags', 'description', 'image'])
+
+      try {
+        (this.id) ?
+          this.$store.dispatch('groups/edit', { ...result, id: this.id })
+          :
+          this.$store.dispatch('groups/create', result)
+          
+      }
+      catch (err) {
+        err.name = 'CustomError'
+        throw err
+      }
 
       this.$router.replace('/groups/')
     },
