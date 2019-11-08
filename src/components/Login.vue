@@ -1,54 +1,65 @@
 <template>
   <div class="wrapper">
-    <div class="ui transparent">
-      <div class="ui header">Log In</div>
-          <form class="ui form" @submit.prevent="submit">
-            <div class="form-group row">
-              <div class="label">
-                <label>Email</label>
-              </div>
-              <div class="field">
-                <input
-                  id="email"
-                  type="text"
-                  class="form-control"
-                  name="email"
-                  placeholder="E-mail"
-                  value
-                  required
-                  autofocus
-                  v-model="form.email"
-                />
-              </div>
-            </div>
+    <portal to="actionBar">
+      <div class="ui fluid center aligned"> 
+        <img 
+          class="ui centered image fluid logo"
+          src="../../assets/join-us-white.png"
+        >
+      </div>
+    </portal>
 
-            &nbsp;
+  <div class="ui transparent">
+    <div class="ui header">Log In</div>
+      <form class="ui form" @submit.prevent="submit">
+        <div class="form-group row">
+          <div class="label">
+            <label>Email</label>
+          </div>
+          <div class="field">
+            <input
+              id="email"
+              type="text"
+              class="form-control"
+              name="email"
+              placeholder="E-mail"
+              value
+              required
+              autofocus
+              v-model="form.email"
+            />
+          </div>
+        </div>
 
-            <div class="form-group row">
-              <div class="label">
-                <label>Password</label>
-              </div>
-              <div class="field">
-                <input
-                  id="password"
-                  type="password"
-                  class="form-control"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  v-model="form.password"
-                  />
-              </div>
-            </div>
+        &nbsp;
 
-            &nbsp;
+        <div class="form-group row">
+          <div class="label">
+            <label>Password</label>
+          </div>
+          <div class="field">
+            <input
+              id="password"
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="Password"
+              required
+              v-model="form.password"
+              />
+          </div>
+        </div>
 
-            <div id="button">
-              <div class="">
-                <button type="submit" class="ui button blue">Join Us!</button>
-              </div>
-            </div>
-          </form>
+        &nbsp;
+
+        <div id="button">
+          <div class="">
+            <button type="submit" class="ui button blue">Join Us!</button>
+          </div>
+        </div>
+      </form>
+      <div v-if="error" class="alert alert-danger">
+        {{error}} 
       </div>
     </div>
   </div>
@@ -77,10 +88,8 @@ export default {
           this.$router.push({ path: '/home'});
         })
         .catch(err => {
-          this.error = err;
-          console.log(this.error)
-        })
-        .reject(this.error);
+        this.error = err.message;
+      });
     }
   }
 };
@@ -89,7 +98,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  font-size: 16px;
+  font-size: 100%;
   flex-direction: column;
   flex: 1;
   text-align: center;
@@ -103,20 +112,26 @@ export default {
 
 .ui.header {
   font-size: 2em;
-  margin-top: 100px;
+  margin-top: 2em;
 }
 
 .ui.form {
   color: white;
-  margin-top: 5em;
+  margin-top: 3em;
   margin-bottom: 1em;
   margin-left: 2em;
   margin-right: 2em;
 }
 
+.ui.logo {
+  width: 120px;
+  height: 55px;
+  padding: 0% 1% 1%;
+}
+
 .label {
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 1em;
 }
 
 .field {
@@ -124,6 +139,9 @@ export default {
 }
 
 .alert.alert-danger {
-  color: black
+  color: red;
+  margin: 3em auto 0;
+  max-width: 80%
 }
+
 </style>

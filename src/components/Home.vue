@@ -104,6 +104,10 @@ export default {
     })
   },
   created: async function() {
+    // Make sure user is logged in
+    if (!this.$store.state.user.isLoggedIn) {
+      this.$router.push('/welcome')
+    }
     try {
       await this.$store.dispatch('events/findAll')
       await this.$store.dispatch('groups/findAll')
