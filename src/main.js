@@ -10,17 +10,22 @@ import 'semantic-ui-css/semantic.js'
 import router from './router'
 import store from './store'
 
+import * as firebase from "firebase";
+
 Vue.config.productionTip = false
 
 Vue.use(PortalVue)
-
-import * as firebaseui from 'firebaseui'
 
 Vue.use({
   install: function(Vue){
     Vue.prototype.$jQuery = jQuery // you'll have this.$jQuery anywhere in your vue project
   }
 })
+
+firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("user/fetchUser", user);
+});
+
 new Vue({ 
   router, //Inject router to all child components.
   store,  // Inject store to all child components.

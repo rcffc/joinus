@@ -99,7 +99,8 @@ export default {
   computed: {
     ...mapGetters({
       events: 'events/getGroupedEvents',
-      groups: 'groups/groups'
+      groups: 'groups/groups',
+      user: 'user/user'
     })
   },
   created: async function() {

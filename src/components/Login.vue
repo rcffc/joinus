@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="ui transparent">
-      <div class="ui header">Register</div>
+      <div class="ui header">Log In</div>
           <form class="ui form" @submit.prevent="submit">
             <div class="form-group row">
               <div class="label">
@@ -70,11 +70,11 @@ export default {
   },
   methods: {
     submit() {
-      return firebase
+      firebase
         .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
-           this.$router.push({ path: '/home'})
+          this.$router.push({ path: '/home'});
         })
         .catch(err => {
           this.error = err;
@@ -89,7 +89,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  color: white;
   font-size: 16px;
   flex-direction: column;
   flex: 1;
@@ -108,11 +107,13 @@ export default {
 }
 
 .ui.form {
+  color: white;
   margin-top: 5em;
   margin-bottom: 1em;
   margin-left: 2em;
   margin-right: 2em;
 }
+
 .label {
   text-align: left;
   margin-bottom: 10px;
@@ -122,4 +123,7 @@ export default {
   margin-bottom: 2em;
 }
 
+.alert.alert-danger {
+  color: black
+}
 </style>

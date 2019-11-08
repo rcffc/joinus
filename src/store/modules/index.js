@@ -2,9 +2,11 @@
 import events from './events.js'
 import groups from './groups.js'
 import notifications from './notifications.js'
+import user from './user.js'
 
 export default {
   events,
   groups,
-  notifications
+  notifications,
+  user
 }

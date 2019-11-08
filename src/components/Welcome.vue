@@ -16,11 +16,17 @@
         Find a new community or start your own.
       </p>
       <router-link 
-        to="/home" 
-        class="ui blue labeled icon button"
-      >
-        <i class="google icon" />
-        Join us!
+        to="/register" 
+        class="ui blue button"> 
+        Register 
+      </router-link>
+
+      &nbsp;
+
+      <router-link 
+        to="/login" 
+        class="ui blue button"> 
+        Log In 
       </router-link>
     </div>
   </div>
