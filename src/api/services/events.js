@@ -66,8 +66,10 @@ const createEvent = async (data) => {
   }
 }
 
-const editEvent = async (data) => {
-  return null
+const editEvent = async (id, data) => {
+  await events.doc(id).set(data)
+
+  return getEvent(id)
 }
 
 export default {

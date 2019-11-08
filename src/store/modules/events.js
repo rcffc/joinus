@@ -61,7 +61,19 @@ const actions = {
     }
   },
   async edit ({ commit, getters }, eventData) {
-    commit('replaceEvent', eventData)
+    try {      
+      const { id, ...data } = eventData
+      const current = getters.getById(id)
+
+      data.organizer = current.organizer.id
+
+      const editedEvent = await events.editEvent(id, data)
+
+      commit('replaceEvent', editedEvent)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
   },
 }
 
