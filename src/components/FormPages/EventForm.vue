@@ -91,6 +91,7 @@
         <div
           id="tags"
           class="ui multiple search selection fluid dropdown"
+          @keyup="addTag"
         >
           <input
             type="hidden"
@@ -208,13 +209,17 @@ export default {
     $('#tags')
       .dropdown({
         allowAdditions: true,
-        onChange: (value) => {
-          this.tagError = ''
-          
-          this.tags = value.split(',')
+        onRemove: (value) => {
+          this.tags = this.tags.filter(tag => tag !== value)
 
-          if (this.tags.reduce((acc, curr) => acc || this.checkTag(curr), false))
-            this.tagError = 'Please use only letters and digits'
+          try {
+            this.tags.map(tag => this.checkTag(tag))
+
+            this.tagError = ''
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
         }
       })
   },
@@ -260,8 +265,33 @@ export default {
       if (!/^[a-z0-9-\./\\&’!”\(\),:\? \xC0-\xFF]+$/i.test(str))
         throw Error('Please use only these characters: A-Za-z0-9-,.:?\\/&’!”“ and foreign characters')
     },
+    addTag({ target }) {
+      let { value } = target
+
+      if (/\s/g.test(value)) {
+        value = value.trim()
+        target.value = ''
+
+        try {
+          const selectedTags = this.tags.concat(value)
+
+          this.updateTagSelection(selectedTags)
+          
+          //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
+          this.checkTag(value)
+
+          this.tags = selectedTags
+
+          this.availableTags = this.availableTags.concat(value)
+        }
+        catch (err) {
+          this.tagError = err.message
+        }
+      }
+    },
     checkTag(str) {
-      return !/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str)
+      if (!/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only letters and digits')
     },
     checkUrl(url) {
       //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
