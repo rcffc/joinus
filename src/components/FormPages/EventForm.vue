@@ -194,7 +194,10 @@ export default {
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
 
-        this.updateTagSelection(this.tags)
+        //Update via onAdd
+        this.tags = []
+
+        this.updateTagSelection(data.tags)
       }
       catch (err) {
         this.$router.replace('/events')
