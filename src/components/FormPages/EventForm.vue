@@ -171,7 +171,7 @@ export default {
       description: '',
       descriptionError: '',
       tagError: '',
-      availableTags: this.$store.getters['events/getTags'],
+      availableTags: [],
       create: true,
     }
   },
@@ -182,6 +182,7 @@ export default {
     if (!this.create) {
       try {
         const data = await this.$store.dispatch('events/find', this.id)
+        this.availableTags = this.$store.getters['events/getTags']
 
         for (let key in data) {
           this[key] = data[key]
@@ -215,6 +216,16 @@ export default {
             this.tags.map(tag => this.checkTag(tag))
 
             this.tagError = ''
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
+        },
+        onAdd: (value) => {
+          try {
+            this.checkTag(value)
+            
+            this.tags = this.tags.concat(value)
           }
           catch (err) {
             this.tagError = err.message
@@ -268,24 +279,19 @@ export default {
       let { value } = target
 
       if (/\s/g.test(value)) {
-        value = value.trim()
         target.value = ''
-
+        value = value.trim()
+        
+        //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
         try {
-          const selectedTags = this.tags.concat(value)
-
-          this.updateTagSelection(selectedTags)
-          
-          //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
           this.checkTag(value)
 
-          this.tags = selectedTags
+          if (!this.availableTags.includes(value))
+            this.availableTags = this.availableTags.concat(value)
+        }
+        catch (err) {}
 
-          this.availableTags = this.availableTags.concat(value)
-        }
-        catch (err) {
-          this.tagError = err.message
-        }
+        this.updateTagSelection(value.trim())
       }
     },
     checkTag(str) {

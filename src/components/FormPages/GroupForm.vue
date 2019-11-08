@@ -123,7 +123,7 @@ export default {
       description: '',
       descriptionError: '',
       tagError: '',
-      availableTags: this.$store.getters['groups/getTags'],
+      availableTags: [],
     }
   },
   created: async function() {
@@ -132,12 +132,16 @@ export default {
     if (this.id) {
       try {
         const data = await this.$store.dispatch('groups/find', this.id)
-        
+
+        this.availableTags = this.$store.getters['groups/getTags']
+
         for (let key in data) {
           this[key] = data[key]
         }
 
-        this.updateTagSelection(this.tags)
+        //Update via onAdd
+        this.tags = []
+        this.updateTagSelection(data.tags)
       }
       catch (err) {
         this.$router.push('/groups')
@@ -163,6 +167,16 @@ export default {
           catch (err) {
             this.tagError = err.message
           }
+        },
+        onAdd: (value) => {
+          try {
+            this.checkTag(value)
+            
+            this.tags = this.tags.concat(value)
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
         }
       })
   },
@@ -175,7 +189,7 @@ export default {
       this.checkDescription()
 
       if (this.nameError || this.tagError || this.descriptionError)
-        return;
+        return
 
       const result = _.pick(this, ['name', 'tags', 'description', 'image'])
 
@@ -201,24 +215,19 @@ export default {
       let { value } = target
 
       if (/\s/g.test(value)) {
-        value = value.trim()
         target.value = ''
-
+        value = value.trim()
+        
+        //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
         try {
-          const selectedTags = this.tags.concat(value)
-
-          this.updateTagSelection(selectedTags)
-          
-          //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
           this.checkTag(value)
 
-          this.tags = selectedTags
+          if (!this.availableTags.includes(value))
+            this.availableTags = this.availableTags.concat(value)
+        }
+        catch (err) {}
 
-          this.availableTags = this.availableTags.concat(value)
-        }
-        catch (err) {
-          this.tagError = err.message
-        }
+        this.updateTagSelection(value.trim())
       }
     },
     checkTag(str) {

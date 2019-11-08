@@ -63,12 +63,14 @@ const actions = {
   async edit ({ commit }, groupData) {
     try {      
       const { id, ...data } = groupData
-      
+
       const editedGroup = await groups.editGroup(id, data)
 
       commit('replaceGroup', editedGroup)
     }
     catch (err) {
+      err.name = 'CustomError'
+
       return Promise.reject(err)
     }
   },
@@ -83,10 +85,7 @@ const mutations = {
   replaceGroup (state, group) {
     const index = state.allGroups.findIndex((g) => g.id === group.id)
 
-    console.log(state.allGroups)
-    state.allGroups.splice(index, 0, group)
-
-    console.log(state.allGroups)
+    state.allGroups.splice(index, 1, group)
   },
   filterGroups(state, searchString) {
     searchString = searchString.split(' ')

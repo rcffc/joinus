@@ -90,11 +90,7 @@ const mutations = {
   replaceEvent (state, event) {
     const index = state.allEvents.findIndex((e) => e.id === event.id)
 
-    console.log(state.allEvents)
-
-    state.allEvents.splice(index, 0, event)
-
-    console.log(state.allEvents)
+    state.allEvents.splice(index, 1, event)
   },
   filterEvents(state, searchString) {
     searchString = searchString.split(' ')
