@@ -10,7 +10,7 @@
     </portal>
 
   <div class="ui transparent">
-    <div class="ui header">Log In</div>
+    <h1 class="ui header">Log In</h1>
       <form class="ui form" @submit.prevent="submit">
         <div class="form-group row">
           <div class="label">
@@ -102,7 +102,7 @@ export default {
   flex-direction: column;
   flex: 1;
   text-align: center;
-  background: url("../../assets/stockbrot.jpg") no-repeat center center fixed; 
+  background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .3)), url("../../assets/stockbrot.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -111,8 +111,9 @@ export default {
 }
 
 .ui.header {
-  font-size: 2em;
-  margin-top: 2em;
+  margin: 2em auto 0;
+  color:white;
+  max-width: 80%
 }
 
 .ui.form {
@@ -131,7 +132,7 @@ export default {
 
 .label {
   text-align: left;
-  margin-bottom: 1em;
+  margin: 0 auto 1em;
 }
 
 .field {

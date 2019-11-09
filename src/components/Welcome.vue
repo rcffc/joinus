@@ -8,9 +8,11 @@
         >
       </div>
     </portal>
+
     <h1 class="ui header">
       Explore new activities
     </h1>
+
     <div class="welcome-block">
       <p class="welcome-text">
         Find a new community or start your own.
@@ -43,7 +45,7 @@ export default {}
   flex-direction: column;
   flex: 1;
   text-align: center;
-  background: url("../../assets/stockbrot.jpg") no-repeat center center fixed; 
+  background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .3)), url("../../assets/stockbrot.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -53,7 +55,9 @@ export default {}
 .ui.header {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   flex: 1;
-  margin-top: 40px;
+  margin: 2em auto 0;
+  color:white;
+  max-width: 80%
 }
 
 .welcome-block {
@@ -64,7 +68,8 @@ export default {}
 .welcome-text {
   color: white;
   font-size: 16px;
-  margin-bottom: 24px;
+  margin: 0 auto 24px;
+  max-width: 80%
 }
 
 .ui.image {
