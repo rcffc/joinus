@@ -10,65 +10,73 @@
     </portal>
 
     <div class="ui transparent">
-      <h1 class="ui header">Register</h1>
-        <form class="ui form" @submit.prevent="submit">
-          <div class="form-group row">
-            <div class="label">
-              <label>Email</label>
-            </div>
-            <div class="field">
-              <input
-                id="email"
-                v-model="form.email"
-                type="text"
-                class="form-control"
-                name="email"
-                placeholder="E-mail"
-                value
-                required
-                autofocus
-              />
-            </div>
-          </div>
-
-          &nbsp;
-
-          <div class="form-group row">
-            <div class="label">
-              <label>Password</label>
-            </div>
-            <div class="field">
-              <input
-                id="password"
-                v-model="form.password"
-                type="password"
-                class="form-control"
-                name="password"
-                placeholder="Password"
-                required
-              >
-            </div>
-          </div>
-
-          &nbsp;
-
-          <div id="button">
-            <div class="">
-              <button
-                type="submit"
-                class="ui button blue"
-              >
-                Join Us!
-              </button>
-            </div>
-          </div>
-      </form>
-      <div
-        v-if="error"
-        class="alert alert-danger"
+      <h1 class="ui header">
+        Register
+      </h1>
+      <form 
+        class="ui form error" 
+        @submit.prevent="submit"
       >
-        {{ error }} 
-      </div>
+        <div class="form-group row">
+          <div class="label">
+            <label>Email</label>
+          </div>
+          <div class="field">
+            <input
+              id="email"
+              v-model="form.email"
+              type="text"
+              class="form-control"
+              name="email"
+              placeholder="E-mail"
+              value
+              required
+              autofocus
+            />
+          </div>
+        </div>
+
+        &nbsp;
+
+        <div class="form-group row">
+          <div class="label">
+            <label>Password</label>
+          </div>
+          <div class="field">
+            <input
+              id="password"
+              v-model="form.password"
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="Password"
+              required
+            >
+          </div>
+        </div>
+
+        &nbsp;
+      
+        <div v-if="error">
+          <div class="ui error message">
+            {{error}}
+          </div>
+        </div>
+        
+        &nbsp;
+
+        <div id="button">
+          <div class="">
+            <button
+              type="submit"
+              class="ui button blue"
+            >
+              Join Us!
+            </button>
+          </div>
+        </div>
+      </form>
+     
     </div>
   </div>
 </template>
@@ -148,10 +156,12 @@ export default {
   margin-bottom: 2em;
 }
 
-.alert.alert-danger {
+.ui.error.message {
+  flex: 1;
   color: red;
-  margin: 3em auto 0;
-  max-width: 80%
+  margin: 0;
+  max-width: 100%;
+  margin: 1em auto 1em;
 }
 
 </style>

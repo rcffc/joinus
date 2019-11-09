@@ -14,7 +14,7 @@
         Log In
       </h1>
       <form
-        class="ui form"
+        class="ui form error"
         @submit.prevent="submit"
       >
         <div class="form-group row">
@@ -56,6 +56,14 @@
         </div>
 
         &nbsp;
+        
+        <div v-if="error">
+          <div class="ui error message">
+            {{error}}
+          </div>
+        </div>
+        
+        &nbsp;
 
         <div id="button">
           <div class="">
@@ -68,12 +76,7 @@
           </div>
         </div>
       </form>
-      <div
-        v-if="error"
-        class="alert alert-danger"
-      >
-        {{ error }} 
-      </div>
+       
     </div>
   </div>
 </template>
@@ -152,10 +155,11 @@ export default {
   margin-bottom: 2em;
 }
 
-.alert.alert-danger {
+.ui.error.message {
+  flex: 1;
   color: red;
-  margin: 3em auto 0;
-  max-width: 80%
+  margin: 0;
+  max-width: 100%;
+  margin: 1em auto 1em;
 }
-
 </style>
