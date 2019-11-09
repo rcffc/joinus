@@ -19,7 +19,8 @@
       </p>
       <router-link 
         to="/register" 
-        class="ui blue button"> 
+        class="ui blue button"
+      > 
         Register 
       </router-link>
 
@@ -27,7 +28,8 @@
 
       <router-link 
         to="/login" 
-        class="ui blue button"> 
+        class="ui blue button"
+      > 
         Log In 
       </router-link>
     </div>
