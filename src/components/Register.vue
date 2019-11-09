@@ -10,89 +10,102 @@
     </portal>
 
     <div class="ui transparent">
-      <div class="ui header">Register</div>
-        <form class="ui form" @submit.prevent="submit">
-          <div class="form-group row">
-            <div class="label">
-              <label>Email</label>
-            </div>
-            <div class="field">
-              <input
-                id="email"
-                type="text"
-                class="form-control"
-                name="email"
-                placeholder="E-mail"
-                value
-                required
-                autofocus
-                v-model="form.email"
-              />
-            </div>
+      <div class="ui header">
+        Register
+      </div>
+      <form
+        class="ui form"
+        @submit.prevent="submit"
+      >
+        <div class="form-group row">
+          <div class="label">
+            <label>Email</label>
           </div>
-
-          &nbsp;
-
-          <div class="form-group row">
-            <div class="label">
-              <label>Password</label>
-            </div>
-            <div class="field">
-              <input
-                id="password"
-                type="password"
-                class="form-control"
-                name="password"
-                placeholder="Password"
-                required
-                v-model="form.password"
-                />
-            </div>
+          <div class="field">
+            <input
+              id="email"
+              v-model="form.email"
+              type="text"
+              class="form-control"
+              name="email"
+              placeholder="E-mail"
+              value
+              required
+              autofocus
+            >
           </div>
-
-          &nbsp;
-
-          <div id="button">
-            <div class="">
-              <button type="submit" class="ui button blue">Join Us!</button>
-            </div>
-          </div>
-        </form>
-        <div v-if="error" class="alert alert-danger">
-          {{error}} 
         </div>
+
+          &nbsp;
+
+        <div class="form-group row">
+          <div class="label">
+            <label>Password</label>
+          </div>
+          <div class="field">
+            <input
+              id="password"
+              v-model="form.password"
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="Password"
+              required
+            >
+          </div>
+        </div>
+
+          &nbsp;
+
+        <div id="button">
+          <div class="">
+            <button
+              type="submit"
+              class="ui button blue"
+            >
+              Join Us!
+            </button>
+          </div>
+        </div>
+      </form>
+      <div
+        v-if="error"
+        class="alert alert-danger"
+      >
+        {{ error }} 
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase'
 
 export default {
   data() {
     return {
       form: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       },
       error: null
-    };
+    }
   },
   methods: {
     submit() {
       return firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(data => {
-           this.$router.push({ path: '/home'})
+        .then(() => {
+          this.$router.replace({ path: '/home'})
         })
         .catch(err => {
-          this.error = err;
+          this.error = err
         })
     }
   }
-};
+}
 </script>
 
 
