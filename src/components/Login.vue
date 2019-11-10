@@ -59,7 +59,7 @@
         
         <div v-if="error">
           <div class="ui error message">
-            {{error}}
+            {{ error }}
           </div>
         </div>
         
@@ -76,7 +76,6 @@
           </div>
         </div>
       </form>
-       
     </div>
   </div>
 </template>
