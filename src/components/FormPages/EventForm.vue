@@ -255,7 +255,7 @@ export default {
       result.date = new Date(`${ this.date } ${ this.time }`)
 
       try {
-        (this.create) ?
+        await (this.create) ?
           this.$store.dispatch('events/create', { ...result, organizer: this.id })
           :
           this.$store.dispatch('events/edit', { ...result, id: this.id })

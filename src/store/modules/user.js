@@ -1,3 +1,5 @@
+import { users, auth } from '../../api'
+
 const state = {
   isLoggedIn: false,
   data: null
@@ -30,9 +32,30 @@ const actions = {
       commit('SET_USER', null)
     }
   },
-  logOut({ commit }) {
-    commit('SET_LOGGED_IN', false)
-    commit('SET_USER', null)
+  async logOut({ commit }) {
+    try {
+      await auth.logOut()
+
+      commit('SET_LOGGED_IN', false)
+      commit('SET_USER', null)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async emailRegistration({ commit }, info) {
+    const { email, password } = info
+    
+    try {
+      await auth.emailRegistration(email, password)
+      await users.createUser(email)
+
+      commit('SET_LOGGED_IN', true)
+      commit('SET_USER', { email })
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
 

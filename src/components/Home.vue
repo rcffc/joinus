@@ -89,7 +89,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import IconButton from './utils/IconButton.vue'
-import firebase from "firebase";
 
 // Fetching all events and groups until user authentication is implemented
 export default {
@@ -130,13 +129,11 @@ export default {
       this.$router.push(`/groups/new`)
     },
     logoutHandler() {
-      firebase
-        .auth()
-        .signOut()
+      return this.$store.dispatch('user/logOut')
         .then(() => {
-          this.$store.dispatch('user/logOut')
-          this.$router.replace("/welcome");
-        });
+          this.$router.replace("/welcome")
+        })
+        .catch(err => Promise.reject(err))
     }
   }
 }

@@ -96,9 +96,7 @@ export default {
   },
   methods: {
     submit() {
-      return firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+      return this.$store.dispatch('user/emailRegistration', { email: this.form.email, password: this.form.password })
         .then(() => {
           this.$router.replace({ path: '/home'})
         })

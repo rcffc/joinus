@@ -181,7 +181,7 @@ export default {
       })
   },
   methods: {
-    submitHandler(event) {
+    async submitHandler(event) {
       event.preventDefault()
 
       this.checkName()
@@ -194,7 +194,7 @@ export default {
       const result = _.pick(this, ['name', 'tags', 'description', 'image'])
 
       try {
-        (this.id) ?
+        await (this.id) ?
           this.$store.dispatch('groups/edit', { ...result, id: this.id })
           :
           this.$store.dispatch('groups/create', result)
