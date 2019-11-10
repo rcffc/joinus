@@ -45,11 +45,24 @@ const actions = {
   },
   async emailRegistration({ commit }, info) {
     const { email, password } = info
-    
+
     try {
       await auth.emailRegistration(email, password)
       await users.createUser(email)
 
+      commit('SET_LOGGED_IN', true)
+      commit('SET_USER', { email })
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async logIn({ commit }, info) {
+    const { email, password } = info
+
+    try {
+      await auth.emailLogin(email, password)
+      
       commit('SET_LOGGED_IN', true)
       commit('SET_USER', { email })
     }

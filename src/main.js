@@ -10,7 +10,7 @@ import 'semantic-ui-css/semantic.js'
 import router from './router'
 import store from './store'
 
-import * as firebase from "firebase";
+import * as firebase from 'firebase'
 
 Vue.config.productionTip = false
 
@@ -22,23 +22,23 @@ Vue.use({
   }
 })
 
+Vue.config.errorHandler = (err, vm) => {
+  console.log(err)
+  console.log(vm)
+}
+
 new Vue({ 
   router, //Inject router to all child components.
   store,  // Inject store to all child components.
-  render: h => h(App),
   created () {
-    firebase.auth().onAuthStateChanged(async user => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        await store.dispatch("user/fetchUser", user);
-        router.replace("/home");
+        store.dispatch('user/fetchUser', user)
+        router.replace('/home')
       } else {
-        router.replace("/welcome");
+        router.replace('/welcome')
       }
-
-          // Make sure user is logged in
-  //  if (!this.$store.state.user.isLoggedIn) {
-      //this.$router.replace('/welcome')
-    
     })
-  }
+  },
+  render: h => h(App),
 }).$mount('#app')
