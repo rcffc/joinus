@@ -133,8 +133,6 @@ export default {
       try {
         const data = await this.$store.dispatch('groups/find', this.id)
 
-        this.availableTags = this.$store.getters['groups/getTags']
-
         for (let key in data) {
           this[key] = data[key]
         }
@@ -151,6 +149,9 @@ export default {
         return Promise.reject(err)
       }
     }
+
+    this.availableTags = this.$store.getters['groups/getTags']
+
   },
   mounted: function() {
     $('#tags')

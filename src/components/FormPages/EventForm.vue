@@ -182,7 +182,6 @@ export default {
     if (!this.create) {
       try {
         const data = await this.$store.dispatch('events/find', this.id)
-        this.availableTags = this.$store.getters['events/getTags']
 
         for (let key in data) {
           this[key] = data[key]
@@ -207,6 +206,8 @@ export default {
         return Promise.reject(err)
       }
     }
+
+    this.availableTags = this.$store.getters['events/getTags']
   },
   mounted: function() {
     $('#tags')
