@@ -111,7 +111,7 @@ export default {
   },
   created: async function() {
     if (!this.$store.state.user.isLoggedIn) {
-      this.$router.push('/welcome')
+      this.$router.replace('/welcome')
     }
     try {
       await this.$store.dispatch('events/findAll')

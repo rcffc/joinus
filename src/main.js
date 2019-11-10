@@ -32,12 +32,10 @@ new Vue({
   store,  // Inject store to all child components.
   created () {
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
+      if (user)
         store.dispatch('user/fetchUser', user)
-        router.replace('/home')
-      } else {
-        router.replace('/welcome')
-      }
+        
+      router.replace('/')
     })
   },
   render: h => h(App),

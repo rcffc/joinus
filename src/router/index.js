@@ -17,7 +17,6 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register},
   { path: '/events', component: EventFinder },
-  { path: '/home', component: Home },
   { path: '/events/:id',
     component: Event,
     props: { default: true }
