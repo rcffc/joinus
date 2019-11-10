@@ -29,6 +29,10 @@ const actions = {
     else {
       commit('SET_USER', null)
     }
+  },
+  logOut({ commit }) {
+    commit('SET_LOGGED_IN', false)
+    commit('SET_USER', null)
   }
 }
 

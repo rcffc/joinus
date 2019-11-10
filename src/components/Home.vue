@@ -111,6 +111,9 @@ export default {
     })
   },
   created: async function() {
+    if (!this.$store.state.user.isLoggedIn) {
+      this.$router.push('/welcome')
+    }
     try {
       await this.$store.dispatch('events/findAll')
       await this.$store.dispatch('groups/findAll')
@@ -131,6 +134,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
+          this.$store.dispatch('user/logOut')
           this.$router.replace("/welcome");
         });
     }
