@@ -2,10 +2,10 @@
   <div class="wrapper">
     <portal to="actionBar">
       <div class="ui fluid center aligned"> 
-        <img 
-          class="ui centered image fluid logo"
-          src="../../assets/join-us-white.png"
-        >
+          <img 
+            class="ui centered image fluid logo"
+            src="../../assets/join-us-white.png"
+          >
       </div>
     </portal>
     <div
@@ -13,6 +13,12 @@
       class="ui loader active large"
     />
     <div v-else>
+      <IconButton
+        text="Logout"
+        icon="sign-out"
+        color="neutral fluid"
+        :click-handler="logoutHandler"
+      />
       <h1>My Groups</h1>
       <div class="ui three cards">
         <div
@@ -83,6 +89,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import IconButton from './utils/IconButton.vue'
+import firebase from "firebase";
 
 // Fetching all events and groups until user authentication is implemented
 export default {
@@ -99,10 +106,14 @@ export default {
   computed: {
     ...mapGetters({
       events: 'events/getGroupedEvents',
-      groups: 'groups/groups'
+      groups: 'groups/groups',
+      user: 'user/user'
     })
   },
   created: async function() {
+    if (!this.$store.state.user.isLoggedIn) {
+      this.$router.push('/welcome')
+    }
     try {
       await this.$store.dispatch('events/findAll')
       await this.$store.dispatch('groups/findAll')
@@ -118,6 +129,15 @@ export default {
     groupCreationHandler() {
       this.$router.push(`/groups/new`)
     },
+    logoutHandler() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$store.dispatch('user/logOut')
+          this.$router.replace("/welcome");
+        });
+    }
   }
 }
 </script>
@@ -182,4 +202,7 @@ h1 {
   background-color:rgba(255, 255, 255, 0.5);
 }
 
+.ui.button {
+  margin: 1em auto
+}
 </style>
