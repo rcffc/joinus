@@ -30,6 +30,7 @@ const routes = [
   { path: '/events/edit/:eventId', component: EventForm },
   { path: '/groups/:groupId/events/new', component: EventForm },
   { path: '/groups/edit/:groupId', component: GroupForm },
+  { path: '/*', component: Home },
 ]
 
 
