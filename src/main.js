@@ -34,8 +34,7 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user)
         store.dispatch('user/fetchUser', user)
-        
-      router.replace('/')
+      
     })
   },
   render: h => h(App),
