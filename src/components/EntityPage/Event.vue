@@ -154,6 +154,11 @@ export default {
       user: 'user/user'
     })
   },
+  watch: {
+    error: function(val) {
+      throw val
+    }
+  },
   created: async function() {
     this.id = this.$route.params.id
 
@@ -174,11 +179,6 @@ export default {
       err.name = 'LoadingError'
       
       return Promise.reject(err)
-    }
-  },
-  watch: {
-    error: function(val) {
-      throw val
     }
   },
   methods: {
