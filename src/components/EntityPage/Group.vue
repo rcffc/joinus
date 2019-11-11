@@ -82,14 +82,13 @@
         </span>
 
         <div class="ui list">
-          <div class="item">
-            teppo.testaaja@aalto.fi
-          </div>
-          <div class="item">
-            tim.tester@aalto.fi
-          </div>
-          <div class="item">
-            foo.bar@gmail.com
+          
+          <div
+            v-for="(member, index) in members"
+            :key="index"
+            class="item"
+          >
+            {{ member.username }}
           </div>
         </div>
       </div>
@@ -123,6 +122,7 @@ export default {
       website: '',
       image: '',
       description: '',
+      members: [],
       tags: [],
       member: false
     }
