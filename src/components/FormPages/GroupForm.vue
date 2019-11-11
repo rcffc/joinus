@@ -10,18 +10,22 @@
     </portal>
 
     <form class="ui form">
-      <div class="field">
+      <div :class="`field ${ (nameError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Name
         </span>
         <input
           v-model="name" 
           type="text"
-          placeholder="My fun group"
+          placeholder="JoinUs!"
+          @keyup="checkName"
         >
+        <div :class="`ui ${ (nameError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ nameError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (imageError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Image
         </span>
@@ -29,18 +33,22 @@
           v-model="image"
           type="url"
           placeholder="https://example.com/static/test.png"
+          @keyup="checkImage"
         >
+        <div :class="`ui ${ (imageError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ imageError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (tagError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Tags
         </span>
           
         <div
           id="tags"
-          class="ui multiple selection search fluid dropdown"
-          @keyup="checkTag"
+          class="ui multiple search selection fluid dropdown"
+          @keyup="addTag"
         >
           <input
             type="hidden"
@@ -60,14 +68,25 @@
               {{ tag }}
             </div>
           </div>
-        </div>  
+        </div>
+        
+        <div :class="`ui ${ (tagError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ tagError }}
+        </div>
+        
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (descriptionError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Description
         </span>
-        <textarea v-model="description" />
+        <textarea
+          v-model="description"
+          @keyup="checkDescription"
+        />
+        <div :class="`ui ${ (descriptionError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ descriptionError }}
+        </div>
       </div>
 
       <IconButton
@@ -82,6 +101,11 @@
 
 <script>
 import IconButton from '../utils/IconButton.vue'
+import _ from 'underscore'
+
+const MIN_NAME_LEN = 3
+const MAX_NAME_LEN = 15
+const MAX_DESC_LEN = 800
 
 export default {
   name: 'GroupForm',
@@ -92,11 +116,14 @@ export default {
     return {
       id: '',
       name: '',
+      nameError: '',
       image: '',
+      imageError: '',
       tags: [],
       description: '',
-      inputTag: '',
-      availableTags: this.$store.getters['groups/getTags']
+      descriptionError: '',
+      tagError: '',
+      availableTags: [],
     }
   },
   created: async function() {
@@ -110,7 +137,9 @@ export default {
           this[key] = data[key]
         }
 
-        this.updateTagSelection(this.tags)
+        //Update via onAdd
+        this.tags = []
+        this.updateTagSelection(data.tags)
       }
       catch (err) {
         this.$router.push('/groups')
@@ -120,36 +149,140 @@ export default {
         return Promise.reject(err)
       }
     }
+
+    this.availableTags = this.$store.getters['groups/getTags']
+
   },
   mounted: function() {
     $('#tags')
       .dropdown({
         allowAdditions: true,
-        onChange: (value) => {
-          this.tags = value.split(',')
+        onRemove: (value) => {
+          this.tags = this.tags.filter(tag => tag !== value)
+
+          try {
+            this.tags.map(tag => this.checkTag(tag))
+
+            this.tagError = ''
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
+        },
+        onAdd: (value) => {
+          try {
+            this.checkTag(value)
+            
+            this.tags = this.tags.concat(value)
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
         }
       })
   },
   methods: {
-    submitHandler(event) {
+    async submitHandler(event) {
       event.preventDefault()
 
-      this.$router.push('/groups/')
-      
-      const err = Error('Not implemented yet')
-      err.name = 'CustomError'
+      this.checkName()
+      this.checkImage()
+      this.checkDescription()
 
-      throw err
+      if (this.nameError || this.tagError || this.descriptionError)
+        return
+
+      const result = _.pick(this, ['name', 'tags', 'description', 'image'])
+
+      
+
+      try {
+        if (this.id) {
+          await this.$store.dispatch('groups/edit', { ...result, id: this.id })
+        }
+        else {
+          result.members = { [this.$store.getters['user/user'].data.id]: 'owner' }
+          await this.$store.dispatch('groups/create', result)
+        }
+          
+      }
+      catch (err) {
+        err.name = 'CustomError'
+        throw err
+      }
+
+      this.$router.replace('/groups/')
     },
-    checkTag({ target }) {
-      const { value } = target
+    checkString(str) {
+      if (!/^[a-z0-9-\./\\&’!”“\(\),:\? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:?\\/&’!”“ and foreign characters')
+    },
+    addTag({ target }) {
+      let { value } = target
 
       if (/\s/g.test(value)) {
-        this.tags = this.tags.concat(value.trim())
-        this.availableTags = this.availableTags.concat(value.trim())
-        this.updateTagSelection(this.tags)
-
         target.value = ''
+        value = value.trim()
+        
+        //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
+        try {
+          this.checkTag(value)
+
+          if (!this.availableTags.includes(value))
+            this.availableTags = this.availableTags.concat(value)
+        }
+        catch (err) {}
+
+        this.updateTagSelection(value.trim())
+      }
+    },
+    checkTag(str) {
+      if (!/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only letters and digits')
+    },
+    checkUrl(url) {
+      //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
+      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(url) && url.length)
+       throw Error('Please give valid url.')
+
+    },
+    checkName() {
+      this.nameError = ''
+
+      try {
+        if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
+          throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
+
+        this.checkString(this.name)
+      }
+      catch (err) {
+        this.nameError = err.message
+      }
+    },
+    checkImage() {
+      this.imageError = ''
+
+      try {
+        this.checkUrl(this.image)
+      }
+      catch (err) {
+        this.imageError = err.message
+      }
+    },
+    checkDescription() {
+      this.descriptionError = ''
+
+      try {
+        if (!this.description)
+          return;
+
+        this.checkString(this.description)
+
+        if (this.description.length > MAX_DESC_LEN)
+          throw Error(`The description can't be longer than ${ MAX_DESC_LEN } characters.`)
+      }
+      catch (err) {
+        this.descriptionError = err.message
       }
     },
     updateTagSelection(tags) {
@@ -167,7 +300,7 @@ export default {
 <style scoped>
 #name-header {
   padding-top: 0.5rem;
-  color: white;
+  color: white !important;
 }
 
 .form-page {

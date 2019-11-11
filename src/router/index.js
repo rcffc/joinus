@@ -17,7 +17,6 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register},
   { path: '/events', component: EventFinder },
-  { path: '/home', component: Home },
   { path: '/events/:id',
     component: Event,
     props: { default: true }
@@ -31,6 +30,7 @@ const routes = [
   { path: '/events/edit/:eventId', component: EventForm },
   { path: '/groups/:groupId/events/new', component: EventForm },
   { path: '/groups/edit/:groupId', component: GroupForm },
+  { path: '/*', component: Home },
 ]
 
 

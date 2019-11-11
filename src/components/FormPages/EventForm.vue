@@ -5,12 +5,12 @@
         id="name-header" 
         class="ui header center aligned large"
       >
-        {{ name || "Create an Event" }}
+        {{ create ? "Create an Event" : name }}
       </div>
     </portal>
 
     <form class="ui form">
-      <div class="field">
+      <div :class="`field ${ (nameError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Name
         </span>
@@ -18,10 +18,14 @@
           v-model="name" 
           type="text"
           placeholder="Happy fun times in Otaniemi"
+          @keyup="checkName"
         >
+        <div :class="`ui ${ (nameError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ nameError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (locationError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Location
         </span>
@@ -29,30 +33,42 @@
           v-model="location"
           type="text"
           placeholder="Otakaari 1, Espoo, Finland"
+          @keyup="checkLocation"
         >
+        <div :class="`ui ${ (locationError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ locationError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (timeError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Date
         </span>
         <input
           v-model="date"
           type="date"
+          @keyup="checkTime"
         >
+        <div :class="`ui ${ (timeError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ timeError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (timeError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Time
         </span>
         <input
           v-model="time"
           type="time"
+          @keyup="checkTime"
         >
+        <div :class="`ui ${ (timeError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ timeError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (imageError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Image
         </span>
@@ -60,10 +76,14 @@
           v-model="image"
           type="url"
           placeholder="https://example.com/static/test.png"
+          @keyup="checkImage"
         >
+        <div :class="`ui ${ (imageError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ imageError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (tagError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Tags
         </span>
@@ -71,7 +91,7 @@
         <div
           id="tags"
           class="ui multiple search selection fluid dropdown"
-          @keyup="checkTag"
+          @keyup="addTag"
         >
           <input
             type="hidden"
@@ -91,14 +111,24 @@
               {{ tag }}
             </div>
           </div>
-        </div>  
+        </div>
+        
+        <div :class="`ui ${ (tagError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ tagError }}
+        </div>
       </div>
 
-      <div class="field">
+      <div :class="`field ${ (descriptionError) ? 'error' : '' }`">
         <span class="ui neutral pointing below label">
           Description
         </span>
-        <textarea v-model="description" />
+        <textarea
+          v-model="description"
+          @keyup="checkDescription"
+        />
+        <div :class="`ui ${ (descriptionError) ? '' : 'hidden' } pointing red basic label fluid`">
+          {{ descriptionError }}
+        </div>
       </div>
 
       <IconButton
@@ -113,6 +143,12 @@
 
 <script>
 import IconButton from '../utils/IconButton.vue'
+import _ from 'underscore'
+
+const MIN_NAME_LEN = 3
+const MAX_NAME_LEN = 30
+const MIN_LOCATION_LEN = 5
+const MAX_DESC_LEN = 800
 
 export default {
   name: 'EventForm',
@@ -123,20 +159,27 @@ export default {
     return {
       id: '',
       name: '',
+      nameError: '',
       location: '',
+      locationError: '',
       image: '',
+      imageError: '',
       date: '',
       time: '',
+      timeError: '',
       tags: [],
       description: '',
-      inputTag: '',
-      availableTags: this.$store.getters['events/getTags']
+      descriptionError: '',
+      tagError: '',
+      availableTags: [],
+      create: true,
     }
   },
   created: async function() {
+    this.create = (this.$route.params.eventId) == null
     this.id = this.$route.params.eventId || this.$route.params.groupId
 
-    if (this.$route.params.eventId) {
+    if (!this.create) {
       try {
         const data = await this.$store.dispatch('events/find', this.id)
 
@@ -150,55 +193,186 @@ export default {
 
         this.time = `${ ((hours.length < 2) ? '0' : '') + hours }:${ mins }` 
 
-        this.updateTagSelection(this.tags)
+        //Update via onAdd
+        this.tags = []
+
+        this.updateTagSelection(data.tags)
       }
       catch (err) {
-        this.$router.push('/events')
+        this.$router.replace('/events')
 
         err.name = 'LoadingError'
         
         return Promise.reject(err)
       }
     }
+
+    this.availableTags = this.$store.getters['events/getTags']
   },
   mounted: function() {
     $('#tags')
       .dropdown({
         allowAdditions: true,
-        onChange: (value) => {
-          this.tags = value.split(',')
+        onRemove: (value) => {
+          this.tags = this.tags.filter(tag => tag !== value)
+
+          try {
+            this.tags.map(tag => this.checkTag(tag))
+
+            this.tagError = ''
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
+        },
+        onAdd: (value) => {
+          try {
+            this.checkTag(value)
+            
+            this.tags = this.tags.concat(value)
+          }
+          catch (err) {
+            this.tagError = err.message
+          }
         }
       })
   },
   methods: {
-    submitHandler(event) {
+    async submitHandler(event) {
       event.preventDefault()
 
-      this.$router.push('/events/')
+      this.checkName()
+      this.checkImage()
+      this.checkLocation()
+      this.checkTime()
+      this.checkDescription()
       
-      const err = Error('Not implemented yet')
-      err.name = 'CustomError'
 
-      throw err
-    },
-    checkTag({ target }) {
-      const { value } = target
+      if (this.nameError || this.locationError || this.timeError || this.tagError || this.descriptionError)
+        return
+      
+      const result = _.pick(this, ['name', 'location', 'tags', 'description', 'image'])
 
-      if (/\s/g.test(value)) {
-        this.tags = this.tags.concat(value.trim())
-        this.availableTags = this.availableTags.concat(value.trim())
-        this.updateTagSelection(this.tags)
+      result.date = new Date(`${ this.date } ${ this.time }`)
+      
+      try {
+        let action = { result }
 
-        target.value = ''
+        action.name = (this.create) ? 'create' : 'edit'
+        action.result[(this.create) ? 'organizer' : 'id'] = this.id
+          
+        await this.$store.dispatch(`events/${ action.name }`, action.result)
       }
+      catch (err) {
+        return Promise.reject(err)
+      }
+
+      this.$router.replace('/events/')
     },
     updateTagSelection(tags) {
       //For some reason, semantic ui doesn't refresh the selection without a setTimeout wrapper.
       setTimeout(function () {  
         $('.ui.dropdown')
           .dropdown('set selected', tags)
-      }, 1)
+      }, 1) 
+    },
+    checkString(str) {
+      if (!/^[a-z0-9-./&’!”(),:? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:?/\\&’!”“ and foreign characters')
+    },
+    addTag({ target }) {
+      let { value } = target
+
+      if (/\s/g.test(value)) {
+        target.value = ''
+        value = value.trim()
+        
+        //Check tag validity here so that the tag will be added to the UI but if it is invalid an error will be shown.
+        try {
+          this.checkTag(value)
+
+          if (!this.availableTags.includes(value))
+            this.availableTags = this.availableTags.concat(value)
+        }
+        catch (err) {}
+
+        this.updateTagSelection(value.trim())
+      }
+    },
+    checkTag(str) {
+      if (!/^[a-zA-Z0-9\xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only letters and digits')
+    },
+    checkUrl(url) {
+      //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
+      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/.test(url) && url.length)
+        throw Error('Please give valid url.')
+
+    },
+    checkName() {
+      this.nameError = ''
+  
+      try {
+        if (this.name.length > MAX_NAME_LEN || this.name.length < MIN_NAME_LEN )
+          throw Error(`Length of the name has to be between ${ MIN_NAME_LEN }-${ MAX_NAME_LEN }`)
+
+        this.checkString(this.name)
+      }
+      catch (err) {
+        this.nameError = err.message
+      }
+    },
+    checkTime() {
+      this.timeError = ''
       
+      try {
+        if (!(this.date && this.time))
+          throw Error('Please give a date and time')
+      }
+      catch (err) {
+        this.timeError = err.message
+      }
+
+    },
+    checkImage() {
+      this.imageError = ''
+    
+      try {
+        this.checkUrl(this.image)
+      }
+      catch (err) {
+        this.imageError = err.message
+      }
+    },  
+    checkLocation() {
+      this.locationError = ''
+    
+      try {
+        if (!this.location.length)
+          throw Error(`Must be at least ${ MIN_LOCATION_LEN } characters long.`)
+
+        this.checkString(this.location)
+      }
+      catch (err) {
+        this.locationError = err.message
+      }
+
+    },
+    checkDescription() {
+      this.descriptionError = ''
+
+      try {
+        if (!this.description)
+          return
+
+        this.checkString(this.description)
+
+        if (this.description.length > MAX_DESC_LEN)
+          throw Error(`The description can't be longer than ${ MAX_DESC_LEN } characters.`)
+      }
+      catch (err) {
+        this.descriptionError = err.message
+      }
     }
   }
 }

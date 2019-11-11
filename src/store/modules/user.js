@@ -1,6 +1,8 @@
+import { users, auth } from '../../api'
+
 const state = {
   isLoggedIn: false,
-  data: null
+  data: {}
 }
 
 const getters = {
@@ -20,9 +22,11 @@ const mutations = {
 
 const actions = {
   fetchUser({ commit }, user) {
+        
     commit('SET_LOGGED_IN', user !== null)
     if (user) {
       commit('SET_USER', {
+        id: user.uid,
         email: user.email
       })
     } 
@@ -30,9 +34,38 @@ const actions = {
       commit('SET_USER', null)
     }
   },
-  logOut({ commit }) {
-    commit('SET_LOGGED_IN', false)
-    commit('SET_USER', null)
+  async logOut({ commit }) {
+    try {
+      await auth.logOut()
+
+      commit('SET_LOGGED_IN', false)
+      commit('SET_USER', null)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async emailRegistration(params, info) {
+    const { email, password } = info
+
+    try {
+      const { user } = await auth.emailRegistration(email, password)
+
+      await users.createUser(email, user.uid)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async logIn(params, info) {
+    const { email, password } = info
+
+    try {
+      await auth.emailLogin(email, password)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
 

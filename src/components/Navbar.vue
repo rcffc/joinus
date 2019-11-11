@@ -16,7 +16,7 @@
       </router-link>
       <router-link
         class="item"
-        to="/home"
+        to="/"
       >
         <i class="home icon" />
         Home

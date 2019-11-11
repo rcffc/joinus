@@ -15,6 +15,10 @@ const errorHandler = (err) => {
   case 'CustomError':
     data.message = err.message
     break
+  
+  case 'FirebaseError':
+    data.message = 'Could not complete action. Do you have sufficient permissions?'
+    break
 
   default:
     data.message = 'An error occured'

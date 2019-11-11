@@ -47,9 +47,34 @@ const actions = {
       return Promise.reject(err)
     }
   },
-  filterEvents ({commit}, string) {
+  filterEvents ({ commit }, string) {
     commit('filterEvents', string)
-  }
+  },
+  async create ({ commit }, eventData) {
+    try {
+      const newEvent = await events.createEvent(eventData)
+
+      commit('addEvent', newEvent)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async edit ({ commit, getters }, eventData) {
+    try {      
+      const { id, ...data } = eventData
+      const current = getters.getById(id)
+
+      data.organizer = current.organizer.id
+
+      const editedEvent = await events.editEvent(id, data)
+
+      commit('replaceEvent', editedEvent)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
 }
 
 const mutations = {
@@ -61,6 +86,11 @@ const mutations = {
   addEvent (state, event) {
     state.allEvents = state.allEvents.concat(event)
     state.allEvents.sort((a,b) => a.date-b.date)
+  },
+  replaceEvent (state, event) {
+    const index = state.allEvents.findIndex((e) => e.id === event.id)
+
+    state.allEvents.splice(index, 1, event)
   },
   filterEvents(state, searchString) {
     searchString = searchString.split(' ')
