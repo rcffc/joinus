@@ -63,9 +63,12 @@ const editGroup = async (id, data) => {
   return getGroup(id)
 }
 
+const removeById = async (id) => groups.doc(id).delete()
+
 export default {
   getAll,
   getGroup,
   createGroup,
-  editGroup
+  editGroup,
+  removeById
 }
