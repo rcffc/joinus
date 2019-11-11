@@ -254,16 +254,17 @@ export default {
       const result = _.pick(this, ['name', 'location', 'tags', 'description', 'image'])
 
       result.date = new Date(`${ this.date } ${ this.time }`)
-
+      
       try {
-        await (this.create) ?
-          this.$store.dispatch('events/create', { ...result, organizer: this.id })
-          :
-          this.$store.dispatch('events/edit', { ...result, id: this.id })
+        let action = { result }
+
+        action.name = (this.create) ? 'create' : 'edit'
+        action.result[(this.create) ? 'organizer' : 'id'] = this.id
+          
+        await this.$store.dispatch(`events/${ action.name }`, action.result)
       }
       catch (err) {
-        err.name = 'CustomError'
-        throw err
+        return Promise.reject(err)
       }
 
       this.$router.replace('/events/')

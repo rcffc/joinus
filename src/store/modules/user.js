@@ -26,6 +26,7 @@ const actions = {
     commit('SET_LOGGED_IN', user !== null)
     if (user) {
       commit('SET_USER', {
+        id: user.uid,
         email: user.email
       })
     } 
@@ -48,8 +49,9 @@ const actions = {
     const { email, password } = info
 
     try {
-      await auth.emailRegistration(email, password)
-      await users.createUser(email)
+      const { user } = await auth.emailRegistration(email, password)
+
+      await users.createUser(email, user.uid)
     }
     catch (err) {
       return Promise.reject(err)

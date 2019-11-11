@@ -194,11 +194,16 @@ export default {
 
       const result = _.pick(this, ['name', 'tags', 'description', 'image'])
 
+      
+
       try {
-        await (this.id) ?
-          this.$store.dispatch('groups/edit', { ...result, id: this.id })
-          :
-          this.$store.dispatch('groups/create', result)
+        if (this.id) {
+          await this.$store.dispatch('groups/edit', { ...result, id: this.id })
+        }
+        else {
+          result.members = { [this.$store.getters['user/user'].data.id]: 'owner' }
+          await this.$store.dispatch('groups/create', result)
+        }
           
       }
       catch (err) {

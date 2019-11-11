@@ -37,7 +37,7 @@ const getAll = async () => {
     result = await Promise.all(result.map(getOrganizer))
 
     result = result.map(formatEvent)
-    
+
     return result
   }
   catch (err) {
