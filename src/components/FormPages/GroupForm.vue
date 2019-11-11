@@ -73,7 +73,6 @@
         <div :class="`ui ${ (tagError) ? '' : 'hidden' } pointing red basic label fluid`">
           {{ tagError }}
         </div>
-        
       </div>
 
       <div :class="`field ${ (descriptionError) ? 'error' : '' }`">
@@ -214,8 +213,8 @@ export default {
       this.$router.replace('/groups/')
     },
     checkString(str) {
-      if (!/^[a-z0-9-\./\\&’!”“\(\),:\? \xC0-\xFF]+$/i.test(str))
-        throw Error('Please use only these characters: A-Za-z0-9-,.:?\\/&’!”“ and foreign characters')
+      if (!/^[a-z0-9-./&’!”(),:? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:?/\\&’!”“ and foreign characters')
     },
     addTag({ target }) {
       let { value } = target
@@ -231,7 +230,9 @@ export default {
           if (!this.availableTags.includes(value))
             this.availableTags = this.availableTags.concat(value)
         }
-        catch (err) {}
+        catch (err) {
+          this.tagError = err.message
+        }
 
         this.updateTagSelection(value.trim())
       }
@@ -242,8 +243,8 @@ export default {
     },
     checkUrl(url) {
       //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
-      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(url) && url.length)
-       throw Error('Please give valid url.')
+      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/.test(url) && url.length)
+        throw Error('Please give valid url.')
 
     },
     checkName() {
@@ -274,7 +275,7 @@ export default {
 
       try {
         if (!this.description)
-          return;
+          return
 
         this.checkString(this.description)
 

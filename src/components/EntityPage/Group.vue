@@ -80,7 +80,6 @@
         </span>
 
         <div class="ui list">
-          
           <div
             v-for="(member, index) in members"
             :key="index"
@@ -148,11 +147,6 @@ export default {
     IconButton,
     ShareButton
   },
-  computed: {
-    ...mapGetters({
-      user: 'user/user'
-    })
-  },
   data: function() {
     return {
       loading: true,
@@ -165,6 +159,11 @@ export default {
       isOwner: false,
       tags: []
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
   },
   created: async function() {
     this.id = this.$route.params.id
