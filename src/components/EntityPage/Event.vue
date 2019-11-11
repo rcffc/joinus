@@ -20,7 +20,7 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
-                v-if="owner"
+                v-if="role"
                 icon="edit"
                 color="neutral"
                 misc
@@ -82,6 +82,38 @@
           }"
         />
       </div>
+
+      <div v-if="role">
+        <IconButton
+          text="Delete"
+          icon="remove"
+          misc
+          color="caution fluid"
+          :click-handler="handleDeleteClick"
+        />
+
+        <div
+          id="delete-modal" 
+          class="ui modal"
+        >
+          <div class="header">
+            Are you sure?
+          </div>
+          <div class="actions">
+            <IconButton
+              text="Yes"
+              icon="check"
+              color="approve"
+              misc
+            />
+            <IconButton
+              text="Cancel"
+              icon="cancel"
+              color="cancel caution"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -112,23 +144,27 @@ export default {
       date: '',
       description: '',
       follow: false,
-      owner: true
+      role: '',
+      error: ''
     }
   },
   computed: {
     ...mapGetters({
-      getById: 'events/getById'
+      getById: 'events/getById',
+      user: 'user/user'
     })
   },
   created: async function() {
     this.id = this.$route.params.id
-  
+
     try {
       const data = await this.$store.dispatch('events/find', this.id)
 
       for (let key in data) {
         this[key] = data[key]
       }
+
+      this.role = this.organizer.members[this.user.data.id]
 
       this.loading = false
     }
@@ -140,6 +176,11 @@ export default {
       return Promise.reject(err)
     }
   },
+  watch: {
+    error: function(val) {
+      throw val
+    }
+  },
   methods: {
     followHandler() {
       this.follow = !this.follow 
@@ -149,8 +190,23 @@ export default {
     },
     toGroupPage() {
       this.$router.push(`/groups/${ this.organizer.id }`)
+    },
+    handleDeleteClick() {
+      return $('#delete-modal')
+        .modal({
+          onApprove: async () => {
+            try {
+              await this.$store.dispatch('events/delete', this.id)
+              this.$router.replace('/events')
+            }
+            catch (err) {
+              this.error = err
+            }
+          }
+        })
+        .modal('show')
     }
-  }
+  },
 }
 </script>
 
