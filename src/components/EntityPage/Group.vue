@@ -20,6 +20,7 @@
           <div class="seven wide column">
             <div id="button-wrapper">
               <IconButton
+                v-if="memberIndex >= 0"
                 icon="edit"
                 color="neutral"
                 misc
@@ -32,10 +33,9 @@
                 misc
               />
               <IconButton
-                v-if="member"
+                v-if="memberIndex >= 0"
                 icon="user times"
                 color="caution"
-                :click-handler="test"
                 misc
               />
               <ShareButton
@@ -56,7 +56,7 @@
       <div class="ui divider hidden" />
 
       <IconButton
-        v-if="member"
+        v-if="memberIndex >= 0"
         text="Create an event"
         icon="plus square"
         color="neutral"
@@ -64,11 +64,10 @@
       />
 
       <IconButton
-        v-if="!member"
+        v-if="memberIndex < 0"
         text="Join"
         icon="user plus"
         color="positive"
-        :click-handler="test"
       />
       
       <div class="ui divider" />
@@ -82,7 +81,6 @@
         </span>
 
         <div class="ui list">
-          
           <div
             v-for="(member, index) in members"
             :key="index"
@@ -99,6 +97,40 @@
         :description="description"
         :tags="tags"
       />
+
+      <div class="ui divider" />
+
+      <div v-if="isOwner">
+        <IconButton
+          text="Delete"
+          icon="remove"
+          misc
+          color="caution fluid"
+          :click-handler="handleDeleteClick"
+        />
+
+        <div
+          id="delete-modal" 
+          class="ui modal"
+        >
+          <div class="header">
+            Are you sure?
+          </div>
+          <div class="actions">
+            <IconButton
+              text="Yes"
+              icon="check"
+              color="approve"
+              misc
+            />
+            <IconButton
+              text="Cancel"
+              icon="cancel"
+              color="cancel caution"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -107,6 +139,7 @@
 import InfoBox from './InfoBox.vue'
 import IconButton from '../utils/IconButton.vue'
 import ShareButton from '../utils/ShareButton.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Group',
@@ -123,12 +156,19 @@ export default {
       image: '',
       description: '',
       members: [],
-      tags: [],
-      member: false
+      memberIndex: -1,
+      isOwner: false,
+      tags: []
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
   },
   created: async function() {
     this.id = this.$route.params.id
+
 
     try {
       const data = await this.$store.dispatch('groups/find', this.id)
@@ -136,6 +176,10 @@ export default {
       for (let key in data) {
         this[key] = data[key]
       }
+
+      this.memberIndex = this.members.findIndex(user => user.id === this.user.data.id)
+
+      this.isOwner = this.memberIndex >= 0 && this.members[this.memberIndex].role === 'owner'
 
       this.loading = false
     }
@@ -148,9 +192,6 @@ export default {
     }
   },
   methods: {
-    test() {
-      this.member = !this.member
-    },
     eventCreationHandler() {
       this.$router.push(`/groups/${ this.id }/events/new`)
     },
@@ -159,6 +200,21 @@ export default {
     },
     handleHomeClick() {
       window.location.href = this.website
+    },
+    handleDeleteClick() {
+      $('#delete-modal')
+        .modal({
+          onApprove: async () => {
+            try {
+              await this.$store.dispatch('groups/delete', this.id)
+              this.$router.replace('/groups')
+            }
+            catch (err) {
+              return Promise.reject(err)
+            }
+          }
+        })
+        .modal('show')
     }
   }
 }

@@ -72,9 +72,12 @@ const editEvent = async (id, data) => {
   return getEvent(id)
 }
 
+const removeById = async (id) => events.doc(id).delete()
+
 export default {
   getAll,
   getEvent,
   createEvent,
-  editEvent
+  editEvent,
+  removeById
 }

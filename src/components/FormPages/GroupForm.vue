@@ -73,7 +73,6 @@
         <div :class="`ui ${ (tagError) ? '' : 'hidden' } pointing red basic label fluid`">
           {{ tagError }}
         </div>
-        
       </div>
 
       <div :class="`field ${ (descriptionError) ? 'error' : '' }`">
@@ -100,6 +99,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 import _ from 'underscore'
 
@@ -123,15 +123,25 @@ export default {
       description: '',
       descriptionError: '',
       tagError: '',
+      members: [],
       availableTags: [],
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
   },
   created: async function() {
     this.id = this.$route.params.groupId
 
+    this.members = this.members.concat({ id: this.user.data.id, role: 'owner' })
+
     if (this.id) {
       try {
         const data = await this.$store.dispatch('groups/find', this.id)
+
+        
 
         for (let key in data) {
           this[key] = data[key]
@@ -192,7 +202,7 @@ export default {
       if (this.nameError || this.tagError || this.descriptionError)
         return
 
-      const result = _.pick(this, ['name', 'tags', 'description', 'image'])
+      const result = _.pick(this, ['name', 'tags', 'description', 'image', 'members'])
 
       
 
@@ -214,8 +224,8 @@ export default {
       this.$router.replace('/groups/')
     },
     checkString(str) {
-      if (!/^[a-z0-9-\./\\&’!”“\(\),:\? \xC0-\xFF]+$/i.test(str))
-        throw Error('Please use only these characters: A-Za-z0-9-,.:?\\/&’!”“ and foreign characters')
+      if (!/^[a-z0-9-./&’!”(),:? \xC0-\xFF]+$/i.test(str))
+        throw Error('Please use only these characters: A-Za-z0-9-,.:?/\\&’!”“ and foreign characters')
     },
     addTag({ target }) {
       let { value } = target
@@ -231,7 +241,9 @@ export default {
           if (!this.availableTags.includes(value))
             this.availableTags = this.availableTags.concat(value)
         }
-        catch (err) {}
+        catch (err) {
+          this.tagError = err.message
+        }
 
         this.updateTagSelection(value.trim())
       }
@@ -242,8 +254,8 @@ export default {
     },
     checkUrl(url) {
       //source https://stackoverflow.com/questions/205923/best-way-to-handle-security-and-avoid-xss-with-user-entered-urls
-      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(url) && url.length)
-       throw Error('Please give valid url.')
+      if (!/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/.test(url) && url.length)
+        throw Error('Please give valid url.')
 
     },
     checkName() {
@@ -274,7 +286,7 @@ export default {
 
       try {
         if (!this.description)
-          return;
+          return
 
         this.checkString(this.description)
 

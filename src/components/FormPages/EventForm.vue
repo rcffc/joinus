@@ -294,7 +294,9 @@ export default {
           if (!this.availableTags.includes(value))
             this.availableTags = this.availableTags.concat(value)
         }
-        catch (err) {}
+        catch (err) {
+          this.tagError = err.message
+        }
 
         this.updateTagSelection(value.trim())
       }
