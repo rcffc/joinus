@@ -85,6 +85,7 @@
 import firebase from 'firebase'
 
 export default {
+  name: 'Login',
   data() {
     return {
       form: {
@@ -94,6 +95,14 @@ export default {
       error: null
     }
   },
+  mounted: function() {
+    $('body')
+      .css({'height': '100%', 'overflow': 'hidden'})
+  },
+  beforeDestroy: function() {
+    $('body')
+      .css({'height': '', 'overflow': ''})
+  },  
   methods: {
     submit() {
       return this.$store.dispatch('user/logIn', { email: this.form.email, password: this.form.password })

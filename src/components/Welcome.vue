@@ -37,11 +37,20 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'Welcome',
+  mounted: function() {
+    $('body')
+      .css({'height': '100%', 'overflow': 'hidden'})
+  },
+  beforeDestroy: function() {
+    $('body')
+      .css({'height': '', 'overflow': ''})
+  },
+}
 </script> 
 
 <style scoped>
-
 .wrapper {
   display: flex;
   flex-direction: column;
