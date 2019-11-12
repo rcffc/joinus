@@ -21,6 +21,10 @@ const getMembers = async doc => {
   }
 }
 
+const simplifyMembers = mems => {
+  return mems.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.role }),{})
+}
+
 const getAll = async () => {
   try {
     const { docs } = await groups.get()
@@ -58,6 +62,8 @@ const createGroup = async (data) => {
 }
 
 const editGroup = async (id, data) => {
+  data.members = simplifyMembers(data.members)
+
   await groups.doc(id).set(data)
 
   return getGroup(id)

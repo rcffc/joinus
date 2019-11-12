@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import IconButton from '../utils/IconButton.vue'
 import _ from 'underscore'
 
@@ -122,15 +123,25 @@ export default {
       description: '',
       descriptionError: '',
       tagError: '',
+      members: [],
       availableTags: [],
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
   },
   created: async function() {
     this.id = this.$route.params.groupId
 
+    this.members = this.members.concat({ id: this.user.data.id, role: 'owner' })
+
     if (this.id) {
       try {
         const data = await this.$store.dispatch('groups/find', this.id)
+
+        
 
         for (let key in data) {
           this[key] = data[key]
@@ -191,7 +202,7 @@ export default {
       if (this.nameError || this.tagError || this.descriptionError)
         return
 
-      const result = _.pick(this, ['name', 'tags', 'description', 'image'])
+      const result = _.pick(this, ['name', 'tags', 'description', 'image', 'members'])
 
       
 
