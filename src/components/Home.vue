@@ -13,12 +13,6 @@
       class="ui loader active large"
     />
     <div v-else>
-      <IconButton
-        text="Logout"
-        icon="sign-out"
-        color="neutral fluid"
-        :click-handler="logoutHandler"
-      />
       <h1>My Groups</h1>
       <div class="ui three cards">
         <div
@@ -83,6 +77,12 @@
         </div>
       </div>
     </div>
+    <IconButton
+      text="Logout"
+      icon="sign-out"
+      color="neutral fluid"
+      :click-handler="logoutHandler"
+    />
   </div>
 </template>
 

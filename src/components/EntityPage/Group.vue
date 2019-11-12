@@ -8,7 +8,7 @@
     <div v-else>
       <portal to="actionBar">
         <div class="ui grid action-bar-content">
-          <div class="ten wide column aligned right">
+          <div class="nine wide column aligned right">
             <div
               id="name-header" 
               class="ui header large center aligned"
@@ -17,7 +17,7 @@
             </div>
           </div>
 
-          <div class="six wide column">
+          <div class="seven wide column">
             <div id="button-wrapper">
               <IconButton
                 icon="edit"
