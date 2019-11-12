@@ -20,6 +20,7 @@
           <div class="six wide column">
             <div id="button-wrapper">
               <IconButton
+                v-if="memberIndex >= 0"
                 icon="edit"
                 color="neutral"
                 misc
@@ -32,7 +33,7 @@
                 misc
               />
               <IconButton
-                v-if="memberIndex"
+                v-if="memberIndex >= 0"
                 icon="user times"
                 color="caution"
                 misc
