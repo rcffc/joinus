@@ -21,13 +21,14 @@ const mutations = {
 }
 
 const actions = {
-  fetchUser({ commit }, user) {
-        
+  async fetchUser({ commit }, user) {
     commit('SET_LOGGED_IN', user !== null)
     if (user) {
+      const userData = await users.getUser(user.uid)
       commit('SET_USER', {
         id: user.uid,
-        email: user.email
+        email: user.email,
+        following: userData.following
       })
     } 
     else {
