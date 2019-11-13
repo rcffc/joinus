@@ -1,4 +1,4 @@
-import { groups, users } from '../fb.js'
+import { groups, users, events } from '../fb.js'
 
 const getData = doc => {
   const data = doc.data()
@@ -19,6 +19,10 @@ const getMembers = async doc => {
   catch (err) {
     return Promise.reject(err)
   }
+}
+
+const simplifyMembers = mems => {
+  return mems.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.role }),{})
 }
 
 const getAll = async () => {
@@ -58,14 +62,28 @@ const createGroup = async (data) => {
 }
 
 const editGroup = async (id, data) => {
+  data.members = simplifyMembers(data.members)
+
   await groups.doc(id).set(data)
 
   return getGroup(id)
+}
+
+const removeById = async (id) => {
+  try {
+    const ownedEvents = await events.where('organizer', '==', id).get()
+    await Promise.all(ownedEvents.docs.map(event => event.ref.delete()))
+    await groups.doc(id).delete()
+  }
+  catch (err) {
+    return Promise.reject(err)
+  }
 }
 
 export default {
   getAll,
   getGroup,
   createGroup,
-  editGroup
+  editGroup,
+  removeById
 }

@@ -79,6 +79,15 @@ const actions = {
       return Promise.reject(err)
     }
   },
+  async delete ({ commit }, id) {
+    try {
+      await events.removeById(id)
+      commit('removeEvent', id)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  }
 }
 
 const mutations = {
@@ -95,6 +104,11 @@ const mutations = {
     const index = state.allEvents.findIndex((e) => e.id === event.id)
 
     state.allEvents.splice(index, 1, event)
+  },
+  removeEvent (state, id) {
+    const index = state.allEvents.findIndex((g) => g.id === id)
+
+    state.allEvents.splice(index, 1)
   },
   filterEvents(state, searchString) {
     searchString = searchString.split(' ')

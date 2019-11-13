@@ -77,6 +77,15 @@ const actions = {
       return Promise.reject(err)
     }
   },
+  async delete ({ commit }, id) {
+    try {
+      await groups.removeById(id)
+      commit('removeGroup', id)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  }
 }
 
 // mutations : synchronous methods for changing the store's state.
@@ -89,6 +98,11 @@ const mutations = {
     const index = state.allGroups.findIndex((g) => g.id === group.id)
 
     state.allGroups.splice(index, 1, group)
+  },
+  removeGroup (state, id) {
+    const index = state.allGroups.findIndex((g) => g.id === id)
+
+    state.allGroups.splice(index, 1)
   },
   filterGroups(state, searchString) {
     searchString = searchString.split(' ')

@@ -85,6 +85,7 @@
 import firebase from 'firebase'
 
 export default {
+  name: 'Register',
   data() {
     return {
       form: {
@@ -93,6 +94,14 @@ export default {
       },
       error: null
     }
+  },
+  mounted: function() {
+    $('body')
+      .css({'height': '100%', 'overflow': 'hidden'})
+  },
+  beforeDestroy: function() {
+    $('body')
+      .css({'height': '', 'overflow': ''})
   },
   methods: {
     submit() {
@@ -121,7 +130,7 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  display:flex
+  display:'flex';
 }
 
 .ui.header {
