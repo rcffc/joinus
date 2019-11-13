@@ -90,7 +90,6 @@
 import { mapGetters } from 'vuex'
 import IconButton from './utils/IconButton.vue'
 
-// Fetching all events and groups until user authentication is implemented
 export default {
   name: 'Home',
   components: {
@@ -100,12 +99,12 @@ export default {
     return {
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
       loading: true,
+      groups: [],
+      events: []
     }
   },
   computed: {
     ...mapGetters({
-      events: 'events/getGroupedEvents',
-      groups: 'groups/groups',
       user: 'user/user'
     })
   },
@@ -114,9 +113,12 @@ export default {
       this.$router.replace('/welcome')
     }
     try {
-      await this.$store.dispatch('events/findAll')
-      await this.$store.dispatch('groups/findAll')
+      const following = await this.$store.getters['user/user'].data.following
+      const userId = await this.$store.getters['user/user'].data.id
 
+      this.events = await this.$store.dispatch('events/findAll', following)
+      this.groups = await this.$store.dispatch('groups/findAll', userId)    
+  
       this.loading = false
     }
     catch(err) {
