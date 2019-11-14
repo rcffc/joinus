@@ -22,5 +22,6 @@ const db = firebase.firestore()
 export const events = db.collection('events')
 export const groups = db.collection('groups')
 export const users = db.collection('users')
+export const tickets = db.collection('tickets')
 
 export const auth = firebase.auth()

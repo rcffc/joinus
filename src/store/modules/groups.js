@@ -82,6 +82,22 @@ const actions = {
     catch (err) {
       return Promise.reject(err)
     }
+  },
+  async addMember ( {commit}, data) {
+    try {
+      const editedGroup = await groups.addMember(data)
+      commit('editGroup', editedGroup) 
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async removeMember ( {commit}, data) {
+    try {
+      const editedGroup = await groups.removeMember(data)
+      commit('editGroup', editedGroup) 
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
 
@@ -137,6 +153,10 @@ const mutations = {
   },
   addGroup (state, group) {
     state.allGroups = state.allGroups.concat(group)
+  },
+  editGroup (state, editedGroup) {
+    const index = state.allGroups.findIndex((g) => g.id === editedGroup)
+    state.allGroups.splice(index, 1, editedGroup)
   }
 }
 
