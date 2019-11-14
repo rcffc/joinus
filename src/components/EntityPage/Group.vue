@@ -27,7 +27,7 @@
                 :click-handler="editHandler"
               />
               <IconButton
-                icon="home"
+                icon="globe"
                 color="caution"
                 :click-handler="handleHomeClick"
                 misc
