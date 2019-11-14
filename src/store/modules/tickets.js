@@ -37,7 +37,6 @@ const actions = {
 	},
 	async findByGroup ({ commit }, group) {
     try {
-      console.log(group)
 			const results = await tickets.findByGroup(group)
 			commit('setTickets', results)
 			return results

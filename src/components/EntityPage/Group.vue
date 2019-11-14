@@ -32,12 +32,6 @@
                 :click-handler="handleHomeClick"
                 misc
               />
-              <IconButton
-                v-if="memberIndex >= 0"
-                icon="user times"
-                color="caution"
-                misc
-              />
               <ShareButton
                 :share-message="name"
                 misc
@@ -76,15 +70,6 @@
             ? 'hourglass neutral icon': 'user plus icon']"/>
       </button>
 
-      <button
-        v-if="memberIndex >= 0 && !isOwner"
-        v-on="{click: handleLeaveClick }"
-        v-bind:class="['ui right labeled icon button caution']"
-        >
-          Leave
-          <i v-bind:class="['sign-out icon']"/>
-      </button>
-
       <div class="ui divider" />
 
       <div class="ui container left aligned">
@@ -115,10 +100,19 @@
 
       <div class="ui divider" />
 
+      <button
+        v-if="memberIndex >= 0 && !isOwner"
+        v-on="{click: handleLeaveClick }"
+        v-bind:class="['ui right labeled icon button caution']"
+        >
+          Leave
+          <i v-bind:class="['sign-out icon']"/>
+      </button>
+      
       <div v-if="isOwner">
         <div class="ui container left aligned review">
           <span class="ui header small">
-            <i class="icon info" />
+            <i class="icon user plus" />
             <div class="content">
               Review Join Requests
             </div>
@@ -154,6 +148,8 @@
             </div>
           </div>
         </div>
+
+        <div class="ui divider" />
 
         &nbsp;
 
@@ -302,6 +298,7 @@ export default {
     handleLeaveClick() {
       try {
         this.$store.dispatch('groups/removeMember', {user: this.user.data.id, group: this.id})
+        this.memberIndex = -1
       }
       catch (err) {
         return Promise.reject(err)
