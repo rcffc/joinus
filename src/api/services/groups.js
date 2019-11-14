@@ -25,6 +25,35 @@ const simplifyMembers = mems => {
   return mems.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.role }),{})
 }
 
+const addMember = async (data) => {
+  try {
+    const doc = getData(await groups.doc(data.group).get())
+  
+    let members = doc.members
+    members[data.user]= 'member'
+    
+    await groups.doc(data.group).update({ members })
+    return getData(await groups.doc(data.group).get())
+  } 
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+const removeMember = async (data) => {
+  try {
+    const doc = getData(await groups.doc(data.group).get())
+  
+    let members = doc.members
+    delete members[data.user]
+    await groups.doc(data.group).update({ members })
+    return getData(await groups.doc(data.group).get())
+  } 
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
 const getAll = async () => {
   try {
     const { docs } = await groups.get()
@@ -85,5 +114,7 @@ export default {
   getGroup,
   createGroup,
   editGroup,
-  removeById
+  removeById,
+  addMember,
+  removeMember
 }

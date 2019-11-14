@@ -63,13 +63,28 @@
         :click-handler="eventCreationHandler"
       />
 
-      <IconButton
+      <button
         v-if="memberIndex < 0"
-        text="Join"
-        icon="user plus"
-        color="positive"
-      />
-      
+        v-on="{click: this.$store.state.tickets.currentTicket
+          ? handleWithdrawClick : handleJoinClick }"
+        v-bind:class="[this.$store.state.tickets.currentTicket
+          ? 'ui right labeled icon button neutral': 'ui right labeled icon button positive']"
+        >
+          {{this.$store.state.tickets.currentTicket
+            ? "Withdraw": "Join"}}
+          <i v-bind:class="[this.$store.state.tickets.currentTicket
+            ? 'hourglass neutral icon': 'user plus icon']"/>
+      </button>
+
+      <button
+        v-if="memberIndex >= 0 && !isOwner"
+        v-on="{click: handleLeaveClick }"
+        v-bind:class="['ui right labeled icon button caution']"
+        >
+          Leave
+          <i v-bind:class="['sign-out icon']"/>
+      </button>
+
       <div class="ui divider" />
 
       <div class="ui container left aligned">
@@ -101,11 +116,52 @@
       <div class="ui divider" />
 
       <div v-if="isOwner">
+        <div class="ui container left aligned review">
+          <span class="ui header small">
+            <i class="icon info" />
+            <div class="content">
+              Review Join Requests
+            </div>
+          </span>
+
+          <div class="candidates">
+            <div class="ui list">
+              <div
+                v-for="(ticket, index) in this.$store.state.tickets.tickets"
+                :key="index"
+                class="item"
+              >
+                <div class="ui grid">
+                  <div class="twelve wide column">
+                    {{ ticket.user_email }}
+                  </div>
+                  <div class="two wide column">
+                    <button class="ui right icon button positive"
+                      v-on:click="handleApproveClick(ticket)"
+                    >
+                      <i class="check icon" />
+                    </button>
+                  </div>
+                  <div class="two wide column">
+                    <button class="ui right icon button caution"
+                      v-on:click="handleRejectClick(ticket)"
+                    >
+                      <i class="remove icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        &nbsp;
+
         <IconButton
-          text="Delete"
+          class="delete"
+          text="Delete Group"
           icon="remove"
-          misc
-          color="caution fluid"
+          color="caution"
           :click-handler="handleDeleteClick"
         />
 
@@ -169,9 +225,9 @@ export default {
   created: async function() {
     this.id = this.$route.params.id
 
-
     try {
       const data = await this.$store.dispatch('groups/find', this.id)
+      const tickets = await this.$store.dispatch('tickets/findByGroup', this.id)
 
       for (let key in data) {
         this[key] = data[key]
@@ -180,6 +236,13 @@ export default {
       this.memberIndex = this.members.findIndex(user => user.id === this.user.data.id)
 
       this.isOwner = this.memberIndex >= 0 && this.members[this.memberIndex].role === 'owner'
+
+       for (let t of tickets) {
+        if (t.user_email === this.user.data.email && t.group === this.id && this.memberIndex < 0) {
+          this.$store.dispatch('tickets/setCurrentTicket', t.id)
+          break
+        }
+      }
 
       this.loading = false
     }
@@ -190,6 +253,9 @@ export default {
 
       return Promise.reject(err)
     }
+  },
+  destroyed: function() {
+    this.$store.dispatch('tickets/setCurrentTicket', null)
   },
   methods: {
     eventCreationHandler() {
@@ -215,6 +281,48 @@ export default {
           }
         })
         .modal('show')
+    },
+    handleJoinClick() {
+      try {
+        this.$store.dispatch('tickets/create', 
+        {user_email: this.user.data.email, user_id: this.user.data.id, group: this.id})
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
+    },
+    handleWithdrawClick() {
+      try {
+        this.$store.dispatch('tickets/delete', this.$store.state.tickets.currentTicket)
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
+    },
+    handleLeaveClick() {
+      try {
+        this.$store.dispatch('groups/removeMember', {user: this.user.data.id, group: this.id})
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
+    },
+    handleApproveClick(ticket) {
+      try {
+        this.$store.dispatch('groups/addMember', {user: ticket.user_id, group: ticket.group})
+        this.$store.dispatch('tickets/delete', ticket.id)
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
+    },
+    handleRejectClick(ticket) {
+      try {
+        this.$store.dispatch('tickets/delete', ticket.id)
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
     }
   }
 }
@@ -243,4 +351,33 @@ export default {
 #button-wrapper {
   text-align: right
 }
+
+.candidates {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.ui.grid>[class*="twelve wide"].column {
+  padding-top: 1.5rem;
+}
+
+.delete {
+  position: relative;
+  bottom: -4em;
+}
+
+.positive {
+  background-color: #374b39 !important;
+}
+
+.neutral {
+  background-color: #af9164 !important;
+  color: white !important;
+}
+
+.caution {
+  background-color: #a43a31 !important;
+  color: white !important;
+}
+
 </style>
