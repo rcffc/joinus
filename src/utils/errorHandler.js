@@ -21,7 +21,7 @@ const errorHandler = (err) => {
     break
 
   default:
-    data.message = 'An error occured'
+    data.message = err.message
     break
   }
 

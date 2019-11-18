@@ -39,6 +39,10 @@
 <script>
 export default {
   name: 'Welcome',
+  created: function() {
+    if (this.$store.state.user.isLoggedIn === true)
+      this.$router.replace('/')
+  },
   mounted: function() {
     $('body')
       .css({'height': '100%', 'overflow': 'hidden'})

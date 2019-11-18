@@ -134,23 +134,40 @@ export default {
     })
   },
   created: async function() {
-    if (!this.$store.state.user.isLoggedIn) {
-      this.$router.replace('/welcome')
-    }
-    try {
-      const following = await this.$store.getters['user/user'].data.following
-      const userId = await this.$store.getters['user/user'].data.id
+    const init = async () => {
+      try {
+        const { following, id } = this.user.data
 
-      this.events = await this.$store.dispatch('events/findAll', following)
-      this.groups = await this.$store.dispatch('groups/findAll', userId)    
+        this.events = await this.$store.dispatch('events/findAll', following)
+        this.groups = await this.$store.dispatch('groups/findAll', id)    
 
-      console.log(this.events, this.groups);
-      
-      this.loading = false
+        this.loading = false
+      }
+      catch(err) {
+        this.$router.replace('/events')
+        err.name = 'CustomError'
+
+        return Promise.reject(err)
+      }
     }
-    catch(err) {
-      console.log(err.message)
-      window.location.href = '/#/home'
+
+    switch (this.$store.state.user.isLoggedIn) {
+      case true:
+        init()
+        break
+
+      case 'inProgress':
+        this.$store.subscribe(async (mutation, state) => {
+          if (mutation.type === 'user/SET_LOGGED_IN') {
+            await init()
+          }
+        })
+
+        break
+
+      default:
+        this.$router.replace('/welcome')
+        return
     }
   },
   methods: {
