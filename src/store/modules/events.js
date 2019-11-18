@@ -23,9 +23,13 @@ const getters = {
 
 // actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
-  async findAll ({ commit }) {
+  async findAll ({ commit }, followed) {
     try {
       const results = await events.getAll()
+      
+      if(followed) {
+        return _.groupBy(results.filter(result => followed.some(id => id === result.id)), 'month')
+      }
       commit('setEvents', results)
     }
     catch (err) {

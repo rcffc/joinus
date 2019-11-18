@@ -13,8 +13,16 @@
       class="ui loader active large"
     />
     <div v-else>
-      <h1>My Groups</h1>
-      <div class="ui three cards">
+      <div class="profile-header">
+        <h1>My Groups</h1>
+        <IconButton
+          text="New Group"
+          icon="plus square"
+          color="neutral fluid"
+          :click-handler="groupCreationHandler"
+        />
+      </div>
+      <div v-if="groups.length" class="ui three cards">
         <div
           v-for="group in groups"
           :key="group.id"
@@ -35,54 +43,71 @@
           </router-link>
         </div>
       </div>
-
-      <IconButton
-        text="Create a group"
-        icon="plus square"
-        color="neutral fluid"
-        :click-handler="groupCreationHandler"
-      />
-
+      <div v-else class="info-content">
+        Join groups on the group page:
+        <IconButton
+          text="Groups"
+          icon="users"
+          color="positive fluid"
+          :click-handler="groupsRedirectHandler"
+        />
+      </div>
       <h1>My Events</h1>
-      <div
-        v-for="(eventArray, key) in events"
-        :key="eventArray.id"
-      >
-        <div class="month">
-          {{ months[key] }} 2019
-        </div>
+      <div v-if="events.length">
         <div
-          v-for="event in eventArray"
-          :key="event.id"
-          class="item"
+          v-for="(eventArray, key) in events"
+          :key="eventArray.id"
         >
-          <div class="date">
-            <span>{{ event.shortDate }}</span>
-            <span>{{ event.time }}</span>
+          <div class="month">
+            {{ months[key] }} 2019
           </div>
-          <div class="ui card event">
-            <router-link :to="`/events/${event.id}`">
-              <div class="ui header">
-                {{ event.name }}
-              </div>
-              <router-link :to="`/groups/${event.organizer.id}`">
-                <img
-                  class="ui avatar floated right image"
-                  :src="event.organizer.image"
-                >
+          <div
+            v-for="event in eventArray"
+            :key="event.id"
+            class="item"
+          >
+            <div class="date">
+              <span>{{ event.shortDate }}</span>
+              <span>{{ event.time }}</span>
+            </div>
+            <div class="ui card event">
+              <router-link :to="`/events/${event.id}`">
+                <div class="ui header">
+                  {{ event.name }}
+                </div>
+                <router-link :to="`/groups/${event.organizer.id}`">
+                  <img
+                    class="ui avatar floated right image"
+                    :src="event.organizer.image"
+                  >
+                </router-link>
+                <div>{{ event.location }}</div>
               </router-link>
-              <div>{{ event.location }}</div>
-            </router-link>
+            </div>
           </div>
         </div>
       </div>
+      <div v-else class="info-content">
+        Follow events on the event page:
+        <IconButton
+          text="Events"
+          icon="users"
+          color="positive fluid"
+          :click-handler="eventsRedirectHandler"
+        />
+      </div>
     </div>
-    <IconButton
-      text="Logout"
-      icon="sign-out"
-      color="neutral fluid"
-      :click-handler="logoutHandler"
-    />
+    <div class="logout-button">
+       <div class="ui divider">
+         
+      </div>
+      <IconButton
+        text="Logout"
+        icon="sign-out"
+        color="neutral fluid"
+        :click-handler="logoutHandler"
+      />
+    </div>
   </div>
 </template>
 
@@ -90,7 +115,6 @@
 import { mapGetters } from 'vuex'
 import IconButton from './utils/IconButton.vue'
 
-// Fetching all events and groups until user authentication is implemented
 export default {
   name: 'Home',
   components: {
@@ -100,31 +124,59 @@ export default {
     return {
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
       loading: true,
+      groups: [],
+      events: []
     }
   },
   computed: {
     ...mapGetters({
-      events: 'events/getGroupedEvents',
-      groups: 'groups/groups',
       user: 'user/user'
     })
   },
   created: async function() {
-    if (!this.$store.state.user.isLoggedIn) {
-      this.$router.replace('/welcome')
-    }
-    try {
-      await this.$store.dispatch('events/findAll')
-      await this.$store.dispatch('groups/findAll')
+    const init = async () => {
+      try {
+        const { following, id } = this.user.data
 
-      this.loading = false
+        this.events = await this.$store.dispatch('events/findAll', following)
+        this.groups = await this.$store.dispatch('groups/findAll', id)    
+
+        this.loading = false
+      }
+      catch(err) {
+        this.$router.replace('/events')
+        err.name = 'CustomError'
+
+        return Promise.reject(err)
+      }
     }
-    catch(err) {
-      console.log(err.message)
-      window.location.href = '/#/home'
+
+    switch (this.$store.state.user.isLoggedIn) {
+      case true:
+        init()
+        break
+
+      case 'inProgress':
+        this.$store.subscribe(async (mutation, state) => {
+          if (mutation.type === 'user/SET_LOGGED_IN') {
+            await init()
+          }
+        })
+
+        break
+
+      default:
+        this.$router.replace('/welcome')
+        return
     }
   },
   methods: {
+    groupsRedirectHandler() {
+      this.$router.push(`/groups`)
+    },
+    eventsRedirectHandler() {
+      this.$router.push(`/events`)
+    },
     groupCreationHandler() {
       this.$router.push(`/groups/new`)
     },
@@ -157,7 +209,21 @@ a {
 }
 
 h1 {
+  display: inline-block;
   margin: 20px 0 10px 0;
+  width: 50%;
+}
+
+.ui.button {
+  display: inline-block;
+  margin: 1em auto;
+  margin-top: 1.5em;
+  width: 50%;
+}
+
+.info-content {
+  text-align: center;
+  margin: 2em;
 }
 
 .ui.cards>.card.group {
@@ -199,7 +265,8 @@ h1 {
   background-color:rgba(255, 255, 255, 0.5);
 }
 
-.ui.button {
-  margin: 1em auto
+.logout-button {
+  text-align: center;
+  margin: 2em 0;
 }
 </style>

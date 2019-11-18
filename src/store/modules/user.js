@@ -1,7 +1,7 @@
 import { users, auth } from '../../api'
 
 const state = {
-  isLoggedIn: false,
+  isLoggedIn: 'inProgress',
   data: {}
 }
 
@@ -21,18 +21,21 @@ const mutations = {
 }
 
 const actions = {
-  fetchUser({ commit }, user) {
-        
-    commit('SET_LOGGED_IN', user !== null)
+  async fetchUser({ commit }, user) {
     if (user) {
+      const userData = await users.getUser(user.uid)
+
       commit('SET_USER', {
         id: user.uid,
-        email: user.email
+        email: user.email,
+        following: userData.following
       })
     } 
     else {
       commit('SET_USER', null)
     }
+
+    commit('SET_LOGGED_IN', user !== null)
   },
   async logOut({ commit }) {
     try {

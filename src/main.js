@@ -31,9 +31,10 @@ new Vue({
   router, //Inject router to all child components.
   store,  // Inject store to all child components.
   created () {
-    firebase.auth().onAuthStateChanged(user => {
+
+    firebase.auth().onAuthStateChanged(async user => { 
       if (user)
-        store.dispatch('user/fetchUser', user)
+        await store.dispatch('user/fetchUser', user)
       
     })
   },

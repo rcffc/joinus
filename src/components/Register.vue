@@ -95,6 +95,10 @@ export default {
       error: null
     }
   },
+  created: function() {
+    if (this.$store.state.user.isLoggedIn === true)
+      this.$router.replace('/')
+  },
   mounted: function() {
     $('body')
       .css({'height': '100%', 'overflow': 'hidden'})
@@ -107,7 +111,7 @@ export default {
     submit() {
       return this.$store.dispatch('user/emailRegistration', { email: this.form.email, password: this.form.password })
         .then(() => {
-          this.$router.replace({ path: '/home'})
+          this.$router.replace({ path: '/'})
         })
         .catch(err => {
           this.error = err
