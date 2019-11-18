@@ -35,7 +35,7 @@ const actions = {
       commit('SET_USER', null)
     }
 
-    commit('SET_LOGGED_IN', user !== null)
+    commit('SET_LOGGED_IN', user != null)
   },
   async logOut({ commit }) {
     try {
