@@ -142,6 +142,9 @@ export default {
         this.groups = await this.$store.dispatch('groups/findAll', id)    
 
         this.loading = false
+
+        if (endSubscription)
+          endSubscription()
       }
       catch(err) {
         this.$router.replace('/events')
@@ -157,7 +160,7 @@ export default {
         break
 
       case 'inProgress':
-        this.$store.subscribe(async (mutation, state) => {
+        var endSubscription = this.$store.subscribe(async (mutation, state) => {
           if (mutation.type === 'user/SET_LOGGED_IN') {
             await init()
           }

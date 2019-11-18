@@ -41,8 +41,7 @@ const actions = {
     try {
       await auth.logOut()
 
-      commit('SET_LOGGED_IN', false)
-      commit('SET_USER', null)
+      commit('SET_LOGGED_IN', 'inProgress')
     }
     catch (err) {
       return Promise.reject(err)
@@ -60,11 +59,12 @@ const actions = {
       return Promise.reject(err)
     }
   },
-  async logIn(params, info) {
+  async logIn({ commit }, info) {
     const { email, password } = info
 
     try {
       await auth.emailLogin(email, password)
+      commit('SET_LOGGED_IN', 'inProgress')
     }
     catch (err) {
       return Promise.reject(err)
