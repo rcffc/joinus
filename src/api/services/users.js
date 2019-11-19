@@ -8,7 +8,7 @@ const getData = doc => {
   if (!data)
     throw Error('User not found')
 
-  return data
+  return { ...data, id: doc.id }
 }
 
 const getUser = async (id) => {
@@ -19,7 +19,29 @@ const getUser = async (id) => {
     return Promise.reject(err)
   }
 }
+
+const editUser = async (userId, eventId) => {
+  try {
+    const doc = getData(await users.doc(userId).get())
+
+    let following = doc.following
+    if (following.includes(eventId)) {
+      following = following.filter(id => id !== eventId)
+    } else {
+      following.push(eventId)
+    }
+    
+    await users.doc(userId).update({ following })
+
+    return getData(await users.doc(userId).get())
+  }
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
 export default {
   createUser,
-  getUser
+  getUser,
+  editUser
 }

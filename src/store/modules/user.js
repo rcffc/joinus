@@ -69,7 +69,17 @@ const actions = {
     catch (err) {
       return Promise.reject(err)
     }
-  }
+  },
+  async edit ({commit} , ids) {
+    try {
+      const newUser = await users.editUser(ids[0], ids[1])
+      commit('SET_USER', newUser)   
+    }
+    catch (err) {
+      err.name = 'CustomError'
+      return Promise.reject(err)
+    }
+  },
 }
 
 export default {

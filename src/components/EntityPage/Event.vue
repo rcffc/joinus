@@ -64,7 +64,7 @@
         v-if="!follow"
         text="Follow"
         icon="eye"
-        color="positive disabled"
+        color="positive"
         :click-handler="followHandler"
       />
       <CalendarButton
@@ -170,10 +170,13 @@ export default {
       }
 
       this.role = this.organizer.members[this.user.data.id]
+      this.follow = this.user.data.following.some(id => id === this.id)
 
       this.loading = false
     }
     catch (err) {
+      console.log(err);
+      
       this.$router.push('/events')
 
       err.name = 'LoadingError'
@@ -184,6 +187,12 @@ export default {
   methods: {
     followHandler() {
       this.follow = !this.follow 
+      try {
+        this.$store.dispatch('user/edit', [this.user.data.id, this.id])
+      }
+      catch (err) {
+        return Promise.reject(err)
+      }
     },
     editHandler() {
       this.$router.push(`/events/edit/${ this.id }`)

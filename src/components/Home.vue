@@ -53,7 +53,7 @@
         />
       </div>
       <h1>My Events</h1>
-      <div v-if="events.length">
+      <div v-if="Object.entries(events).length !== 0">
         <div
           v-for="(eventArray, key) in events"
           :key="eventArray.id"
