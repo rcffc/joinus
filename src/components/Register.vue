@@ -97,14 +97,6 @@ export default {
     if (this.$store.state.user.isLoggedIn === true)
       this.$router.replace('/')
   },
-  mounted: function() {
-    $('body')
-      .css({'height': '100%', 'overflow': 'hidden'})
-  },
-  beforeDestroy: function() {
-    $('body')
-      .css({'height': '', 'overflow': ''})
-  },
   methods: {
     submit() {
       return this.$store.dispatch('user/emailRegistration', { email: this.form.email, password: this.form.password })

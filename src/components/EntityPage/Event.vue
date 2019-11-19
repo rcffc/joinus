@@ -23,18 +23,27 @@
                 v-if="role"
                 icon="edit"
                 color="neutral"
+                size="tiny"
                 misc
                 :click-handler="editHandler"
               />
+
+              <br />
+
               <IconButton
                 v-if="follow"
                 icon="eye slash"
-                color="caution"
+                color="caution tiny"
+                size="tiny"
                 misc
                 :click-handler="followHandler"
               />
+
+              <br />
+
               <ShareButton
                 :share-message="name"
+                size="tiny"
                 misc
               />
             </div>
@@ -57,6 +66,7 @@
           :text="organizer.name"
           icon="users"
           color="neutral link"
+          size="tiny"
         />
       </router-link>
 
@@ -65,12 +75,15 @@
         text="Follow"
         icon="eye"
         color="positive"
+        size="tiny"
         :click-handler="followHandler"
       />
+
       <CalendarButton
         :name="name"
         :date="date"
         :location="location"
+        size="tiny"
       />
 
       <div class="ui container">
@@ -176,13 +189,7 @@ export default {
 
       this.loading = false
     }
-<<<<<<< HEAD
     catch (err) {    
-=======
-    catch (err) {
-      console.log(err)
-      
->>>>>>> 44c40e2e034f70364960e20c4a6dcf138284d1f1
       this.$router.push('/events')
 
       err.name = 'LoadingError'

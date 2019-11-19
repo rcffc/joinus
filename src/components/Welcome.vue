@@ -43,14 +43,6 @@ export default {
     if (this.$store.state.user.isLoggedIn === true)
       this.$router.replace('/')
   },
-  mounted: function() {
-    $('body')
-      .css({'height': '100%', 'overflow': 'hidden'})
-  },
-  beforeDestroy: function() {
-    $('body')
-      .css({'height': '', 'overflow': ''})
-  },
 }
 </script> 
 

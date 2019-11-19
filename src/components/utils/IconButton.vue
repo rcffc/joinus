@@ -46,6 +46,10 @@ export default {
 </script>
 
 <style scoped>
+.ui.button {
+  display: inline-block;
+  margin-top: 0.1em !important;
+}
 
 .positive {
   background-color: #374b39 !important;
