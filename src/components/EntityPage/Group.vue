@@ -23,17 +23,20 @@
                 v-if="memberIndex >= 0"
                 icon="edit"
                 color="neutral"
+                size="tiny"
                 misc
                 :click-handler="editHandler"
               />
               <IconButton
                 icon="globe"
                 color="caution"
+                size="tiny"
                 :click-handler="handleHomeClick"
                 misc
               />
               <ShareButton
                 :share-message="name"
+                size="tiny"
                 misc
               />
             </div>

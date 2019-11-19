@@ -28,8 +28,6 @@
                 :click-handler="editHandler"
               />
 
-              <br />
-
               <IconButton
                 v-if="follow"
                 icon="eye slash"
@@ -38,8 +36,6 @@
                 misc
                 :click-handler="followHandler"
               />
-
-              <br />
 
               <ShareButton
                 :share-message="name"
