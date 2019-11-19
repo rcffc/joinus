@@ -61,7 +61,7 @@
       />
 
       <button
-        v-if="memberIndex < 0"
+        v-if="user.data && memberIndex < 0"
         v-on="{click: this.$store.state.tickets.currentTicket
           ? handleWithdrawClick : handleJoinClick }"
         v-bind:class="[this.$store.state.tickets.currentTicket
@@ -242,7 +242,7 @@ export default {
       this.isOwner = this.memberIndex >= 0 && this.members[this.memberIndex].role === 'owner'
 
       for (let t of tickets) {
-        if (t.user_email === this.user.data.email && t.group === this.id && this.memberIndex < 0) {
+        if (this.user.isLoggedIn && t.user_email === this.user.data.email && t.group === this.id && this.memberIndex < 0) {
           this.$store.dispatch('tickets/setCurrentTicket', t.id)
           break
         }
