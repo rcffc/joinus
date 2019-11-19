@@ -26,7 +26,7 @@ const findByGroup = async (group) => {
   try {
     const { docs } = await tickets.get()
     let result = docs.map(getData)
-    result = result.filter(ticket => ticket['group'] === group);
+    result = result.filter(ticket => ticket['group'] === group)
     result = await Promise.all(result)
     return result
   }

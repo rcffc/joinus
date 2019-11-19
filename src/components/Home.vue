@@ -2,10 +2,10 @@
   <div class="wrapper">
     <portal to="actionBar">
       <div class="ui fluid center aligned"> 
-          <img 
-            class="ui centered image fluid logo"
-            src="../../assets/join-us-white.png"
-          >
+        <img 
+          class="ui centered image fluid logo"
+          src="../../assets/join-us-white.png"
+        >
       </div>
     </portal>
     <div
@@ -24,7 +24,10 @@
           />
         </div>
       </div>
-      <div v-if="groups.length" class="ui three cards">
+      <div
+        v-if="groups.length"
+        class="ui three cards"
+      >
         <div
           v-for="group in groups"
           :key="group.id"
@@ -45,7 +48,10 @@
           </router-link>
         </div>
       </div>
-      <div v-else class="info-content">
+      <div
+        v-else
+        class="info-content"
+      >
         Join groups on the group page:
         <div class="button-container">
           <IconButton
@@ -91,7 +97,10 @@
           </div>
         </div>
       </div>
-      <div v-else class="info-content">
+      <div
+        v-else
+        class="info-content"
+      >
         Follow events on the event page:
         <div class="button-container">
           <IconButton
@@ -104,9 +113,7 @@
       </div>
     </div>
     <div class="button-container">
-       <div class="ui divider">
-         
-      </div>
+      <div class="ui divider" />
       <IconButton
         text="Logout"
         icon="sign-out"
@@ -161,38 +168,38 @@ export default {
     }
 
     switch (this.$store.state.user.isLoggedIn) {   
-      case true:
-        init()
-        break
+    case true:
+      init()
+      break
 
-      case 'inProgress':
-        var endSubscription = this.$store.subscribe(async (mutation, state) => {
-          if (mutation.type === 'user/SET_LOGGED_IN') {
-            await init()
-          }
-        })
+    case 'inProgress':
+      var endSubscription = this.$store.subscribe(async (mutation) => {
+        if (mutation.type === 'user/SET_LOGGED_IN') {
+          await init()
+        }
+      })
 
-        break
+      break
 
-      default:
-        this.$router.replace('/welcome')
-        return
+    default:
+      this.$router.replace('/welcome')
+      return
     }
   },
   methods: {
     groupsRedirectHandler() {
-      this.$router.push(`/groups`)
+      this.$router.push('/groups')
     },
     eventsRedirectHandler() {
-      this.$router.push(`/events`)
+      this.$router.push('/events')
     },
     groupCreationHandler() {
-      this.$router.push(`/groups/new`)
+      this.$router.push('/groups/new')
     },
     logoutHandler() {
       return this.$store.dispatch('user/logOut')
         .then(() => {
-          this.$router.replace("/welcome")
+          this.$router.replace('/welcome')
         })
         .catch(err => Promise.reject(err))
     }

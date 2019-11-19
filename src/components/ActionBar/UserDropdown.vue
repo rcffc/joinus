@@ -1,61 +1,59 @@
 <template>
   <div id="user-dropdown">
     <button
-      class="ui button basic inverted"
       v-if="!loggedIn"
-      v-on:click="handleClick"
       id="log-in"
+      class="ui button basic inverted"
+      @click="handleClick"
     >
       Log in
     </button>
 
     <div
       v-if="loggedIn"
-      class="ui icon dropdown simple"
       id="user-dropdown"
+      class="ui icon dropdown simple"
     >
-    <i class="ellipsis vertical icon large"></i>
+      <i class="ellipsis vertical icon large" />
 
       <div class="menu">
         <div class="item">
-          <i class="settings icon"></i>
-            Settings
+          <i class="settings icon" />
+          Settings
         </div>
 
-        <div class="ui divider">
-        </div>
+        <div class="ui divider" />
 
         <button
-          class="ui button icon fluid negative"
           id="log-out"
-          v-on:click="handleClick"
+          class="ui button icon fluid negative"
+          @click="handleClick"
         >
-          <i class="log out icon"></i>
+          <i class="log out icon" />
           Log out
         </button>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-  function handleClick() {
-    this.loggedIn = !this.loggedIn
-  }
+function handleClick() {
+  this.loggedIn = !this.loggedIn
+}
 
-  export default {
-    name: "UserDropdown",
-    data: function () {
-      return {
-        loggedIn: false
-      }
-    },
-    methods: {
-      handleClick
+export default {
+  name: 'UserDropdown',
+  data: function () {
+    return {
+      loggedIn: false
     }
-    
+  },
+  methods: {
+    handleClick
   }
+    
+}
 </script>
 
 <style scoped>

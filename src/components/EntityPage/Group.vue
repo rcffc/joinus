@@ -59,15 +59,17 @@
 
       <button
         v-if="memberIndex < 0"
+        :class="[this.$store.state.tickets.currentTicket
+          ? 'ui right labeled icon button neutral': 'ui right labeled icon button positive']"
         v-on="{click: this.$store.state.tickets.currentTicket
           ? handleWithdrawClick : handleJoinClick }"
-        v-bind:class="[this.$store.state.tickets.currentTicket
-          ? 'ui right labeled icon button neutral': 'ui right labeled icon button positive']"
-        >
-          {{this.$store.state.tickets.currentTicket
-            ? "Withdraw": "Join"}}
-          <i v-bind:class="[this.$store.state.tickets.currentTicket
-            ? 'hourglass neutral icon': 'user plus icon']"/>
+      >
+        {{ this.$store.state.tickets.currentTicket
+          ? "Withdraw": "Join" }}
+        <i
+          :class="[this.$store.state.tickets.currentTicket
+            ? 'hourglass neutral icon': 'user plus icon']"
+        />
       </button>
 
       <div class="ui divider" />
@@ -102,11 +104,11 @@
 
       <button
         v-if="memberIndex >= 0 && !isOwner"
+        :class="['ui right labeled icon button caution']"
         v-on="{click: handleLeaveClick }"
-        v-bind:class="['ui right labeled icon button caution']"
-        >
-          Leave
-          <i v-bind:class="['sign-out icon']"/>
+      >
+        Leave
+        <i :class="['sign-out icon']" />
       </button>
       
       <div v-if="isOwner">
@@ -130,15 +132,17 @@
                     {{ ticket.user_email }}
                   </div>
                   <div class="two wide column">
-                    <button class="ui right icon button positive"
-                      v-on:click="handleApproveClick(ticket)"
+                    <button
+                      class="ui right icon button positive"
+                      @click="handleApproveClick(ticket)"
                     >
                       <i class="check icon" />
                     </button>
                   </div>
                   <div class="two wide column">
-                    <button class="ui right icon button caution"
-                      v-on:click="handleRejectClick(ticket)"
+                    <button
+                      class="ui right icon button caution"
+                      @click="handleRejectClick(ticket)"
                     >
                       <i class="remove icon" />
                     </button>
@@ -233,7 +237,7 @@ export default {
 
       this.isOwner = this.memberIndex >= 0 && this.members[this.memberIndex].role === 'owner'
 
-       for (let t of tickets) {
+      for (let t of tickets) {
         if (t.user_email === this.user.data.email && t.group === this.id && this.memberIndex < 0) {
           this.$store.dispatch('tickets/setCurrentTicket', t.id)
           break
@@ -281,7 +285,7 @@ export default {
     handleJoinClick() {
       try {
         this.$store.dispatch('tickets/create', 
-        {user_email: this.user.data.email, user_id: this.user.data.id, group: this.id})
+          {user_email: this.user.data.email, user_id: this.user.data.id, group: this.id})
       }
       catch (err) {
         return Promise.reject(err)

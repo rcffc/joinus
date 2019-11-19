@@ -4,10 +4,10 @@
       <div class="ui icon input">
         <input
           id="search"
+          v-model="searchString"
           class="prompt"
           type="text"
-          v-model="searchString"
-          v-bind:placeholder = "placeholder"
+          :placeholder="placeholder"
         >
         <i class="search icon" />
       </div>
@@ -35,7 +35,7 @@ export default {
     },
     placeholder() {
       return this.$route.path.includes('events') ? 'Look for events...' : 'Look for groups...'
-   }
+    }
   }
 }
 </script>
