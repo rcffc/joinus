@@ -135,12 +135,12 @@ export default {
   },
   created: async function() {
     const init = async () => {
-      try {
-        const { following, id } = this.user.data
-
-        this.events = await this.$store.dispatch('events/findAll', following)
-        this.groups = await this.$store.dispatch('groups/findAll', id)    
-
+      try { 
+        if(this.user.data) {
+          const { following, id } = this.user.data
+          this.events = await this.$store.dispatch('events/findAll', following)
+          this.groups = await this.$store.dispatch('groups/findAll', id)    
+        }
         this.loading = false
 
         if (endSubscription)
@@ -154,7 +154,7 @@ export default {
       }
     }
 
-    switch (this.$store.state.user.isLoggedIn) {
+    switch (this.$store.state.user.isLoggedIn) {   
       case true:
         init()
         break
