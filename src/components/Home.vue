@@ -15,12 +15,14 @@
     <div v-else>
       <div class="profile-header">
         <h1>My Groups</h1>
-        <IconButton
-          text="New Group"
-          icon="plus square"
-          color="neutral"
-          :click-handler="groupCreationHandler"
-        />
+        <div class="group-button">
+          <IconButton
+            text="New Group"
+            icon="plus square"
+            color="neutral"
+            :click-handler="groupCreationHandler"
+          />
+        </div>
       </div>
       <div v-if="groups.length" class="ui three cards">
         <div
@@ -45,12 +47,14 @@
       </div>
       <div v-else class="info-content">
         Join groups on the group page:
-        <IconButton
-          text="Groups"
-          icon="users"
-          color="positive"
-          :click-handler="groupsRedirectHandler"
-        />
+        <div class="button-container">
+          <IconButton
+            text="Groups"
+            icon="users"
+            color="positive"
+            :click-handler="groupsRedirectHandler"
+          />
+        </div>
       </div>
       <h1>My Events</h1>
       <div v-if="Object.entries(events).length !== 0">
@@ -89,15 +93,17 @@
       </div>
       <div v-else class="info-content">
         Follow events on the event page:
-        <IconButton
-          text="Events"
-          icon="users"
-          color="positive"
-          :click-handler="eventsRedirectHandler"
-        />
+        <div class="button-container">
+          <IconButton
+            text="Events"
+            icon="users"
+            color="positive"
+            :click-handler="eventsRedirectHandler"
+          />
+        </div>
       </div>
     </div>
-    <div class="logout-button">
+    <div class="button-container">
        <div class="ui divider">
          
       </div>
@@ -220,6 +226,16 @@ h1 {
 .ui.button {
   display: inline-block;
   margin: 1em auto;
+  margin-top: 1.5em;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.group-button {
+  text-align: right;
 }
 
 .info-content {
@@ -268,8 +284,8 @@ h1 {
   background-color:rgba(255, 255, 255, 0.5);
 }
 
-.logout-button {
+.button-container {
   text-align: center;
-  margin: 2em 0;
+  margin: 1em 0;
 }
 </style>
