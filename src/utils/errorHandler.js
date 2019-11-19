@@ -9,7 +9,7 @@ const errorHandler = (err) => {
 
   switch (err.name) {
   case 'LoadingError':
-    data.message = 'Could not load page'
+    data.message = err.message
     break
   
   case 'CustomError':
@@ -21,7 +21,7 @@ const errorHandler = (err) => {
     break
 
   default:
-    data.message = 'An error occured'
+    data.message = err.message
     break
   }
 

@@ -61,7 +61,7 @@
       </router-link>
 
       <IconButton
-        v-if="!follow"
+        v-if="user.data && !follow"
         text="Follow"
         icon="eye"
         color="positive"
@@ -169,14 +169,14 @@ export default {
         this[key] = data[key]
       }
 
-      this.role = this.organizer.members[this.user.data.id]
-      this.follow = this.user.data.following.some(id => id === this.id)
+      if (this.user.isLoggedIn) {
+        this.role = this.organizer.members[this.user.data.id]
+        this.follow = this.user.data.following.some(id => id === this.id)
+      }
 
       this.loading = false
     }
-    catch (err) {
-      console.log(err);
-      
+    catch (err) {    
       this.$router.push('/events')
 
       err.name = 'LoadingError'

@@ -41,7 +41,7 @@ const actions = {
     try {
       await auth.logOut()
 
-      commit('SET_LOGGED_IN', 'inProgress')
+      commit('SET_LOGGED_IN', null)
     }
     catch (err) {
       return Promise.reject(err)
