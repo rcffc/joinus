@@ -18,7 +18,7 @@
         <IconButton
           text="New Group"
           icon="plus square"
-          color="neutral fluid"
+          color="neutral"
           :click-handler="groupCreationHandler"
         />
       </div>
@@ -48,7 +48,7 @@
         <IconButton
           text="Groups"
           icon="users"
-          color="positive fluid"
+          color="positive"
           :click-handler="groupsRedirectHandler"
         />
       </div>
@@ -92,7 +92,7 @@
         <IconButton
           text="Events"
           icon="users"
-          color="positive fluid"
+          color="positive"
           :click-handler="eventsRedirectHandler"
         />
       </div>
@@ -104,7 +104,7 @@
       <IconButton
         text="Logout"
         icon="sign-out"
-        color="neutral fluid"
+        color="neutral"
         :click-handler="logoutHandler"
       />
     </div>
@@ -220,11 +220,11 @@ h1 {
 .ui.button {
   display: inline-block;
   margin: 1em auto;
-  margin-top: 1.5em;
-  width: 50%;
 }
 
 .info-content {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   margin: 2em;
 }
