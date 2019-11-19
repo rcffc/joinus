@@ -15,14 +15,21 @@ const getters = {
   },
   getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
     return state.allEvents.find(event => event.id === id)
+  },
+  getTags: state => {
+    return Array.from(new Set(state.allEvents.map(event => event.tags).flat()))
   }
 }
 
 // actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
-  async findAll ({ commit }) {
+  async findAll ({ commit }, followed) {
     try {
       const results = await events.getAll()
+      
+      if(followed) {
+        return _.groupBy(results.filter(result => followed.some(id => id === result.id)), 'month')
+      }
       commit('setEvents', results)
     }
     catch (err) {
@@ -44,8 +51,42 @@ const actions = {
       return Promise.reject(err)
     }
   },
-  filterEvents ({commit}, string) {
+  filterEvents ({ commit }, string) {
     commit('filterEvents', string)
+  },
+  async create ({ commit }, eventData) {
+    try {
+      const newEvent = await events.createEvent(eventData)
+
+      commit('addEvent', newEvent)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async edit ({ commit, getters }, eventData) {
+    try {      
+      const { id, ...data } = eventData
+      const current = getters.getById(id)
+
+      data.organizer = current.organizer.id
+
+      const editedEvent = await events.editEvent(id, data)
+
+      commit('replaceEvent', editedEvent)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async delete ({ commit }, id) {
+    try {
+      await events.removeById(id)
+      commit('removeEvent', id)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
 
@@ -58,6 +99,16 @@ const mutations = {
   addEvent (state, event) {
     state.allEvents = state.allEvents.concat(event)
     state.allEvents.sort((a,b) => a.date-b.date)
+  },
+  replaceEvent (state, event) {
+    const index = state.allEvents.findIndex((e) => e.id === event.id)
+
+    state.allEvents.splice(index, 1, event)
+  },
+  removeEvent (state, id) {
+    const index = state.allEvents.findIndex((g) => g.id === id)
+
+    state.allEvents.splice(index, 1)
   },
   filterEvents(state, searchString) {
     searchString = searchString.split(' ')

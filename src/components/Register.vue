@@ -11,10 +11,10 @@
 
     <div class="ui transparent">
       <h1 class="ui header">
-        Log In
+        Register
       </h1>
-      <form
-        class="ui form error"
+      <form 
+        class="ui form error" 
         @submit.prevent="submit"
       >
         <div class="form-group row">
@@ -56,7 +56,7 @@
         </div>
 
         &nbsp;
-        
+      
         <div v-if="error">
           <div class="ui error message">
             {{ error }}
@@ -85,7 +85,7 @@
 import firebase from 'firebase'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     return {
       form: {
@@ -106,15 +106,15 @@ export default {
   beforeDestroy: function() {
     $('body')
       .css({'height': '', 'overflow': ''})
-  },  
+  },
   methods: {
     submit() {
-      return this.$store.dispatch('user/logIn', { email: this.form.email, password: this.form.password })
+      return this.$store.dispatch('user/emailRegistration', { email: this.form.email, password: this.form.password })
         .then(() => {
           this.$router.replace({ path: '/'})
         })
         .catch(err => {
-          this.error = err.message
+          this.error = err
         })
     }
   }
@@ -124,6 +124,7 @@ export default {
 
 <style scoped>
 .wrapper {
+  color: white;
   font-size: 100%;
   flex-direction: column;
   flex: 1;
@@ -133,7 +134,7 @@ export default {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  display:flex
+  display:'flex';
 }
 
 .ui.header {
@@ -172,4 +173,5 @@ export default {
   max-width: 100%;
   margin: 1em auto 1em;
 }
+
 </style>

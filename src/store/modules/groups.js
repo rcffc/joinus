@@ -13,15 +13,21 @@ const getters = {
   },
   getById: state => id => { //To pass arguments to a getter, it has to return a function. Here we want to pass 'id' our getter.
     return state.allGroups.find(group => group.id === id)
+  },
+  getTags: state => {
+    return Array.from(new Set(state.allGroups.map(group => group.tags).flat()))
   }
 }
 
 
 // actions : asynchronous methods for changing the stores state and fetching data. Can call mutations.
 const actions = {
-  async findAll ({ commit }) {
+  async findAll ({ commit }, userId) {
     try {
       const results = await groups.getAll()
+      if (userId) {
+        return results.filter(group => group.members.some(user => user.id === userId))
+      }
       commit('setGroups', results)
     }
     catch (err) {
@@ -46,6 +52,55 @@ const actions = {
     catch (err) {
       return Promise.reject(err)
     }
+  },
+  async create ({ commit }, groupData) {
+    try {
+      const newGroup = await groups.createGroup(groupData)
+
+      commit('addGroup', newGroup)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async edit ({ commit }, groupData) {
+    try {      
+      const { id, ...data } = groupData
+
+      const editedGroup = await groups.editGroup(id, data)
+
+      commit('replaceGroup', editedGroup)
+    }
+    catch (err) {
+      err.name = 'CustomError'
+
+      return Promise.reject(err)
+    }
+  },
+  async delete ({ commit }, id) {
+    try {
+      await groups.removeById(id)
+      commit('removeGroup', id)
+    }
+    catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async addMember ( {commit}, data) {
+    try {
+      const editedGroup = await groups.addMember(data)
+      commit('editGroup', editedGroup) 
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  },
+  async removeMember ( {commit}, data) {
+    try {
+      const editedGroup = await groups.removeMember(data)
+      commit('editGroup', editedGroup) 
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
 
@@ -54,6 +109,16 @@ const mutations = {
   setGroups (state, groups) {
     state.allGroups = groups
     state.filteredGroups = groups
+  },
+  replaceGroup (state, group) {
+    const index = state.allGroups.findIndex((g) => g.id === group.id)
+
+    state.allGroups.splice(index, 1, group)
+  },
+  removeGroup (state, id) {
+    const index = state.allGroups.findIndex((g) => g.id === id)
+
+    state.allGroups.splice(index, 1)
   },
   filterGroups(state, searchString) {
     searchString = searchString.split(' ')
@@ -91,6 +156,10 @@ const mutations = {
   },
   addGroup (state, group) {
     state.allGroups = state.allGroups.concat(group)
+  },
+  editGroup (state, editedGroup) {
+    const index = state.allGroups.findIndex((g) => g.id === editedGroup)
+    state.allGroups.splice(index, 1, editedGroup)
   }
 }
 

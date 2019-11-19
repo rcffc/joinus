@@ -37,7 +37,7 @@ const getAll = async () => {
     result = await Promise.all(result.map(getOrganizer))
 
     result = result.map(formatEvent)
-    
+
     return result
   }
   catch (err) {
@@ -54,7 +54,30 @@ const getEvent = async (id) => {
   }
 }
 
+const createEvent = async (data) => {
+  try {
+    const ref = await events.add(data)
+    const doc = await ref.get()
+    
+    return getData(doc)
+  }
+  catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+const editEvent = async (id, data) => {
+  await events.doc(id).set(data)
+
+  return getEvent(id)
+}
+
+const removeById = async (id) => events.doc(id).delete()
+
 export default {
   getAll,
-  getEvent
+  getEvent,
+  createEvent,
+  editEvent,
+  removeById
 }
