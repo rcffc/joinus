@@ -176,7 +176,13 @@ export default {
 
       this.loading = false
     }
+<<<<<<< HEAD
     catch (err) {    
+=======
+    catch (err) {
+      console.log(err)
+      
+>>>>>>> 44c40e2e034f70364960e20c4a6dcf138284d1f1
       this.$router.push('/events')
 
       err.name = 'LoadingError'

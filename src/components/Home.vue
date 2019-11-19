@@ -2,10 +2,10 @@
   <div class="wrapper">
     <portal to="actionBar">
       <div class="ui fluid center aligned"> 
-          <img 
-            class="ui centered image fluid logo"
-            src="../../assets/join-us-white.png"
-          >
+        <img 
+          class="ui centered image fluid logo"
+          src="../../assets/join-us-white.png"
+        >
       </div>
     </portal>
     <div
@@ -15,14 +15,19 @@
     <div v-else>
       <div class="profile-header">
         <h1>My Groups</h1>
-        <IconButton
-          text="New Group"
-          icon="plus square"
-          color="neutral"
-          :click-handler="groupCreationHandler"
-        />
+        <div class="group-button">
+          <IconButton
+            text="New Group"
+            icon="plus square"
+            color="neutral"
+            :click-handler="groupCreationHandler"
+          />
+        </div>
       </div>
-      <div v-if="groups.length" class="ui three cards">
+      <div
+        v-if="groups.length"
+        class="ui three cards"
+      >
         <div
           v-for="group in groups"
           :key="group.id"
@@ -43,14 +48,19 @@
           </router-link>
         </div>
       </div>
-      <div v-else class="info-content">
+      <div
+        v-else
+        class="info-content"
+      >
         Join groups on the group page:
-        <IconButton
-          text="Groups"
-          icon="users"
-          color="positive"
-          :click-handler="groupsRedirectHandler"
-        />
+        <div class="button-container">
+          <IconButton
+            text="Groups"
+            icon="users"
+            color="positive"
+            :click-handler="groupsRedirectHandler"
+          />
+        </div>
       </div>
       <h1>My Events</h1>
       <div v-if="Object.entries(events).length !== 0">
@@ -87,20 +97,23 @@
           </div>
         </div>
       </div>
-      <div v-else class="info-content">
+      <div
+        v-else
+        class="info-content"
+      >
         Follow events on the event page:
-        <IconButton
-          text="Events"
-          icon="users"
-          color="positive"
-          :click-handler="eventsRedirectHandler"
-        />
+        <div class="button-container">
+          <IconButton
+            text="Events"
+            icon="users"
+            color="positive"
+            :click-handler="eventsRedirectHandler"
+          />
+        </div>
       </div>
     </div>
-    <div class="logout-button">
-       <div class="ui divider">
-         
-      </div>
+    <div class="button-container">
+      <div class="ui divider" />
       <IconButton
         text="Logout"
         icon="sign-out"
@@ -135,12 +148,12 @@ export default {
   },
   created: async function() {
     const init = async () => {
-      try {
-        const { following, id } = this.user.data
-
-        this.events = await this.$store.dispatch('events/findAll', following)
-        this.groups = await this.$store.dispatch('groups/findAll', id)    
-
+      try { 
+        if(this.user.data) {
+          const { following, id } = this.user.data
+          this.events = await this.$store.dispatch('events/findAll', following)
+          this.groups = await this.$store.dispatch('groups/findAll', id)    
+        }
         this.loading = false
 
         if (endSubscription)
@@ -154,39 +167,39 @@ export default {
       }
     }
 
-    switch (this.$store.state.user.isLoggedIn) {
-      case true:
-        init()
-        break
+    switch (this.$store.state.user.isLoggedIn) {   
+    case true:
+      init()
+      break
 
-      case 'inProgress':
-        var endSubscription = this.$store.subscribe(async (mutation, state) => {
-          if (mutation.type === 'user/SET_LOGGED_IN') {
-            await init()
-          }
-        })
+    case 'inProgress':
+      var endSubscription = this.$store.subscribe(async (mutation) => {
+        if (mutation.type === 'user/SET_LOGGED_IN') {
+          await init()
+        }
+      })
 
-        break
+      break
 
-      default:
-        this.$router.replace('/welcome')
-        return
+    default:
+      this.$router.replace('/welcome')
+      return
     }
   },
   methods: {
     groupsRedirectHandler() {
-      this.$router.push(`/groups`)
+      this.$router.push('/groups')
     },
     eventsRedirectHandler() {
-      this.$router.push(`/events`)
+      this.$router.push('/events')
     },
     groupCreationHandler() {
-      this.$router.push(`/groups/new`)
+      this.$router.push('/groups/new')
     },
     logoutHandler() {
       return this.$store.dispatch('user/logOut')
         .then(() => {
-          this.$router.replace("/welcome")
+          this.$router.replace('/welcome')
         })
         .catch(err => Promise.reject(err))
     }
@@ -220,6 +233,16 @@ h1 {
 .ui.button {
   display: inline-block;
   margin: 1em auto;
+  margin-top: 1.5em;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.group-button {
+  text-align: right;
 }
 
 .info-content {
@@ -268,8 +291,8 @@ h1 {
   background-color:rgba(255, 255, 255, 0.5);
 }
 
-.logout-button {
+.button-container {
   text-align: center;
-  margin: 2em 0;
+  margin: 1em 0;
 }
 </style>
