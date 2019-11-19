@@ -61,9 +61,11 @@
       />
 
       <button
-        v-if="user.data && memberIndex < 0"
+        v-if="memberIndex < 0"
         v-on="{click: this.$store.state.tickets.currentTicket
           ? handleWithdrawClick : handleJoinClick }"
+        v-bind:class="[this.$store.state.tickets.currentTicket
+          ? 'ui right labeled icon button neutral': 'ui right labeled icon button positive']"
       >
         {{ this.$store.state.tickets.currentTicket
           ? "Withdraw": "Join" }}
