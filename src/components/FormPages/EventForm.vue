@@ -203,7 +203,7 @@ export default {
           this[key] = data[key]
         }
 
-        if (!this.organizer.members[this.id]) {
+        if (!this.organizer.members[this.user.data.id]) {
           throw Error('not member')
         }
 
