@@ -144,6 +144,7 @@
 <script>
 import IconButton from '../utils/IconButton.vue'
 import _ from 'underscore'
+import { mapGetters } from 'vuex'
 
 const MIN_NAME_LEN = 3
 const MAX_NAME_LEN = 30
@@ -175,16 +176,35 @@ export default {
       create: true,
     }
   },
+  computed: {
+    ...mapGetters({
+      user: 'user/user'
+    })
+  },
   created: async function() {
     this.create = (this.$route.params.eventId) == null
     this.id = this.$route.params.eventId || this.$route.params.groupId
+    
+    if (!this.user.isLoggedIn) {
+
+      const err = Error('Not logged in')
+      err.name = 'CustomError'
+
+      this.$router.replace('/welcome')
+      return Promise.reject(err)
+    }
 
     if (!this.create) {
+
       try {
         const data = await this.$store.dispatch('events/find', this.id)
 
         for (let key in data) {
           this[key] = data[key]
+        }
+
+        if (!this.organizer.members[this.id]) {
+          throw Error('not member')
         }
 
         this.date = data.date.toISOString().substring(0, 10)

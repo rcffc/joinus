@@ -135,16 +135,33 @@ export default {
   created: async function() {
     this.id = this.$route.params.groupId
 
+    if (!this.user.isLoggedIn) {
+
+      const err = Error('Not logged in')
+      err.name = 'CustomError'
+
+      this.$router.replace('/welcome')
+      return Promise.reject(err)
+    }
+
     this.members = this.members.concat({ id: this.user.data.id, role: 'owner' })
 
     if (this.id) {
       try {
         const data = await this.$store.dispatch('groups/find', this.id)
 
-        
-
         for (let key in data) {
           this[key] = data[key]
+        }
+        
+        const memberIndex = this.members.findIndex(user => user.id === this.user.data.id)
+
+        if (memberIndex < 0 || this.members[memberIndex].role !== 'owner') {
+          const err = Error('not owner')
+          err.name = 'FirebaseError'
+
+          this.$router.replace(`/groups/${ this.id }`)
+          return Promise.reject(err)
         }
 
         //Update via onAdd

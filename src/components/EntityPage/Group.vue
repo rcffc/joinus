@@ -20,7 +20,7 @@
           <div class="seven wide column">
             <div id="button-wrapper">
               <IconButton
-                v-if="memberIndex >= 0"
+                v-if="isOwner"
                 icon="edit"
                 color="neutral"
                 size="tiny"
