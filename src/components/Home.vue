@@ -233,7 +233,7 @@ h1 {
 .ui.button {
   display: inline-block;
   margin: 1em auto;
-  margin-top: 1.5em;
+  margin-top: 1.5em !important;
 }
 
 .profile-header {
