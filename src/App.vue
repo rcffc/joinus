@@ -56,6 +56,6 @@ export default {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  margin: 0 !important;
+  margin: auto !important;
 }
 </style>
